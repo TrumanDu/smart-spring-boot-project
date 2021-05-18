@@ -1,11 +1,11 @@
 package top.trumandu.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.trumandu.core.common.BaseController;
 import top.trumandu.core.response.RestResult;
+import top.trumandu.model.Hello;
+
+import javax.validation.Valid;
 
 /**
  * @author Truman.P.Du
@@ -35,5 +35,10 @@ public class HelloController extends BaseController {
     @GetMapping("/fail")
     public RestResult fail() {
         return failure("参数错误");
+    }
+
+    @PostMapping("/info")
+    public RestResult info(@RequestBody @Valid Hello hello){
+        return success("hello world!");
     }
 }
