@@ -1,7 +1,6 @@
 package top.trumandu.model;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 /**
  * @author Truman.P.Du
@@ -12,10 +11,13 @@ public class Hello {
     @NotNull
     @Size(min = 1, max = 10, message = "info length must in 1-10")
     private String info;
+    @NotEmpty(message = "name must not be empty.")
+    private String name;
 
     @NotNull(message = "length 不能为null.")
-    @Size(min = 1, max = 10, message = "length length must in 1-10")
-    private String length;
+    @Min(1)
+    @Max(12)
+    private int length;
 
     public String getInfo() {
         return info;
@@ -25,11 +27,19 @@ public class Hello {
         this.info = info;
     }
 
-    public String getLength() {
+    public int getLength() {
         return length;
     }
 
-    public void setLength(String length) {
+    public void setLength(int length) {
         this.length = length;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
