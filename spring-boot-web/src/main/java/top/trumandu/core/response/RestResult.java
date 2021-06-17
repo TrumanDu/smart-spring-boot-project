@@ -50,15 +50,6 @@ public class RestResult {
         return new RestResult(ResultCode.BAD_REQUEST, data);
     }
 
-    /**
-     * 服务器内部错误
-     *
-     * @param data
-     * @return
-     */
-    public static RestResult error(Object data) {
-        return new RestResult(ResultCode.INTERNAL_SERVER_ERROR, data);
-    }
 
     public static RestResult error(String message) {
         return new RestResult(ResultCode.INTERNAL_SERVER_ERROR, message);

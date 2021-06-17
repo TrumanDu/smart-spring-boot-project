@@ -52,11 +52,11 @@ public class BaseController {
     /**
      * 服务器内部错误
      *
-     * @param data
+     * @param message
      * @return
      */
-    public RestResult error(Object data) {
-        return RestResult.error(data);
+    public RestResult error(String message) {
+        return RestResult.error(message);
     }
 
     /**
