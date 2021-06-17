@@ -27,6 +27,7 @@ public class GlobalException {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public RestResult methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         List<ObjectError> objectErrors = e.getBindingResult().getAllErrors();
         List<String> errors = new ArrayList<>(objectErrors.size());
