@@ -26,6 +26,11 @@ public class RestResult {
         this.data = data;
     }
 
+    public RestResult(ResultCode resultCode, String message) {
+        this.code = resultCode.getCode();
+        this.message = message;
+    }
+
     public static RestResult success() {
         return success(null);
     }
@@ -53,6 +58,10 @@ public class RestResult {
      */
     public static RestResult error(Object data) {
         return new RestResult(ResultCode.INTERNAL_SERVER_ERROR, data);
+    }
+
+    public static RestResult error(String message) {
+        return new RestResult(ResultCode.INTERNAL_SERVER_ERROR, message);
     }
 
     /**

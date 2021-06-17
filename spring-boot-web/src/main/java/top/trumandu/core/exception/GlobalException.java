@@ -27,7 +27,7 @@ public class GlobalException {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public RestResult MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+    public RestResult methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         List<ObjectError> objectErrors = e.getBindingResult().getAllErrors();
         List<String> errors = new ArrayList<>(objectErrors.size());
         objectErrors.forEach(objectError -> errors.add(objectError.getDefaultMessage()));
