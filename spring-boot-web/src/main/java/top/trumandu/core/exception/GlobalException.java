@@ -1,6 +1,7 @@
 package top.trumandu.core.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import top.trumandu.core.response.RestResult;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,8 +30,8 @@ public class GlobalException {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public RestResult methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         List<ObjectError> objectErrors = e.getBindingResult().getAllErrors();
-        List<String> errors = new ArrayList<>(objectErrors.size());
-        objectErrors.forEach(objectError -> errors.add(objectError.getDefaultMessage()));
-        return RestResult.failure(errors);
+        StringBuilder sb = new StringBuilder();
+        objectErrors.forEach(objectError -> sb.append(((FieldError) objectError).getField() + " " + objectError.getDefaultMessage()));
+        return RestResult.failure(sb.toString());
     }
 }

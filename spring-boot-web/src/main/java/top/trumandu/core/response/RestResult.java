@@ -43,11 +43,11 @@ public class RestResult {
     /**
      * 客户端参数错误
      *
-     * @param data
+     * @param message
      * @return
      */
-    public static RestResult failure(Object data) {
-        return new RestResult(ResultCode.BAD_REQUEST, data);
+    public static RestResult failure(String message) {
+        return new RestResult(ResultCode.BAD_REQUEST, message);
     }
 
 

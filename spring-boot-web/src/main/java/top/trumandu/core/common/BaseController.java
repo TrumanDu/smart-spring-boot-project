@@ -42,11 +42,11 @@ public class BaseController {
     /**
      * 客户端参数错误
      *
-     * @param data
+     * @param message
      * @return
      */
-    public RestResult failure(Object data) {
-        return RestResult.failure(data);
+    public RestResult failure(String message) {
+        return RestResult.failure(message);
     }
 
     /**
