@@ -1,7 +1,6 @@
-package trumandu.core.response;
+package top.trumandu.core.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import top.trumandu.core.response.ResultCode;
 
 /**
  * @author Truman.P.Du

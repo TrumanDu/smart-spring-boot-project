@@ -1,4 +1,4 @@
-package trumandu.model;
+package top.trumandu.model;
 
 import javax.validation.constraints.*;
 

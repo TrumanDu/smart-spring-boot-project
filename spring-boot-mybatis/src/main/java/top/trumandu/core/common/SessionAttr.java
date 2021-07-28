@@ -1,4 +1,4 @@
-package trumandu.core.common;
+package top.trumandu.core.common;
 
 /**
  * @author Truman.P.Du

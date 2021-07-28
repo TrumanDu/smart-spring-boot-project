@@ -1,4 +1,4 @@
-package trumandu.core.common;
+package top.trumandu.core.common;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;

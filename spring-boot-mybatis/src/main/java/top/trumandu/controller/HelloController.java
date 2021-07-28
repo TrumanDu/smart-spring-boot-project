@@ -1,4 +1,4 @@
-package trumandu.controller;
+package top.trumandu.controller;
 
 import org.springframework.web.bind.annotation.*;
 import top.trumandu.core.common.BaseController;

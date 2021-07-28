@@ -1,4 +1,4 @@
-package trumandu.core.exception;
+package top.trumandu.core.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;

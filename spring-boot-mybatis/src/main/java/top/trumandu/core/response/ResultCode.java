@@ -1,4 +1,4 @@
-package trumandu.core.response;
+package top.trumandu.core.response;
 
 /**
  * @author Truman.P.Du

@@ -1,4 +1,4 @@
-package trumandu.core.model;
+package top.trumandu.core.model;
 
 /**
  * @author Truman.P.Du

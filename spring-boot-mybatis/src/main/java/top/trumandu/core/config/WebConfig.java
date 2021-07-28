@@ -1,4 +1,4 @@
-package trumandu.core.config;
+package top.trumandu.core.config;
 
 
 import org.springframework.context.annotation.Bean;
