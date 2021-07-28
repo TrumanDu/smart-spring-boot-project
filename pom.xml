@@ -11,6 +11,7 @@
     <modules>
         <module>spring-boot-archetype</module>
         <module>spring-boot-web</module>
+        <module>spring-boot-mybatis</module>
     </modules>
 
 
