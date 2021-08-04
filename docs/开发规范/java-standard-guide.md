@@ -26,7 +26,7 @@
 
 ### 2、项目命名规范
 
-全部采用小写方式， 以中划线分隔。
+全部采用小写方式， 以中划线分隔。中划线是项目分割最优雅的方式。
 
 正例：`mall-management-system / order-service-client / user-api`
 
@@ -265,7 +265,7 @@ DemoDTO demo = DemoDTO.builder()
 - 类中字段要与数据库字段保持一致，不能缺失或者多余
 - 类中的每个字段添加注释，并与数据库注释保持一致
 - 不允许有组合
-- 项目内的日期类型必须统一，建议使用 `java.util.Date，java.sql.Timestamp，java.time.LocalDateTime` 其中只一。
+- 项目内的日期类型必须统一，建议使用 `java.util.Date` 。
 
 3）传输对象；`XxxxDTO`，要求：
 
