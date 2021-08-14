@@ -26,10 +26,10 @@ CREATE TABLE IF NOT EXISTS `sys_menu` (
   `parent_id` bigint DEFAULT NULL COMMENT '父级菜单ID',
   `sort` int DEFAULT NULL COMMENT '排序',
   `description` varchar(255) DEFAULT NULL COMMENT '备注',
-  `create_user` bigint DEFAULT NULL COMMENT '创建人',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_user` bigint DEFAULT NULL COMMENT '修改人',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
+  `in_user` bigint DEFAULT NULL COMMENT '创建人',
+  `in_date` datetime DEFAULT NULL COMMENT '创建时间',
+  `last_edit_user` bigint DEFAULT NULL COMMENT '修改人',
+  `last_edit_date` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统菜单表';
 
@@ -44,10 +44,10 @@ CREATE TABLE IF NOT EXISTS `sys_org` (
   `org_code` varchar(50) DEFAULT NULL COMMENT '组织编码',
   `parent_id` bigint DEFAULT NULL COMMENT '父级组织ID',
   `description` varchar(255) DEFAULT NULL COMMENT '备注',
-  `create_user` bigint DEFAULT NULL COMMENT '创建人',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_user` bigint DEFAULT NULL COMMENT '修改人',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
+  `in_user` bigint DEFAULT NULL COMMENT '创建人',
+  `in_date` datetime DEFAULT NULL COMMENT '创建时间',
+  `last_edit_user` bigint DEFAULT NULL COMMENT '修改人',
+  `last_edit_date` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统组织表';
 
@@ -62,10 +62,10 @@ CREATE TABLE IF NOT EXISTS `sys_role` (
   `role_name` varchar(50) DEFAULT NULL COMMENT '角色名称',
   `description` varchar(255) DEFAULT NULL COMMENT '备注',
   `org_id` bigint DEFAULT NULL COMMENT '组织ID',
-  `create_user` bigint DEFAULT NULL COMMENT '创建人',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_user` bigint DEFAULT NULL COMMENT '修改人',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
+  `in_user` bigint DEFAULT NULL COMMENT '创建人',
+  `in_date` datetime DEFAULT NULL COMMENT '创建时间',
+  `last_edit_user` bigint DEFAULT NULL COMMENT '修改人',
+  `last_edit_date` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统角色表';
 
@@ -95,10 +95,10 @@ CREATE TABLE IF NOT EXISTS `sys_user` (
   `description` varchar(255) DEFAULT NULL COMMENT '备注',
   `del_flag` char(1) NOT NULL DEFAULT '0' COMMENT '删除标识',
   `org_id` bigint DEFAULT NULL COMMENT '组织ID',
-  `create_user` bigint DEFAULT NULL COMMENT '创建人',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_user` bigint DEFAULT NULL COMMENT '修改人',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
+  `in_user` bigint DEFAULT NULL COMMENT '创建人',
+  `in_date` datetime DEFAULT NULL COMMENT '创建时间',
+  `last_edit_user` bigint DEFAULT NULL COMMENT '修改人',
+  `last_edit_date` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统用户表';
 
