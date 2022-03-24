@@ -232,8 +232,8 @@ src
 - 基本数据类型必须使用包装类型`（Integer, Double、Boolean 等）`
 - 不允许有任何的默认值
 - 每个属性必须添加注释，并且必须使用多行注释。
-- 必须使用 `lombok` 简化 `getter/setter` 方法
-- 建议对象使用 `lombok` 的 `@Builder ，@NoArgsConstructor`，同时使用这两个注解，简化对象构造方法以及set方法。
+- ~~必须使用 `lombok` 简化 `getter/setter` 方法~~
+- ~~建议对象使用 `lombok` 的 `@Builder ，@NoArgsConstructor`，同时使用这两个注解，简化对象构造方法以及set方法。~~
 
 正例：
 

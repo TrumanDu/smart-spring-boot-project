@@ -25,13 +25,13 @@ public class ResponseBodyWrapFactoryBean implements InitializingBean {
     @Autowired
     private RequestMappingHandlerAdapter adapter;
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
 
         List<HandlerMethodReturnValueHandler> returnValueHandlers = adapter.getReturnValueHandlers();
+        assert returnValueHandlers != null;
         List<HandlerMethodReturnValueHandler> handlers = new ArrayList(returnValueHandlers);
-        decorateHandlers(handlers);
+        decorateHandlers(returnValueHandlers);
         adapter.setReturnValueHandlers(handlers);
 
     }
@@ -77,6 +77,7 @@ class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler {
             restResult = new RestResult(returnValue);
         }
         HttpServletResponse response = (HttpServletResponse) webRequest.getNativeResponse();
+        assert response != null;
         response.setStatus(restResult.getCode());
         delegate.handleReturnValue(restResult, returnType, mavContainer, webRequest);
     }
