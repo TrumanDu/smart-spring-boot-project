@@ -634,11 +634,11 @@ deletedFlag，deleted_flag，onlineFlag，online_flag
 
 ### 1 建表规范
 
-表必备三字段：id, create_time, update_time
+表必备三字段：id, create_user,create_time, last_edit_user,last_edit_time
 
-- id 字段 Long 类型，单表自增，自增长度为 1
+- id 字段 bigint 类型，单表自增，自增长度为 1
 - create_time 字段 datetime 类型，默认值 CURRENT_TIMESTAMP
-- update_time 字段 datetime 类型，默认值 CURRENT_TIMESTAMP, On update CURRENT_TIMESTAMP
+- last_edit_time 字段 datetime 类型，默认值 CURRENT_TIMESTAMP, On update CURRENT_TIMESTAMP
 
 ### 2 枚举类表字段注释需要将所有枚举含义进行注释
 
@@ -653,7 +653,7 @@ CREATE TABLE `t_change_data` (
 	`sync_status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '同步状态 0 未开始 1同步中 2同步成功 3失败',
 	`sync_time` DATETIME NULL DEFAULT NULL COMMENT '同步时间',
 	`create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`update_time` DATETIME NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+	`last_edit_time` DATETIME NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`change_data_id`)
 )
 ```
@@ -666,7 +666,7 @@ CREATE TABLE `t_change_data` (
 	`sync_status` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '同步状态 ',
 	`sync_time` DATETIME NULL DEFAULT NULL COMMENT '同步时间',
 	`create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	`update_time` DATETIME NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+	`last_edit_time` DATETIME NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`change_data_id`)
 )
 ```
