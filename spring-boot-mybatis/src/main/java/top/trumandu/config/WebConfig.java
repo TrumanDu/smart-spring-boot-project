@@ -41,7 +41,7 @@ public class WebConfig implements WebMvcConfigurer {
                 // session超时，返回401
                 HttpSession session = request.getSession(true);
                 UserInfo userInfo = (UserInfo) session.getAttribute(SessionAttr.USER.getValue());
-                if (userInfo == null) {
+                /*if (userInfo == null) {
                     // TODO 自动登录逻辑
                     UserInfo user = null;
                     //UserInfo user = loginService.checkJwtAuth(request);
@@ -51,12 +51,12 @@ public class WebConfig implements WebMvcConfigurer {
                     } else {
                         session.setAttribute(SessionAttr.USER.getValue(), user);
                     }
-                }
+                }*/
                 return true;
             }
 
 
-        }).addPathPatterns("/api/**").excludePathPatterns("/api/login/**","/api/hello/**");
+        }).addPathPatterns("/api/**").excludePathPatterns("/api/login/**");
     }
 
     /**

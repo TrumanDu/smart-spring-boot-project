@@ -65,16 +65,16 @@ class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler {
     @Override
     public void handleReturnValue(Object returnValue, MethodParameter returnType,
                                   ModelAndViewContainer mavContainer, NativeWebRequest webRequest) throws Exception {
-        RestResult restResult = null;
+        ResponseDTO restResult = null;
         Annotation[] annotations = returnType.getAnnotatedElement().getAnnotations();
         if (returnType.getMethodAnnotation(IgnoreRestResult.class) != null) {
             delegate.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
             return;
         }
-        if (returnValue instanceof RestResult) {
-            restResult = (RestResult) returnValue;
+        if (returnValue instanceof ResponseDTO) {
+            restResult = (ResponseDTO) returnValue;
         } else {
-            restResult = new RestResult(returnValue);
+            restResult = new ResponseDTO(returnValue);
         }
         HttpServletResponse response = (HttpServletResponse) webRequest.getNativeResponse();
         response.setStatus(restResult.getCode());

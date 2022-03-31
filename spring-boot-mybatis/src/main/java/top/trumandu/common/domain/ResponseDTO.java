@@ -8,35 +8,35 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * @description rest 统一返回对象
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RestResult {
+public class ResponseDTO<T> {
     private int code;
     private String message;
-    private Object data;
+    private T data;
 
 
-    public RestResult(Object data) {
+    public ResponseDTO(T data) {
         this.code = ResultCode.SUCCESS.getCode();
         this.message = ResultCode.SUCCESS.getMessage();
         this.data = data;
     }
 
-    public RestResult(ResultCode resultCode, Object data) {
+    public ResponseDTO(ResultCode resultCode, T data) {
         this.code = resultCode.getCode();
         this.message = resultCode.getMessage();
         this.data = data;
     }
 
-    public RestResult(ResultCode resultCode, String message) {
+    public ResponseDTO(ResultCode resultCode, String message) {
         this.code = resultCode.getCode();
         this.message = message;
     }
 
-    public static RestResult success() {
+    public static ResponseDTO success() {
         return success(null);
     }
 
-    public static RestResult success(Object data) {
-        return new RestResult(ResultCode.SUCCESS, data);
+    public static ResponseDTO success(Object data) {
+        return new ResponseDTO(ResultCode.SUCCESS, data);
     }
 
 
@@ -46,13 +46,13 @@ public class RestResult {
      * @param message
      * @return
      */
-    public static RestResult failure(String message) {
-        return new RestResult(ResultCode.BAD_REQUEST, message);
+    public static ResponseDTO failure(String message) {
+        return new ResponseDTO(ResultCode.BAD_REQUEST, message);
     }
 
 
-    public static RestResult error(String message) {
-        return new RestResult(ResultCode.INTERNAL_SERVER_ERROR, message);
+    public static ResponseDTO error(String message) {
+        return new ResponseDTO(ResultCode.INTERNAL_SERVER_ERROR, message);
     }
 
     /**
@@ -60,8 +60,8 @@ public class RestResult {
      *
      * @return
      */
-    public static RestResult unauthorized() {
-        return new RestResult(ResultCode.UNAUTHORIZED, null);
+    public static ResponseDTO unauthorized() {
+        return new ResponseDTO(ResultCode.UNAUTHORIZED, null);
     }
 
 
@@ -85,7 +85,7 @@ public class RestResult {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 

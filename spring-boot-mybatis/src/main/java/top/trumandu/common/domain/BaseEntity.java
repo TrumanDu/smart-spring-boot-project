@@ -13,29 +13,30 @@ import java.util.Date;
 public class BaseEntity {
     @TableId(type = IdType.AUTO)
     public Long id;
+    public Date createTime;
+    public Date lastEditTime;
+
+    public Long getId() {
+        return id;
+    }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setInUser(String inUser) {
-        this.inUser = inUser;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setInDate(Date inDate) {
-        this.inDate = inDate;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
-    public void setLastEditUser(String lastEditUser) {
-        this.lastEditUser = lastEditUser;
+    public Date getLastEditTime() {
+        return lastEditTime;
     }
 
-    public void setLastEditDate(Date lastEditDate) {
-        this.lastEditDate = lastEditDate;
+    public void setLastEditTime(Date lastEditTime) {
+        this.lastEditTime = lastEditTime;
     }
-
-    public String inUser;
-    public Date inDate;
-    public String lastEditUser;
-    public Date lastEditDate;
 }

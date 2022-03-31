@@ -7,7 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import top.trumandu.common.domain.RestResult;
+import top.trumandu.common.domain.ResponseDTO;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -21,17 +21,17 @@ import java.util.List;
 public class GlobalException {
     @ExceptionHandler(value = Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public RestResult globalExceptionHandler(HttpServletResponse response, Exception e) {
+    public ResponseDTO globalExceptionHandler(HttpServletResponse response, Exception e) {
         e.printStackTrace();
-        return RestResult.error(e.getMessage());
+        return ResponseDTO.error(e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public RestResult methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+    public ResponseDTO methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         List<ObjectError> objectErrors = e.getBindingResult().getAllErrors();
         StringBuilder sb = new StringBuilder();
         objectErrors.forEach(objectError -> sb.append(((FieldError) objectError).getField() + " " + objectError.getDefaultMessage()));
-        return RestResult.failure(sb.toString());
+        return ResponseDTO.failure(sb.toString());
     }
 }
