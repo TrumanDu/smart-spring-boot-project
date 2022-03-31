@@ -60,4 +60,15 @@ public class UserBaseDTO {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "UserBaseDTO{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

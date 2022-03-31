@@ -3,7 +3,7 @@ package top.trumandu.common.base;
 
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import top.trumandu.common.domain.RestResult;
+import top.trumandu.common.domain.ResponseDTO;
 import top.trumandu.common.domain.SessionAttr;
 import top.trumandu.common.domain.UserInfo;
 
@@ -31,12 +31,12 @@ public class BaseController {
         return userInfo;
     }
 
-    public RestResult success() {
-        return RestResult.success();
+    public ResponseDTO success() {
+        return ResponseDTO.success();
     }
 
-    public RestResult success(Object data) {
-        return RestResult.success(data);
+    public ResponseDTO success(Object data) {
+        return ResponseDTO.success(data);
     }
 
 
@@ -46,8 +46,8 @@ public class BaseController {
      * @param message
      * @return
      */
-    public RestResult failure(String message) {
-        return RestResult.failure(message);
+    public ResponseDTO failure(String message) {
+        return ResponseDTO.failure(message);
     }
 
     /**
@@ -56,8 +56,8 @@ public class BaseController {
      * @param message
      * @return
      */
-    public RestResult error(String message) {
-        return RestResult.error(message);
+    public ResponseDTO error(String message) {
+        return ResponseDTO.error(message);
     }
 
     /**
@@ -65,7 +65,7 @@ public class BaseController {
      *
      * @return
      */
-    public RestResult unauthorized() {
-        return RestResult.unauthorized();
+    public ResponseDTO unauthorized() {
+        return ResponseDTO.unauthorized();
     }
 }
