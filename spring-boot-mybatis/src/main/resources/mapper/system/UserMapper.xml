@@ -25,4 +25,32 @@
         order by u.create_time desc
     </select>
 
+    <select id="selectUserList" resultMap="UserVO">
+        select
+        <include refid="baseSql"></include>
+        from
+        sys_user u
+        where u.del_flag =0
+        <if test="queryDTO.name != null and queryDTO.name != ''">
+            <bind name="name" value=" '%' + queryDTO.name +'%' "></bind>
+            AND u.name like #{name}
+        </if>
+        <if test="queryDTO.username != null and queryDTO.username != ''">
+            <bind name="username" value=" '%' + queryDTO.username +'%' "></bind>
+            AND u.username like #{username}
+        </if>
+        <if test="queryDTO.email != null and queryDTO.email != ''">
+            <bind name="email" value=" '%' + queryDTO.email +'%' "></bind>
+            AND u.email like #{email}
+        </if>
+        order by u.create_time desc
+    </select>
+
+    <update id="disableUserById" >
+        update
+        sys_user
+        set del_flag=1
+        where id = #{userId}
+    </update>
+
 </mapper>

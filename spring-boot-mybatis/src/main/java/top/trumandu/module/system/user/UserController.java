@@ -3,10 +3,12 @@ package top.trumandu.module.system.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.trumandu.common.base.BaseController;
+import top.trumandu.common.domain.PageResultDTO;
 import top.trumandu.common.domain.ResponseDTO;
 import top.trumandu.module.system.user.domain.UserBaseDTO;
 import top.trumandu.module.system.user.domain.UserQueryDTO;
 import top.trumandu.module.system.user.domain.UserUpdateDTO;
+import top.trumandu.module.system.user.domain.UserVO;
 
 import javax.validation.Valid;
 
@@ -26,7 +28,7 @@ public class UserController extends BaseController {
         return userService.addUser(userDTO);
     }
 
-    @PostMapping("/user/update")
+    @PutMapping("/user/update")
     public ResponseDTO updateUser(@Valid @RequestBody UserUpdateDTO userUpdateDTO) {
         return userService.updateUser(userUpdateDTO);
     }
@@ -42,12 +44,12 @@ public class UserController extends BaseController {
     }
 
     @PostMapping("/user/query")
-    public ResponseDTO query(@Valid @RequestBody UserQueryDTO userQueryDTO) {
-        return null;
+    public ResponseDTO<PageResultDTO<UserVO>> query(@Valid @RequestBody UserQueryDTO userQueryDTO) {
+        return userService.query(userQueryDTO);
     }
 
 
-    @GetMapping("/user/delete/{id}")
+    @DeleteMapping("/user/delete/{id}")
     public ResponseDTO deleteUser(@PathVariable Long id) {
         return userService.deleteUser(id);
     }

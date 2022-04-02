@@ -67,4 +67,7 @@ export default {
   'pages.searchTable.tenThousand': '0000',
   'pages.searchTable.batchDeletion': 'bacth deletion',
   'pages.searchTable.batchApproval': 'batch approval',
+  'pages.settings.user.title': 'User List',
+  'pages.settings.user.add': 'Add user',
+  'pages.settings.user.modify': 'Modify user',
 };

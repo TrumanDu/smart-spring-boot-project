@@ -1,6 +1,6 @@
 package top.trumandu.module.system.user.domain;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Truman.P.Du
@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
  * @description
  */
 public class UserUpdateDTO extends UserBaseDTO{
-    @NotEmpty
+    @NotNull
     private Long id;
 
     public Long getId() {

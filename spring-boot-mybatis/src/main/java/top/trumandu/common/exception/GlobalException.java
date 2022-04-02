@@ -31,7 +31,7 @@ public class GlobalException {
     public ResponseDTO methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         List<ObjectError> objectErrors = e.getBindingResult().getAllErrors();
         StringBuilder sb = new StringBuilder();
-        objectErrors.forEach(objectError -> sb.append(((FieldError) objectError).getField() + " " + objectError.getDefaultMessage()));
+        objectErrors.forEach(objectError -> sb.append(((FieldError) objectError).getField() + ": " + objectError.getDefaultMessage()+" "));
         return ResponseDTO.failure(sb.toString());
     }
 }

@@ -1,17 +1,20 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { SettingDrawer } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
-import type { RunTimeLayoutConfig } from 'umi';
-import { history, Link } from 'umi';
+import type { RunTimeLayoutConfig, RequestConfig } from 'umi';
+import { history } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
-import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
+import { message } from 'antd';
 
-const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 
+message.config({
+  top: 100,
+  duration: 5,
+});
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
   loading: <PageLoading />,
@@ -94,4 +97,15 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     ...initialState?.settings,
   };
+};
+
+export const request: RequestConfig = {
+  errorConfig: {
+    adaptor: (resData) => {
+      return {
+        ...resData,
+        errorMessage: resData.message,
+      };
+    },
+  },
 };

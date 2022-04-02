@@ -333,7 +333,7 @@ public class DepartmentController {
 GET  /department/get/{id}      查询某个部门详细信息
 POST /department/query         复杂查询
 POST /department/add           添加部门
-POST /department/update        更新部门
+PUT /department/update        更新部门
 GET  /department/delete/{id}   删除部门
 ```
 

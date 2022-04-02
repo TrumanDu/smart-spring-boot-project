@@ -1,13 +1,14 @@
 package top.trumandu.module.system.user;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.trumandu.common.domain.PageResultDTO;
 import top.trumandu.common.domain.ResponseDTO;
-import top.trumandu.module.system.user.domain.UserBaseDTO;
-import top.trumandu.module.system.user.domain.UserEntity;
-import top.trumandu.module.system.user.domain.UserUpdateDTO;
-import top.trumandu.module.system.user.domain.UserVO;
+import top.trumandu.module.system.user.domain.*;
 import top.trumandu.util.BeanUtil;
+import top.trumandu.util.PageUtil;
 
 import java.util.List;
 
@@ -70,13 +71,25 @@ public class UserService {
     }
 
     /**
+     * 根据条件分页查询用户列表
+     * @param queryDTO
+     * @return
+     */
+    public ResponseDTO<PageResultDTO<UserVO>> query(UserQueryDTO queryDTO){
+        PageHelper.startPage(queryDTO.getPageNum(),queryDTO.getPageSize());
+        List<UserVO> dbResult = userDao.selectUserList(queryDTO);
+        Page<UserVO> pageInfo= (Page<UserVO>) dbResult;
+        return  ResponseDTO.success(PageUtil.convert2PageResult(pageInfo));
+    }
+
+    /**
      * 根据id删除指定用户信息
      *
      * @param id
      * @return
      */
     public ResponseDTO deleteUser(Long id) {
-        userDao.deleteById(id);
+        userDao.disableUserById(id);
         return ResponseDTO.success();
     }
 }
