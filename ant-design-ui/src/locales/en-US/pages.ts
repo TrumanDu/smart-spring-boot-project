@@ -70,4 +70,5 @@ export default {
   'pages.settings.user.title': 'User List',
   'pages.settings.user.add': 'Add user',
   'pages.settings.user.modify': 'Modify user',
+  'pages.settings.sysLog.title': 'Log List',
 };

@@ -3,6 +3,7 @@ package top.trumandu.module.system.user;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import top.trumandu.module.system.login.domain.LoginUserVO;
 import top.trumandu.module.system.user.domain.UserEntity;
 import top.trumandu.module.system.user.domain.UserQueryDTO;
 import top.trumandu.module.system.user.domain.UserVO;
@@ -34,4 +35,19 @@ public interface UserDao extends BaseMapper<UserEntity> {
      * @return
      */
     Integer disableUserById(@Param("userId")Long userId);
+
+    /**
+     *根绝用户名和密码查询用户信息
+     * @param username
+     * @param password
+     * @return
+     */
+    LoginUserVO login(@Param("username") String username, @Param("password") String password);
+
+    /**
+     * 根据用户名统计数量
+     * @param username
+     * @return
+     */
+    Integer countByUsername(@Param("username") String username);
 }

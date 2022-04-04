@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.trumandu.common.domain.PageResultDTO;
 import top.trumandu.common.domain.ResponseDTO;
+import top.trumandu.constant.CommonConst;
 import top.trumandu.module.system.user.domain.*;
 import top.trumandu.util.BeanUtil;
 import top.trumandu.util.PageUtil;
+import top.trumandu.util.SmartDigestUtils;
 
 import java.util.List;
 
@@ -30,8 +32,16 @@ public class UserService {
      * @param userDTO
      * @return
      */
-    public ResponseDTO addUser(UserBaseDTO userDTO) {
+    public ResponseDTO addUser(UserBaseDTO userDTO, Long currentUserId) {
+        int count = userDao.countByUsername(userDTO.getUsername());
+        if (count > 0) {
+            return ResponseDTO.failure("Username[" + userDTO.getUsername() + "] already exists.");
+        }
         UserEntity userEntity = BeanUtil.copy(userDTO, UserEntity.class);
+        String encryptPassword = SmartDigestUtils.encryptPassword(CommonConst.Password.SALT_FORMAT, userDTO.getPassword());
+        userEntity.setPassword(encryptPassword);
+        userEntity.setCreateUserId(currentUserId);
+
         userDao.insert(userEntity);
         return ResponseDTO.success();
     }
@@ -42,8 +52,14 @@ public class UserService {
      * @param userUpdateDTO
      * @return
      */
-    public ResponseDTO updateUser(UserUpdateDTO userUpdateDTO) {
+    public ResponseDTO updateUser(UserUpdateDTO userUpdateDTO, Long currentUserId) {
         UserEntity userEntity = BeanUtil.copy(userUpdateDTO, UserEntity.class);
+        String encryptPassword = SmartDigestUtils.encryptPassword(CommonConst.Password.SALT_FORMAT, userUpdateDTO.getPassword());
+        userEntity.setPassword(encryptPassword);
+        userEntity.setLastEditUserId(currentUserId);
+        UserEntity dbUser = userDao.selectById(userUpdateDTO.getId());
+        userEntity.setCreateUserId(dbUser.getCreateUserId());
+        userEntity.setCreateTime(dbUser.getCreateTime());
         userDao.updateById(userEntity);
         return ResponseDTO.success();
     }
@@ -72,14 +88,15 @@ public class UserService {
 
     /**
      * 根据条件分页查询用户列表
+     *
      * @param queryDTO
      * @return
      */
-    public ResponseDTO<PageResultDTO<UserVO>> query(UserQueryDTO queryDTO){
-        PageHelper.startPage(queryDTO.getPageNum(),queryDTO.getPageSize());
+    public ResponseDTO<PageResultDTO<UserVO>> query(UserQueryDTO queryDTO) {
+        PageHelper.startPage(queryDTO.getPageNum(), queryDTO.getPageSize());
         List<UserVO> dbResult = userDao.selectUserList(queryDTO);
-        Page<UserVO> pageInfo= (Page<UserVO>) dbResult;
-        return  ResponseDTO.success(PageUtil.convert2PageResult(pageInfo));
+        Page<UserVO> pageInfo = (Page<UserVO>) dbResult;
+        return ResponseDTO.success(PageUtil.convert2PageResult(pageInfo));
     }
 
     /**

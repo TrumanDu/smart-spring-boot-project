@@ -1,5 +1,6 @@
 package top.trumandu.module.system.user.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import top.trumandu.common.domain.BaseEntity;
 
@@ -28,7 +29,9 @@ public class UserEntity extends BaseEntity implements Serializable {
     private Integer delFlag;
 
     private Long orgId;
+    @TableField("create_user")
     private Long createUserId;
+    @TableField("last_edit_user")
     private Long lastEditUserId;
 
     public String getUsername() {

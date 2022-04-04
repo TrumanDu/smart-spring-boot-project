@@ -6,6 +6,8 @@
 <mapper namespace="top.trumandu.module.system.user.UserDao">
     <resultMap type="top.trumandu.module.system.user.domain.UserVO" id="UserVO">
     </resultMap>
+    <resultMap type="top.trumandu.module.system.login.domain.LoginUserVO" id="LoginUserVO">
+    </resultMap>
 
     <sql id="baseSql">
         u.id,
@@ -52,5 +54,25 @@
         set del_flag=1
         where id = #{userId}
     </update>
+
+    <select id="login" resultMap="LoginUserVO">
+        select
+        <include refid="baseSql"></include>
+        from
+        sys_user u
+        where u.del_flag =0
+        and u.username=#{username} and u.password=#{password}
+
+
+    </select>
+
+    <select id="countByUsername" resultType="Integer">
+        select
+        count(1)
+        from
+        sys_user u
+        where u.del_flag =0
+        and u.username=#{username}
+    </select>
 
 </mapper>

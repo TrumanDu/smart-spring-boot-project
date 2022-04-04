@@ -14,15 +14,15 @@ export async function currentUser(options?: { [key: string]: any }) {
 
 /** 退出登录接口 POST /api/login/outLogin */
 export async function outLogin(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/login/outLogin', {
-    method: 'POST',
+  return request<Record<string, any>>('/api/logout', {
+    method: 'GET',
     ...(options || {}),
   });
 }
 
 /** 登录接口 POST /api/login/account */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/api/login/account', {
+  return request('/api/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -39,9 +39,15 @@ export async function getNotices(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
-
-/** 获取规则列表 GET /api/rule */
-export async function rule(
+/**
+ * 查询用户
+ * @param params
+ * @param sort
+ * @param filter
+ * @param options
+ * @returns
+ */
+export async function userList(
   params: {
     // query
     /** 当前的页码 */
@@ -49,37 +55,63 @@ export async function rule(
     /** 页面的容量 */
     pageSize?: number;
   },
+  sort?: any,
+  filter?: any,
   options?: { [key: string]: any },
 ) {
-  return request<API.RuleList>('/api/rule', {
-    method: 'GET',
-    params: {
+  const response = await request('/api/user/query', {
+    method: 'POST',
+    data: {
+      pageNum: params.current,
       ...params,
     },
-    ...(options || {}),
   });
+  return {
+    total: response?.data?.total,
+    success: true,
+    data: response?.data?.list,
+  };
 }
-
-/** 新建规则 PUT /api/rule */
-export async function updateRule(options?: { [key: string]: any }) {
-  return request<API.RuleListItem>('/api/rule', {
-    method: 'PUT',
-    ...(options || {}),
-  });
-}
-
-/** 新建规则 POST /api/rule */
-export async function addRule(options?: { [key: string]: any }) {
-  return request<API.RuleListItem>('/api/rule', {
+export async function addUser(options?: { [key: string]: any }) {
+  return request('/api/user/add', {
     method: 'POST',
-    ...(options || {}),
+    data: { ...options },
+  });
+}
+export async function updateUser(options?: { [key: string]: any }) {
+  return request('/api/user/update', {
+    method: 'PUT',
+    data: { ...options },
+  });
+}
+export async function removeUser(id: number) {
+  return request<Record<string, any>>(`/api/user/delete/${id}`, {
+    method: 'DELETE',
   });
 }
 
-/** 删除规则 DELETE /api/rule */
-export async function removeRule(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/rule', {
-    method: 'DELETE',
-    ...(options || {}),
+export async function sysLogList(
+  params: {
+    // query
+    /** 当前的页码 */
+    current?: number;
+    /** 页面的容量 */
+    pageSize?: number;
+  },
+  sort?: any,
+  filter?: any,
+  options?: { [key: string]: any },
+) {
+  const response = await request('/api/sys_log/query', {
+    method: 'POST',
+    data: {
+      pageNum: params.current,
+      ...params,
+    },
   });
+  return {
+    total: response?.data?.total,
+    success: true,
+    data: response?.data?.list,
+  };
 }

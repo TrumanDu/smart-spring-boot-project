@@ -1,10 +1,10 @@
 import { useState, useRef } from 'react';
-import { FooterToolbar, PageContainer } from '@ant-design/pro-layout';
+import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { useIntl, FormattedMessage } from 'umi';
 import { Button, message, Popconfirm } from 'antd';
-import { PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import ProForm, { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import { userList, addUser, updateUser, removeUser } from '@/services/ant-design-pro/api';
 
@@ -279,7 +279,6 @@ function User() {
                 message: 'Password is required',
               },
             ]}
-            initialValue={modifyUser?.password}
             width="md"
             name="password"
             label="Password"

@@ -10,9 +10,9 @@ import javax.validation.constraints.Size;
  */
 public class UserBaseDTO {
     @NotEmpty(message = "username must not be empty.")
-    @Size(min = 5,max = 20,message = "username length must in 5-20")
+    @Size(min = 4,max = 20,message = "username length must in 5-20")
     private String username;
-    @Size(min = 5,max = 20,message = "password length must in 5-20")
+    @Size(min = 4,max = 20,message = "password length must in 5-20")
     @NotEmpty(message = "password must not be empty.")
     private String password;
     @Size(min = 5,max = 20,message = "name length must in 5-20")

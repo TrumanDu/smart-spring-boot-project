@@ -67,4 +67,5 @@ export default {
   'pages.settings.user.title': '用户列表',
   'pages.settings.user.add': '新建用户',
   'pages.settings.user.modify': '编辑用户',
+  'pages.settings.sysLog.title': '日志列表',
 };

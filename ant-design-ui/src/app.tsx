@@ -7,7 +7,7 @@ import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import defaultSettings from '../config/defaultSettings';
-import { message } from 'antd';
+import { message, notification } from 'antd';
 
 const loginPath = '/user/login';
 
@@ -99,6 +99,13 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   };
 };
 
+const unAuth = async (response?: any) => {
+  if (response && response.status == 401) {
+    history.push('/user/Login');
+  }
+  return response;
+};
+
 export const request: RequestConfig = {
   errorConfig: {
     adaptor: (resData) => {
@@ -108,4 +115,5 @@ export const request: RequestConfig = {
       };
     },
   },
+  responseInterceptors: [unAuth],
 };

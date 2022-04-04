@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.trumandu.common.base.BaseController;
 import top.trumandu.module.system.role.domain.RoleEntity;
 
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
  * @description
  */
 @RestController
-public class RoleController extends BaseController {
+public class RoleController  {
 
     @Autowired
     RoleService roleService;
