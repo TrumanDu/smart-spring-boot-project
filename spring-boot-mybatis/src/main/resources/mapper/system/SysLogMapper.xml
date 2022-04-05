@@ -43,7 +43,7 @@
             <if test="queryDTO.createTime != null ">
                 <bind name="startTime" value="queryDTO.createTime[0]"></bind>
                 <bind name="endTime" value="queryDTO.createTime[1]"></bind>
-                AND DATE_FORMAT(create_time, '%Y-%m-%d %h:%i:%s') between #{startTime} and #{endTime}
+                AND DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') between #{startTime} and #{endTime}
             </if>
         </where>
         order by t.create_time desc
