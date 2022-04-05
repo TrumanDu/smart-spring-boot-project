@@ -24,7 +24,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @SysLog(operation = "增加用户")
+    @SysLog(operation = "增加用户",params = true)
     @PostMapping("/user/add")
     public ResponseDTO addUser(@Valid @RequestBody UserBaseDTO userDTO) {
         Long currentUserId = SmartCurrentUserUtil.getCurrentUserId();
