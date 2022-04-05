@@ -1,9 +1,9 @@
 import { sysLogList } from '@/services/ant-design-pro/api';
-import { ProFormTextArea } from '@ant-design/pro-form';
+import ProDescriptions from '@ant-design/pro-descriptions';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Form, Modal } from 'antd';
+import { Modal } from 'antd';
 import moment from 'moment';
 import { useRef, useState } from 'react';
 import { useIntl } from 'umi';
@@ -22,8 +22,7 @@ function SysLog() {
   const intl = useIntl();
   const actionRef = useRef<ActionType>();
   const [modalVisible, handleModalVisible] = useState<boolean>(false);
-
-  const [form] = Form.useForm();
+  const [sysLog, setSysLog] = useState<SysLogItem>();
 
   const handleOk = () => {
     handleModalVisible(false);
@@ -85,7 +84,7 @@ function SysLog() {
           key="editable"
           onClick={() => {
             handleModalVisible(true);
-            form.setFieldsValue(record);
+            setSysLog(record);
           }}
         >
           Detail
@@ -116,10 +115,12 @@ function SysLog() {
         pagination={{ showSizeChanger: true, pageSize: 20 }}
       />
       <Modal title="SysLog Detail" visible={modalVisible} onOk={handleOk} onCancel={handleOk}>
-        <Form form={form} layout="vertical">
-          <ProFormTextArea name="method" label="Method" readonly />
-          <ProFormTextArea name="params" label="Params" readonly />
-        </Form>
+        <ProDescriptions column={1} layout="vertical">
+          <ProDescriptions.Item label="Method">{sysLog?.method}</ProDescriptions.Item>
+          <ProDescriptions.Item label="Params" valueType="jsonCode">
+            {sysLog?.params}
+          </ProDescriptions.Item>
+        </ProDescriptions>
       </Modal>
     </PageContainer>
   );
