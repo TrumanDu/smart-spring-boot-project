@@ -43,7 +43,7 @@ public class UserController {
         return userService.getUser(id);
     }
 
-    @GetMapping("/user/get/all")
+    @GetMapping("/user/list")
     public ResponseDTO getAllUser() {
         return userService.listAllUser();
     }

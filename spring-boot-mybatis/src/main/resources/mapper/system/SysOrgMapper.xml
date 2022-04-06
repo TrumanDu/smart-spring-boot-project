@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.trumandu.module.system.org.SysOrgDao">
+    <resultMap type="top.trumandu.module.system.org.domain.SysOrgVO" id="SysOrgVO">
+    </resultMap>
+    <resultMap type="top.trumandu.module.system.org.domain.SysOrgEntity" id="SysOrgEntity">
+    </resultMap>
+
+    <sql id="baseSql">
+        t.id,
+        t.org_name,
+        t.org_code,
+        t.parent_id,
+        t.description,
+        t.create_user,
+        t.last_edit_user,
+        t.create_time,
+        t.last_edit_time
+    </sql>
+
+    <select id="selectSysOrgList" resultMap="SysOrgEntity">
+        select
+        <include refid="baseSql"></include>
+        from
+        sys_org t
+        order by t.org_name asc
+    </select>
+
+</mapper>
