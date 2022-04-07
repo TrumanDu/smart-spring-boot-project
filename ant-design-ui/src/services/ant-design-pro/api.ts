@@ -115,3 +115,49 @@ export async function sysLogList(
     data: response?.data?.list,
   };
 }
+
+export async function orgList() {
+  const response = await request('/api/sys_org/list', {
+    method: 'GET',
+  });
+  return {
+    success: true,
+    data: response?.data,
+  };
+}
+
+export async function orgTreeSelectList() {
+  const response = await request('/api/sys_org/list/tree_select', {
+    method: 'GET',
+  });
+  return response?.data;
+}
+
+export async function addSysOrg(options?: { [key: string]: any }) {
+  return request('/api/sys_org/add', {
+    method: 'POST',
+    data: {
+      orgName: options?.orgName,
+      orgCode: options?.orgCode,
+      description: options?.description,
+      parentId: options?.parentId?.value,
+    },
+  });
+}
+export async function updateSysOrg(options?: { [key: string]: any }) {
+  return request('/api/sys_org/update', {
+    method: 'PUT',
+    data: {
+      id: options?.id,
+      orgName: options?.orgName,
+      orgCode: options?.orgCode,
+      description: options?.description,
+      parentId: options?.parentId?.value,
+    },
+  });
+}
+export async function removeSysOrg(id: number) {
+  return request<Record<string, any>>(`/api/sys_org/delete/${id}`, {
+    method: 'DELETE',
+  });
+}

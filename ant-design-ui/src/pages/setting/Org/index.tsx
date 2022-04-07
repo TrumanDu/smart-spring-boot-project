@@ -1,4 +1,12 @@
-import { addUser, removeUser, updateUser } from '@/services/ant-design-pro/api';
+import {
+  addSysOrg,
+  addUser,
+  orgList,
+  orgTreeSelectList,
+  removeUser,
+  updateSysOrg,
+  updateUser,
+} from '@/services/ant-design-pro/api';
 import { PlusOutlined } from '@ant-design/icons';
 import ProForm, {
   ModalForm,
@@ -138,7 +146,8 @@ function Org() {
         rowKey={(record) => record.id}
         columns={columns}
         search={false}
-        pagination={{ showSizeChanger: true, pageSize: 10 }}
+        request={orgList}
+        pagination={{ showSizeChanger: true }}
         toolBarRender={() => [
           <Button
             type="primary"
@@ -159,7 +168,7 @@ function Org() {
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}
         onFinish={async (value) => {
-          const success = await handleAdd(value);
+          const success = await addSysOrg(value);
           if (success) {
             handleModalVisible(false);
             if (actionRef.current) {
@@ -199,44 +208,7 @@ function Org() {
           allowClear
           width={330}
           secondary
-          rules={[
-            {
-              required: true,
-              message: 'Parent Org is required',
-            },
-          ]}
-          request={async () => {
-            return [
-              {
-                title: 'Node1',
-                value: '0-0',
-                children: [
-                  {
-                    title: 'Child Node1',
-                    value: '0-0-0',
-                  },
-                ],
-              },
-              {
-                title: 'Node2',
-                value: '0-1',
-                children: [
-                  {
-                    title: 'Child Node3',
-                    value: '0-1-0',
-                  },
-                  {
-                    title: 'Child Node4',
-                    value: '0-1-1',
-                  },
-                  {
-                    title: 'Child Node5',
-                    value: '0-1-2',
-                  },
-                ],
-              },
-            ];
-          }}
+          request={orgTreeSelectList}
           // tree-select args
           fieldProps={{
             treeLine: true,
@@ -262,7 +234,7 @@ function Org() {
         visible={updateModalVisible}
         onVisibleChange={handleUpdateModalVisible}
         onFinish={async (value) => {
-          const success = await handleUpdate(value);
+          const success = await updateSysOrg(value);
           if (success) {
             handleUpdateModalVisible(false);
             if (actionRef.current) {
@@ -272,29 +244,56 @@ function Org() {
         }}
       >
         <ProFormText initialValue={modifyOrg?.id} name="id" hidden />
-        <ProFormText
-          rules={[
-            {
-              required: true,
-              message: 'Org Name is required',
+        <ProForm.Group>
+          <ProFormText
+            rules={[
+              {
+                required: true,
+                message: 'Org Name is required',
+              },
+            ]}
+            initialValue={modifyOrg?.orgName}
+            width="md"
+            name="orgName"
+            label="OrgName"
+          />
+          <ProFormText
+            rules={[
+              {
+                required: true,
+                message: 'Org Code is required',
+              },
+            ]}
+            initialValue={modifyOrg?.orgCode}
+            width="md"
+            name="orgCode"
+            label="OrgCode"
+          />
+        </ProForm.Group>
+
+        <ProFormTreeSelect
+          name="parentId"
+          label="Parent Org"
+          placeholder="Please select"
+          allowClear
+          width={330}
+          secondary
+          request={orgTreeSelectList}
+          // tree-select args
+          fieldProps={{
+            defaultValue: modifyOrg?.parentId,
+            treeLine: true,
+            showArrow: false,
+            filterTreeNode: true,
+            showSearch: true,
+            dropdownMatchSelectWidth: false,
+            labelInValue: true,
+            autoClearSearchValue: true,
+            treeNodeFilterProp: 'title',
+            fieldNames: {
+              label: 'title',
             },
-          ]}
-          initialValue={modifyOrg?.orgName}
-          width="md"
-          name="orgName"
-          label="OrgName"
-        />
-        <ProFormText
-          rules={[
-            {
-              required: true,
-              message: 'Org Code is required',
-            },
-          ]}
-          initialValue={modifyOrg?.orgCode}
-          width="md"
-          name="orgCode"
-          label="OrgCode"
+          }}
         />
 
         <ProFormTextArea

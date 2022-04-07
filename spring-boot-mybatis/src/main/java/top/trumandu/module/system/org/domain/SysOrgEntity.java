@@ -13,6 +13,7 @@ import top.trumandu.common.domain.BaseEntity;
 public class SysOrgEntity extends BaseEntity {
     private String orgName;
     private String orgCode;
+    @TableField("parent_id")
     private Long parentId;
     private String description;
     @TableField("create_user")

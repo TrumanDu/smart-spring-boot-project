@@ -12,6 +12,7 @@ public class SysOrgVO {
     private String orgName;
     private String orgCode;
     private String description;
+    private Long parentId;
     private List<SysOrgVO> children;
 
     public Long getId() {
@@ -54,6 +55,14 @@ public class SysOrgVO {
         this.children = children;
     }
 
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
     @Override
     public String toString() {
         return "SysOrgVO{" +
@@ -61,6 +70,7 @@ public class SysOrgVO {
                 ", orgName='" + orgName + '\'' +
                 ", orgCode='" + orgCode + '\'' +
                 ", description='" + description + '\'' +
+                ", parentId=" + parentId +
                 ", children=" + children +
                 '}';
     }

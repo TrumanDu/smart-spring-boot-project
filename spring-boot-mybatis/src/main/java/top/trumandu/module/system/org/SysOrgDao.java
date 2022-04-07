@@ -12,7 +12,7 @@ import java.util.List;
  * @description
  */
 @Mapper
-public interface SysOrgDao extends BaseMapper {
+public interface SysOrgDao extends BaseMapper<SysOrgEntity> {
     /**
      * 查询所有的组织信息列表
      * @return

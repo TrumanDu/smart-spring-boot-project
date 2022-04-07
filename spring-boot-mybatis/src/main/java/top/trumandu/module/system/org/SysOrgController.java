@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import top.trumandu.common.anno.SysLog;
 import top.trumandu.common.domain.ResponseDTO;
 import top.trumandu.module.system.org.domain.SysOrgBaseDTO;
+import top.trumandu.module.system.org.domain.SysOrgSelectDTO;
 import top.trumandu.module.system.org.domain.SysOrgUpdateDTO;
 import top.trumandu.module.system.org.domain.SysOrgVO;
 
@@ -23,7 +24,12 @@ public class SysOrgController {
 
     @GetMapping("/sys_org/list")
     public ResponseDTO<List<SysOrgVO>> listAllSysOrg() {
-        return sysOrgService.listAllSysOrg();
+        return ResponseDTO.success(sysOrgService.listAllSysOrg());
+    }
+
+    @GetMapping("/sys_org/list/tree_select")
+    public ResponseDTO<List<SysOrgSelectDTO>> getTreeSelectData() {
+        return ResponseDTO.success(sysOrgService.getTreeSelectData());
     }
     @PostMapping("/sys_org/add")
     public ResponseDTO addSysOrg(@Valid  @RequestBody SysOrgBaseDTO sysOrgBaseDTO){
@@ -36,8 +42,8 @@ public class SysOrgController {
     }
 
     @SysLog(operation = "删除组织")
-    @DeleteMapping("/sys_org/delete/{id}")
-    public ResponseDTO deleteSysOrg(@PathVariable Long id) {
-        return sysOrgService.deleteSysOrg(id);
+    @PostMapping("/sys_org/delete")
+    public ResponseDTO deleteSysOrg(@RequestBody List<Long>ids) {
+        return sysOrgService.deleteSysOrg(ids);
     }
 }

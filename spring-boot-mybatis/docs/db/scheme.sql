@@ -121,3 +121,6 @@ CREATE TABLE `sys_user_role` (
                                  `role_id` bigint DEFAULT NULL COMMENT '角色ID',
                                  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统用户和角色关联表';
+
+INSERT INTO sbm.sys_user (username,password,name,email,description,del_flag,org_id,create_user,create_time,last_edit_user,last_edit_time) VALUES
+                                                                                                                                              ('admin','939801714c8d675f0b20d5e20b4c3e68','Truman','admin@163.com','default admin user',0,NULL,NULL,'2022-03-31 13:57:56',NULL,'2022-04-04 06:10:44');
