@@ -38,14 +38,12 @@ function SysLog() {
       title: 'Username',
       dataIndex: 'username',
       ellipsis: true,
-      order: 10,
       width: '150px',
     },
     {
       title: 'Operation',
       dataIndex: 'operation',
       ellipsis: true,
-      order: 9,
     },
     {
       title: 'Method',
@@ -73,7 +71,6 @@ function SysLog() {
       valueType: 'dateTimeRange',
       render: (_, record) =>
         moment(record.createTime, 'YYYY-MM-DD hh:mm:ss Z').utcOffset(0).format(),
-      order: 8,
     },
     {
       title: 'Option',

@@ -1,18 +1,5 @@
--- --------------------------------------------------------
--- Host:                         localhost
--- Server version:               8.0.26 - MySQL Community Server - GPL
--- Server OS:                    Linux
--- HeidiSQL Version:             8.3.0.4811
--- --------------------------------------------------------
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
--- Dumping database structure for sbm
 DROP DATABASE IF EXISTS `sbm`;
-CREATE DATABASE IF NOT EXISTS `sbm` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE IF NOT EXISTS `sbm`;
 USE `sbm`;
 
 
@@ -21,9 +8,9 @@ USE `sbm`;
 CREATE TABLE `sys_log` (
                            `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
                            `operation` varchar(255) DEFAULT NULL COMMENT '操作',
-                           `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '操作用户名',
-                           `method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '操作方法',
-                           `params` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '操作方法参数',
+                           `username` varchar(50) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '操作用户名',
+                           `method` varchar(255) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '操作方法',
+                           `params` varchar(500) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '操作方法参数',
                            `cost` bigint DEFAULT NULL COMMENT '耗时',
                            `ip` varchar(50) DEFAULT NULL COMMENT '操作人ip',
                            `create_user` bigint DEFAULT NULL COMMENT '创建人',
@@ -31,7 +18,7 @@ CREATE TABLE `sys_log` (
                            `last_edit_user` bigint DEFAULT NULL COMMENT '修改人',
                            `last_edit_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
                            PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4  COMMENT='系统日志表';
 
 
 -- sbm.sys_menu definition
@@ -49,7 +36,7 @@ CREATE TABLE `sys_menu` (
                             `last_edit_user` bigint DEFAULT NULL COMMENT '修改人',
                             `last_edit_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
                             PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统菜单表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='系统菜单表';
 
 
 -- sbm.sys_org definition
@@ -65,7 +52,7 @@ CREATE TABLE `sys_org` (
                            `last_edit_user` bigint DEFAULT NULL COMMENT '修改人',
                            `last_edit_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
                            PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统组织表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='系统组织表';
 
 
 -- sbm.sys_role definition
@@ -81,7 +68,7 @@ CREATE TABLE `sys_role` (
                             `last_edit_user` bigint DEFAULT NULL COMMENT '修改人',
                             `last_edit_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
                             PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统角色表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='系统角色表';
 
 
 -- sbm.sys_role_menu definition
@@ -91,7 +78,7 @@ CREATE TABLE `sys_role_menu` (
                                  `menu_id` bigint DEFAULT NULL COMMENT '菜单ID',
                                  `role_id` bigint DEFAULT NULL COMMENT '角色ID',
                                  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统菜单和角色关联表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='系统菜单和角色关联表';
 
 
 -- sbm.sys_user definition
@@ -110,7 +97,7 @@ CREATE TABLE `sys_user` (
                             `last_edit_user` bigint DEFAULT NULL COMMENT '修改人',
                             `last_edit_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
                             PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4  COMMENT='系统用户表';
 
 
 -- sbm.sys_user_role definition
@@ -120,7 +107,7 @@ CREATE TABLE `sys_user_role` (
                                  `user_id` bigint DEFAULT NULL COMMENT '用户ID',
                                  `role_id` bigint DEFAULT NULL COMMENT '角色ID',
                                  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统用户和角色关联表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='系统用户和角色关联表';
 
 INSERT INTO sbm.sys_user (username,password,name,email,description,del_flag,org_id,create_user,create_time,last_edit_user,last_edit_time) VALUES
-                                                                                                                                              ('admin','939801714c8d675f0b20d5e20b4c3e68','Truman','admin@163.com','default admin user',0,NULL,NULL,'2022-03-31 13:57:56',NULL,'2022-04-04 06:10:44');
+    ('admin','939801714c8d675f0b20d5e20b4c3e68','Truman','admin@163.com','default admin user',0,NULL,NULL,'2022-03-31 13:57:56',NULL,'2022-04-04 06:10:44');

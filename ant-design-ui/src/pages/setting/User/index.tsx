@@ -37,6 +37,40 @@ const handleAdd = async (fields?: any) => {
   }
 };
 
+const handleUpdate = async (fields: any) => {
+  const hide = message.loading('Modifying');
+  try {
+    //修改
+    hide();
+    const response = await updateUser({ ...fields });
+    if (response.message == 'OK') {
+      message.success('Modify successfully');
+    }
+    return true;
+  } catch (error) {
+    hide();
+    message.error('Modify failed, please try again!');
+    return false;
+  }
+};
+
+const handleRemove = async (id: number) => {
+  const hide = message.loading('Deleting');
+  try {
+    // 删除
+    hide();
+    const response = await removeUser(id);
+    if (response.message == 'OK') {
+      message.success('Deleted successfully');
+    }
+    return true;
+  } catch (error) {
+    hide();
+    message.error('Delete failed, please try again');
+    return false;
+  }
+};
+
 function User() {
   const intl = useIntl();
   const actionRef = useRef<ActionType>();
@@ -44,42 +78,6 @@ function User() {
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [modifyUser, setModifyUser] = useState<UserItem>();
-
-  const handleUpdate = async (fields: any) => {
-    const hide = message.loading('Modifying');
-    try {
-      //修改
-      hide();
-      const response = await updateUser({ ...fields });
-      if (response.message == 'OK') {
-        message.success('Modify successfully');
-        actionRef.current?.reloadAndRest?.();
-      }
-      return true;
-    } catch (error) {
-      hide();
-      message.error('Modify failed, please try again!');
-      return false;
-    }
-  };
-
-  const handleRemove = async (id: number) => {
-    const hide = message.loading('Deleting');
-    try {
-      // 删除
-      hide();
-      const response = await removeUser(id);
-      if (response.message == 'OK') {
-        message.success('Deleted successfully');
-        actionRef.current?.reloadAndRest?.();
-      }
-      return true;
-    } catch (error) {
-      hide();
-      message.error('Delete failed, please try again');
-      return false;
-    }
-  };
 
   const columns: ProColumns<UserItem>[] = [
     {
@@ -132,8 +130,11 @@ function User() {
         <Popconfirm
           key="delete"
           title="Are you sure to delete this user?"
-          onConfirm={() => {
-            handleRemove(record.id);
+          onConfirm={async () => {
+            const success = await handleRemove(record.id);
+            if (success) {
+              actionRef.current?.reloadAndRest?.();
+            }
           }}
           okText="Yes"
           cancelText="No"

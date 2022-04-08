@@ -1,11 +1,10 @@
 import {
   addSysOrg,
-  addUser,
   orgList,
   orgTreeSelectList,
+  removeSysOrg,
   removeUser,
   updateSysOrg,
-  updateUser,
 } from '@/services/ant-design-pro/api';
 import { PlusOutlined } from '@ant-design/icons';
 import ProForm, {
@@ -14,7 +13,7 @@ import ProForm, {
   ProFormTextArea,
   ProFormTreeSelect,
 } from '@ant-design/pro-form';
-import { PageContainer } from '@ant-design/pro-layout';
+import { FooterToolbar, PageContainer } from '@ant-design/pro-layout';
 import type { ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { Button, message, Popconfirm } from 'antd';
@@ -29,62 +28,61 @@ type OrgItem = {
   parentId: number;
 };
 
+const handleAdd = async (fields?: any) => {
+  const hide = message.loading('Adding');
+  try {
+    hide();
+    const response = await addSysOrg({ ...fields });
+    if (response.message == 'OK') {
+      message.success('Added successfully');
+    }
+    return true;
+  } catch (error) {
+    hide();
+    return false;
+  }
+};
+
+const handleUpdate = async (fields: any) => {
+  const hide = message.loading('Modifying');
+  try {
+    //修改
+    hide();
+    const response = await updateSysOrg({ ...fields });
+    if (response.message == 'OK') {
+      message.success('Modify successfully');
+    }
+    return true;
+  } catch (error) {
+    hide();
+    message.error('Modify failed, please try again!');
+    return false;
+  }
+};
+
+const handleRemove = async (selectedRows: OrgItem[]) => {
+  const hide = message.loading('Deleting');
+  if (!selectedRows) return true;
+  try {
+    await removeSysOrg({
+      ids: selectedRows.map((row) => row.id),
+    });
+    hide();
+    message.success('Deleted successfully and will refresh soon');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('Delete failed, please try again');
+    return false;
+  }
+};
+
 function Org() {
   const actionRef = useRef<ActionType>();
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [modifyOrg, setModifyOrg] = useState<OrgItem>();
-
-  const handleAdd = async (fields?: any) => {
-    const hide = message.loading('Adding');
-    try {
-      hide();
-      const response = await addUser({ ...fields });
-      if (response.message == 'OK') {
-        message.success('Added successfully');
-      }
-      return true;
-    } catch (error) {
-      hide();
-      return false;
-    }
-  };
-
-  const handleUpdate = async (fields: any) => {
-    const hide = message.loading('Modifying');
-    try {
-      //修改
-      hide();
-      const response = await updateUser({ ...fields });
-      if (response.message == 'OK') {
-        message.success('Modify successfully');
-        actionRef.current?.reloadAndRest?.();
-      }
-      return true;
-    } catch (error) {
-      hide();
-      message.error('Modify failed, please try again!');
-      return false;
-    }
-  };
-
-  const handleRemove = async (id: number) => {
-    const hide = message.loading('Deleting');
-    try {
-      // 删除
-      hide();
-      const response = await removeUser(id);
-      if (response.message == 'OK') {
-        message.success('Deleted successfully');
-        actionRef.current?.reloadAndRest?.();
-      }
-      return true;
-    } catch (error) {
-      hide();
-      message.error('Delete failed, please try again');
-      return false;
-    }
-  };
+  const [selectedRowsState, setSelectedRows] = useState<OrgItem[]>([]);
 
   const columns = [
     {
@@ -118,17 +116,6 @@ function Org() {
         >
           Edit
         </a>,
-        <Popconfirm
-          key="delete"
-          title="Are you sure to delete this org?"
-          onConfirm={() => {
-            handleRemove(record.id);
-          }}
-          okText="Yes"
-          cancelText="No"
-        >
-          <a href="#">Delete</a>
-        </Popconfirm>,
       ],
     },
   ];
@@ -145,6 +132,11 @@ function Org() {
         actionRef={actionRef}
         rowKey={(record) => record.id}
         columns={columns}
+        rowSelection={{
+          onChange: (_, selectedRows) => {
+            setSelectedRows(selectedRows);
+          },
+        }}
         search={false}
         request={orgList}
         pagination={{ showSizeChanger: true }}
@@ -161,6 +153,39 @@ function Org() {
         ]}
       />
 
+      {selectedRowsState?.length > 0 && (
+        <FooterToolbar
+          extra={
+            <div>
+              <FormattedMessage id="pages.searchTable.chosen" defaultMessage="Chosen" />{' '}
+              <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a>{' '}
+              <FormattedMessage id="pages.searchTable.item" defaultMessage="项" />
+              &nbsp;&nbsp;
+            </div>
+          }
+        >
+          <Popconfirm
+            key="delete"
+            title="Are you sure to delete ?"
+            onConfirm={async () => {
+              await handleRemove(selectedRowsState);
+              setSelectedRows([]);
+              actionRef.current?.reloadAndRest?.();
+            }}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button type="primary" danger>
+              <FormattedMessage
+                id="pages.searchTable.batchDeletion"
+                defaultMessage="Batch deletion"
+              />
+            </Button>
+          </Popconfirm>
+          ,
+        </FooterToolbar>
+      )}
+
       <ModalForm
         title="New Org"
         layout="vertical"
@@ -168,7 +193,7 @@ function Org() {
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}
         onFinish={async (value) => {
-          const success = await addSysOrg(value);
+          const success = await handleAdd(value);
           if (success) {
             handleModalVisible(false);
             if (actionRef.current) {
@@ -234,7 +259,7 @@ function Org() {
         visible={updateModalVisible}
         onVisibleChange={handleUpdateModalVisible}
         onFinish={async (value) => {
-          const success = await updateSysOrg(value);
+          const success = await handleUpdate(value);
           if (success) {
             handleUpdateModalVisible(false);
             if (actionRef.current) {
@@ -282,6 +307,7 @@ function Org() {
           // tree-select args
           fieldProps={{
             defaultValue: modifyOrg?.parentId,
+            disabled: true,
             treeLine: true,
             showArrow: false,
             filterTreeNode: true,

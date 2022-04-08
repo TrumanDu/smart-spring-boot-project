@@ -31,19 +31,22 @@ public class SysOrgController {
     public ResponseDTO<List<SysOrgSelectDTO>> getTreeSelectData() {
         return ResponseDTO.success(sysOrgService.getTreeSelectData());
     }
+
+    @SysLog(operation = "新增组织", params = true)
     @PostMapping("/sys_org/add")
-    public ResponseDTO addSysOrg(@Valid  @RequestBody SysOrgBaseDTO sysOrgBaseDTO){
+    public ResponseDTO addSysOrg(@Valid @RequestBody SysOrgBaseDTO sysOrgBaseDTO) {
         return sysOrgService.addSysOrg(sysOrgBaseDTO);
     }
 
+    @SysLog(operation = "修改组织", params = true)
     @PutMapping("/sys_org/update")
-    public ResponseDTO updateSysOrg(@Valid  @RequestBody SysOrgUpdateDTO sysOrgUpdateDTO){
+    public ResponseDTO updateSysOrg(@Valid @RequestBody SysOrgUpdateDTO sysOrgUpdateDTO) {
         return sysOrgService.updateSysOrg(sysOrgUpdateDTO);
     }
 
-    @SysLog(operation = "删除组织")
-    @PostMapping("/sys_org/delete")
-    public ResponseDTO deleteSysOrg(@RequestBody List<Long>ids) {
+    @SysLog(operation = "删除组织", params = true)
+    @PostMapping(value = "/sys_org/delete")
+    public ResponseDTO deleteSysOrg(@RequestBody List<Long> ids) {
         return sysOrgService.deleteSysOrg(ids);
     }
 }

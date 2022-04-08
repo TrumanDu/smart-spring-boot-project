@@ -156,8 +156,9 @@ export async function updateSysOrg(options?: { [key: string]: any }) {
     },
   });
 }
-export async function removeSysOrg(id: number) {
-  return request<Record<string, any>>(`/api/sys_org/delete/${id}`, {
-    method: 'DELETE',
+export async function removeSysOrg(ids: any) {
+  return request<Record<string, any>>(`/api/sys_org/delete`, {
+    method: 'POST',
+    data: ids.ids,
   });
 }
