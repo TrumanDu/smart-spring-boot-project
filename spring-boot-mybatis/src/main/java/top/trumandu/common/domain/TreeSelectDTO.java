@@ -1,18 +1,18 @@
-package top.trumandu.module.system.org.domain;
+package top.trumandu.common.domain;
 
 import java.util.List;
 
 /**
  * @author Truman.P.Du
- * @date 2022/04/07
+ * @date 2022/04/08
  * @description
  */
-public class SysOrgSelectDTO {
+public class TreeSelectDTO {
     private Long value;
     private String title;
-    private List<SysOrgSelectDTO>children;
+    private List<TreeSelectDTO> children;
 
-    public SysOrgSelectDTO(Long value,String title){
+    public TreeSelectDTO(Long value, String title) {
         this.value = value;
         this.title = title;
     }
@@ -33,17 +33,17 @@ public class SysOrgSelectDTO {
         this.title = title;
     }
 
-    public List<SysOrgSelectDTO> getChildren() {
+    public List<TreeSelectDTO> getChildren() {
         return children;
     }
 
-    public void setChildren(List<SysOrgSelectDTO> children) {
+    public void setChildren(List<TreeSelectDTO> children) {
         this.children = children;
     }
 
     @Override
     public String toString() {
-        return "SysOrgSelectDTO{" +
+        return "TreeSelectDTO{" +
                 "value=" + value +
                 ", title='" + title + '\'' +
                 ", children=" + children +

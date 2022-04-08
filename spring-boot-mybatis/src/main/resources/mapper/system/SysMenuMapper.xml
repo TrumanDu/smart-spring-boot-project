@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.trumandu.module.system.menu.SysMenuDao">
+    <resultMap type="top.trumandu.module.system.menu.domain.SysMenuVO" id="SysMenuVO">
+    </resultMap>
+    <resultMap type="top.trumandu.module.system.menu.domain.SysMenuEntity" id="SysMenuEntity">
+    </resultMap>
+
+    <sql id="baseSql">
+        t.id,
+        t.menu_name,
+        t.menu_icon,
+        t.menu_url,
+        t.sort,
+        t.parent_id,
+        t.description,
+        t.create_user,
+        t.last_edit_user,
+        t.create_time,
+        t.last_edit_time
+    </sql>
+
+    <select id="selectList" resultMap="SysMenuEntity">
+        select
+        <include refid="baseSql"></include>
+        from
+        sys_menu t
+        order by t.sort asc
+    </select>
+
+</mapper>

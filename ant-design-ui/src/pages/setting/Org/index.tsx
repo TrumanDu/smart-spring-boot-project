@@ -1,10 +1,9 @@
 import {
-  addSysOrg,
-  orgList,
-  orgTreeSelectList,
-  removeSysOrg,
-  removeUser,
-  updateSysOrg,
+  commonAdd,
+  commonBatchRemove,
+  commonQueryList,
+  commonTreeSelectList,
+  commonUpdate,
 } from '@/services/ant-design-pro/api';
 import { PlusOutlined } from '@ant-design/icons';
 import ProForm, {
@@ -32,7 +31,12 @@ const handleAdd = async (fields?: any) => {
   const hide = message.loading('Adding');
   try {
     hide();
-    const response = await addSysOrg({ ...fields });
+    const response = await commonAdd('/api/sys_org/add', {
+      orgName: fields?.orgName,
+      orgCode: fields?.orgCode,
+      description: fields?.description,
+      parentId: fields?.parentId?.value,
+    });
     if (response.message == 'OK') {
       message.success('Added successfully');
     }
@@ -48,7 +52,13 @@ const handleUpdate = async (fields: any) => {
   try {
     //修改
     hide();
-    const response = await updateSysOrg({ ...fields });
+    const response = await commonUpdate('/api/sys_org/update', {
+      id: fields?.id,
+      orgName: fields?.orgName,
+      orgCode: fields?.orgCode,
+      description: fields?.description,
+      parentId: fields?.parentId?.value,
+    });
     if (response.message == 'OK') {
       message.success('Modify successfully');
     }
@@ -64,7 +74,7 @@ const handleRemove = async (selectedRows: OrgItem[]) => {
   const hide = message.loading('Deleting');
   if (!selectedRows) return true;
   try {
-    await removeSysOrg({
+    await commonBatchRemove('/api/sys_org/delete', {
       ids: selectedRows.map((row) => row.id),
     });
     hide();
@@ -138,7 +148,7 @@ function Org() {
           },
         }}
         search={false}
-        request={orgList}
+        request={() => commonQueryList('/api/sys_org/list')}
         pagination={{ showSizeChanger: true }}
         toolBarRender={() => [
           <Button
@@ -233,7 +243,7 @@ function Org() {
           allowClear
           width={330}
           secondary
-          request={orgTreeSelectList}
+          request={() => commonTreeSelectList('/api/sys_org/list/tree_select')}
           // tree-select args
           fieldProps={{
             treeLine: true,
@@ -303,7 +313,7 @@ function Org() {
           allowClear
           width={330}
           secondary
-          request={orgTreeSelectList}
+          request={() => commonTreeSelectList('/api/sys_org/list/tree_select')}
           // tree-select args
           fieldProps={{
             defaultValue: modifyOrg?.parentId,

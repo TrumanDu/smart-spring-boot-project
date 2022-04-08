@@ -1,14 +1,15 @@
-package top.trumandu.module.system.org;
+package top.trumandu.module.system.menu;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.trumandu.common.domain.ResponseDTO;
 import top.trumandu.common.domain.TreeSelectDTO;
-import top.trumandu.module.system.org.domain.SysOrgBaseDTO;
-import top.trumandu.module.system.org.domain.SysOrgEntity;
-import top.trumandu.module.system.org.domain.SysOrgUpdateDTO;
-import top.trumandu.module.system.org.domain.SysOrgVO;
+import top.trumandu.module.system.menu.domain.SysMenuBaseDTO;
+import top.trumandu.module.system.menu.domain.SysMenuEntity;
+import top.trumandu.module.system.menu.domain.SysMenuUpdateDTO;
+import top.trumandu.module.system.menu.domain.SysMenuVO;
 import top.trumandu.util.BeanUtil;
+import top.trumandu.util.SmartCurrentUserUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,26 +18,26 @@ import java.util.Map;
 
 /**
  * @author Truman.P.Du
- * @date 2022/04/06
+ * @date 2022/04/08
  * @description
  */
 @Service
-public class SysOrgService {
+public class SysMenuService {
     @Autowired
-    SysOrgDao sysOrgDao;
+    SysMenuDao sysMenuDao;
 
-    public List<SysOrgVO> listAllSysOrg() {
-        List<SysOrgEntity> dbList = sysOrgDao.selectSysOrgList();
+    public List<SysMenuVO> listAll() {
+        List<SysMenuEntity> dbList = sysMenuDao.selectList();
         //获取所有的跟节点
-        List<SysOrgVO> roots = new ArrayList<>();
-        Map<Long, List<SysOrgVO>> tree = new HashMap<>();
+        List<SysMenuVO> roots = new ArrayList<>();
+        Map<Long, List<SysMenuVO>> tree = new HashMap<>();
         for (int i = 0; i < dbList.size(); i++) {
-            SysOrgEntity entity = dbList.get(i);
-            SysOrgVO vo = BeanUtil.copy(entity, SysOrgVO.class);
+            SysMenuEntity entity = dbList.get(i);
+            SysMenuVO vo = BeanUtil.copy(entity, SysMenuVO.class);
             if (entity.getParentId() == null) {
                 roots.add(vo);
             } else {
-                List<SysOrgVO> list = null;
+                List<SysMenuVO> list = null;
                 if (tree.containsKey(entity.getParentId())) {
                     list = tree.get(entity.getParentId());
                 } else {
@@ -47,20 +48,20 @@ public class SysOrgService {
             }
         }
         //递归设置所有的孩子节点
-        for (SysOrgVO sysOrgVO : roots) {
-            setChildByParentNode(tree, sysOrgVO);
+        for (SysMenuVO sysMenuVO : roots) {
+            setChildByParentNode(tree, sysMenuVO);
         }
         return roots;
     }
 
     public List<TreeSelectDTO> getTreeSelectData() {
-        List<SysOrgEntity> dbList = sysOrgDao.selectSysOrgList();
+        List<SysMenuEntity> dbList = sysMenuDao.selectList();
         //获取所有的跟节点
         List<TreeSelectDTO> roots = new ArrayList<>();
         Map<Long, List<TreeSelectDTO>> tree = new HashMap<>();
         for (int i = 0; i < dbList.size(); i++) {
-            SysOrgEntity entity = dbList.get(i);
-            TreeSelectDTO vo = new TreeSelectDTO(entity.getId(), entity.getOrgName());
+            SysMenuEntity entity = dbList.get(i);
+            TreeSelectDTO vo = new TreeSelectDTO(entity.getId(), entity.getMenuName());
             if (entity.getParentId() == null) {
                 roots.add(vo);
             } else {
@@ -82,31 +83,33 @@ public class SysOrgService {
     }
 
 
-    public ResponseDTO addSysOrg(SysOrgBaseDTO sysOrgBaseDTO) {
-        SysOrgEntity entity = BeanUtil.copy(sysOrgBaseDTO, SysOrgEntity.class);
-        sysOrgDao.insert(entity);
+    public ResponseDTO add(SysMenuBaseDTO baseDTO) {
+        SysMenuEntity entity = BeanUtil.copy(baseDTO, SysMenuEntity.class);
+        entity.setCreateUserId(SmartCurrentUserUtil.getCurrentUserId());
+        sysMenuDao.insert(entity);
         return ResponseDTO.success();
     }
 
-    public ResponseDTO updateSysOrg(SysOrgUpdateDTO sysOrgUpdateDTO) {
-        SysOrgEntity entity = BeanUtil.copy(sysOrgUpdateDTO, SysOrgEntity.class);
-        sysOrgDao.updateById(entity);
+    public ResponseDTO update(SysMenuUpdateDTO updateDTO) {
+        SysMenuEntity entity = BeanUtil.copy(updateDTO, SysMenuEntity.class);
+        entity.setLastEditUserId(SmartCurrentUserUtil.getCurrentUserId());
+        sysMenuDao.updateById(entity);
         return ResponseDTO.success();
     }
 
-    public ResponseDTO deleteSysOrg(List<Long> ids) {
-        sysOrgDao.deleteBatchIds(ids);
+    public ResponseDTO delete(List<Long> ids) {
+        sysMenuDao.deleteBatchIds(ids);
         return ResponseDTO.success();
     }
 
-    private void setChildByParentNode(Map<Long, List<SysOrgVO>> tree, SysOrgVO vo) {
+    private void setChildByParentNode(Map<Long, List<SysMenuVO>> tree, SysMenuVO vo) {
         Long id = vo.getId();
-        List<SysOrgVO> child = new ArrayList<>();
+        List<SysMenuVO> child = new ArrayList<>();
         if (tree.containsKey(id)) {
             child = tree.get(id);
         }
-        for (SysOrgVO sysOrgVO : child) {
-            setChildByParentNode(tree, sysOrgVO);
+        for (SysMenuVO sysMenuVO : child) {
+            setChildByParentNode(tree, sysMenuVO);
         }
         vo.setChildren(child);
     }

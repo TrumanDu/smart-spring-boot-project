@@ -116,8 +116,8 @@ export async function sysLogList(
   };
 }
 
-export async function orgList() {
-  const response = await request('/api/sys_org/list', {
+export async function commonQueryList(url: string) {
+  const response = await request(url, {
     method: 'GET',
   });
   return {
@@ -126,39 +126,34 @@ export async function orgList() {
   };
 }
 
-export async function orgTreeSelectList() {
-  const response = await request('/api/sys_org/list/tree_select', {
-    method: 'GET',
-  });
-  return response?.data;
-}
-
-export async function addSysOrg(options?: { [key: string]: any }) {
-  return request('/api/sys_org/add', {
+export async function commonAdd(url: string, data?: { [key: string]: any }) {
+  return request(url, {
     method: 'POST',
     data: {
-      orgName: options?.orgName,
-      orgCode: options?.orgCode,
-      description: options?.description,
-      parentId: options?.parentId?.value,
+      ...data,
     },
   });
 }
-export async function updateSysOrg(options?: { [key: string]: any }) {
-  return request('/api/sys_org/update', {
+
+export async function commonUpdate(url: string, data?: { [key: string]: any }) {
+  return request(url, {
     method: 'PUT',
     data: {
-      id: options?.id,
-      orgName: options?.orgName,
-      orgCode: options?.orgCode,
-      description: options?.description,
-      parentId: options?.parentId?.value,
+      ...data,
     },
   });
 }
-export async function removeSysOrg(ids: any) {
-  return request<Record<string, any>>(`/api/sys_org/delete`, {
+
+export async function commonBatchRemove(url: string, ids: any) {
+  return request<Record<string, any>>(url, {
     method: 'POST',
     data: ids.ids,
   });
+}
+
+export async function commonTreeSelectList(url: string) {
+  const response = await request(url, {
+    method: 'GET',
+  });
+  return response?.data;
 }
