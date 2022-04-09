@@ -321,9 +321,7 @@ public class DepartmentController {
     }
 ```
 
-2）不推荐使用 rest 命名 url， 只能使用 `get/post` 方法。url 命名上规范如下：
-
-> _虽然 Rest 大法好，但是有时并不能一眼根据 url 看出来是什么操作，所以我们选择了后者，这个没有对与错，只有哪个更适合我们的团队。_
+2）url 命名上规范如下：
 
 `/业务模块/子模块/动作`
 
@@ -334,7 +332,7 @@ GET  /department/get/{id}      查询某个部门详细信息
 POST /department/query         复杂查询
 POST /department/add           添加部门
 PUT /department/update        更新部门
-GET  /department/delete/{id}   删除部门
+DELETE  /department/delete/{id}   删除部门
 ```
 
 3）每个方法必须添加 `swagger` 文档注解 `@ApiOperation` ，并填写接口描述信息，描述最后必须加上作者信息 `@author 哪吒` 。

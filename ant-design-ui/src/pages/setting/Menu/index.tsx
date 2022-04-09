@@ -11,8 +11,10 @@ import { FooterToolbar, PageContainer } from '@ant-design/pro-layout';
 import type { ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { Button, message, Popconfirm } from 'antd';
+import type { ReactNode } from 'react';
 import { useRef, useState } from 'react';
 import { FormattedMessage } from 'umi';
+import parse from 'html-react-parser';
 
 type MenuItem = {
   id: number;
@@ -94,6 +96,7 @@ function Menu() {
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [modifyObj, setModifyObj] = useState<MenuItem>();
   const [selectedRowsState, setSelectedRows] = useState<MenuItem[]>([]);
+  const [menuIconPreview, setMenuIconPreview] = useState();
 
   const columns = [
     {
@@ -111,6 +114,7 @@ function Menu() {
       title: 'MenuIcon',
       dataIndex: 'menuIcon',
       key: 'menuIcon',
+      render: (text: ReactNode, record?: any) => parse(record.menuIcon),
     },
     {
       title: 'Description',
@@ -127,11 +131,13 @@ function Menu() {
       valueType: 'option',
       key: 'option',
       width: '10%',
-      render: (_, record?: any) => [
+      render: (text: ReactNode, record?: any) => [
         <a
           key="editable"
           onClick={() => {
             handleUpdateModalVisible(true);
+            const preview = parse(record.menuIcon);
+            setMenuIconPreview(preview);
             setModifyObj(record);
           }}
         >
@@ -167,6 +173,7 @@ function Menu() {
             key="primary"
             onClick={() => {
               handleModalVisible(true);
+              setMenuIconPreview(null);
             }}
           >
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
@@ -264,6 +271,15 @@ function Menu() {
           ]}
           name="menuIcon"
           label="MenuIcon"
+          fieldProps={{
+            size: 'large',
+            prefix: menuIconPreview,
+            onChange: (e) => {
+              const { value } = e.target;
+              const preview = parse(value);
+              setMenuIconPreview(preview);
+            },
+          }}
         />
         <ProFormText
           rules={[
@@ -354,6 +370,15 @@ function Menu() {
           name="menuIcon"
           label="MenuIcon"
           initialValue={modifyObj?.menuIcon}
+          fieldProps={{
+            size: 'large',
+            prefix: menuIconPreview,
+            onChange: (e) => {
+              const { value } = e.target;
+              const preview = parse(value);
+              setMenuIconPreview(preview);
+            },
+          }}
         />
         <ProFormText
           rules={[

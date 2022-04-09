@@ -114,8 +114,8 @@ public class SysMenuService {
         vo.setChildren(child);
     }
 
-    private void setChildByParentNode(Map<Long, List<TreeSelectDTO>> tree, TreeSelectDTO vo) {
-        Long id = vo.getValue();
+    private void setChildByParentNode(Map<Long, List<TreeSelectDTO>> tree, TreeSelectDTO treeSelectDTO) {
+        Long id = treeSelectDTO.getValue();
         List<TreeSelectDTO> child = new ArrayList<>();
         if (tree.containsKey(id)) {
             child = tree.get(id);
@@ -123,6 +123,6 @@ public class SysMenuService {
         for (TreeSelectDTO sysOrgVO : child) {
             setChildByParentNode(tree, sysOrgVO);
         }
-        vo.setChildren(child);
+        treeSelectDTO.setChildren(child);
     }
 }
