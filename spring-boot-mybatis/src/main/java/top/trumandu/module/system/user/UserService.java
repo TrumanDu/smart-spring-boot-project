@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.trumandu.common.domain.PageResultDTO;
 import top.trumandu.common.domain.ResponseDTO;
+import top.trumandu.common.domain.SelectDTO;
 import top.trumandu.constant.CommonConst;
 import top.trumandu.module.system.user.domain.*;
 import top.trumandu.util.BeanUtil;
 import top.trumandu.util.PageUtil;
 import top.trumandu.util.SmartDigestUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -105,8 +107,20 @@ public class UserService {
      * @param id
      * @return
      */
-    public ResponseDTO deleteUser(Long id) {
+    public void deleteUser(Long id) {
         userDao.disableUserById(id);
-        return ResponseDTO.success();
+    }
+
+    /**
+     * 查询待分配角色用户
+     * @return
+     */
+    public List<SelectDTO> selectUserSelectList() {
+        List<UserVO> userVOList = userDao.listNoRoleUser();
+        List<SelectDTO> list = new ArrayList<>(userVOList.size());
+        userVOList.forEach(userVO -> {
+            list.add(new SelectDTO(userVO.getName(), userVO.getId().toString()));
+        });
+        return list;
     }
 }

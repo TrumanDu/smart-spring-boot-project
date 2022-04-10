@@ -1,5 +1,6 @@
 package top.trumandu.module.system.role.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import top.trumandu.common.domain.BaseEntity;
 
@@ -10,9 +11,13 @@ import top.trumandu.common.domain.BaseEntity;
  */
 @TableName("sys_role")
 public class RoleEntity extends BaseEntity {
-        private String roleCode;
-        private String roleName;
-        private String description;
+    private String roleCode;
+    private String roleName;
+    private String description;
+    @TableField("create_user")
+    private Long createUserId;
+    @TableField("last_edit_user")
+    private Long lastEditUserId;
 
     public String getRoleCode() {
         return roleCode;
@@ -36,5 +41,21 @@ public class RoleEntity extends BaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Long createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    public Long getLastEditUserId() {
+        return lastEditUserId;
+    }
+
+    public void setLastEditUserId(Long lastEditUserId) {
+        this.lastEditUserId = lastEditUserId;
     }
 }

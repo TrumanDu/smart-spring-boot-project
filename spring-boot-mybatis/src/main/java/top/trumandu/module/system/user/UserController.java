@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import top.trumandu.common.anno.SysLog;
 import top.trumandu.common.domain.PageResultDTO;
 import top.trumandu.common.domain.ResponseDTO;
+import top.trumandu.common.domain.SelectDTO;
 import top.trumandu.module.system.user.domain.UserBaseDTO;
 import top.trumandu.module.system.user.domain.UserQueryDTO;
 import top.trumandu.module.system.user.domain.UserUpdateDTO;
@@ -12,6 +13,7 @@ import top.trumandu.module.system.user.domain.UserVO;
 import top.trumandu.util.SmartCurrentUserUtil;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author Truman.P.Du
@@ -24,7 +26,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @SysLog(operation = "增加用户",params = true)
+    @SysLog(operation = "增加用户", params = true)
     @PostMapping("/user/add")
     public ResponseDTO addUser(@Valid @RequestBody UserBaseDTO userDTO) {
         Long currentUserId = SmartCurrentUserUtil.getCurrentUserId();
@@ -56,6 +58,16 @@ public class UserController {
     @SysLog(operation = "删除用户")
     @DeleteMapping("/user/delete/{id}")
     public ResponseDTO deleteUser(@PathVariable Long id) {
-        return userService.deleteUser(id);
+        userService.deleteUser(id);
+        return ResponseDTO.success();
+    }
+
+    /**
+     * 查询待分配角色的用户
+     * @return
+     */
+    @GetMapping("/user/list/select")
+    public ResponseDTO<List<SelectDTO>> getSelectData() {
+        return ResponseDTO.success(userService.selectUserSelectList());
     }
 }

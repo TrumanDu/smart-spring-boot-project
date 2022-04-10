@@ -1,99 +1,184 @@
+import {
+  commonAdd,
+  commonUpdate,
+  commonQueryList,
+  commonRemove,
+  commonTreeSelectList,
+} from '@/services/ant-design-pro/api';
 import { PlusOutlined } from '@ant-design/icons';
 import ProCard from '@ant-design/pro-card';
-import ProForm, { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
+import ProForm, {
+  ModalForm,
+  ProFormSelect,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-form';
 import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns } from '@ant-design/pro-table';
+import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Button, Popconfirm } from 'antd';
-import { useState } from 'react';
+import { Button, message, Popconfirm } from 'antd';
+import { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { FormattedMessage } from 'umi';
 
-const roleColumns: ProColumns[] = [
-  {
-    title: 'RoleCode',
-    key: 'roleCode',
-    dataIndex: 'roleCode',
-  },
-  {
-    title: 'RoleName',
-    key: 'role',
-    dataIndex: 'roleName',
-  },
-  /*   {
-    title: 'Description',
-    key: 'description',
-    dataIndex: 'description',
-  }, */
-  {
-    title: 'Option',
-    key: 'option',
-    width: 80,
-    valueType: 'option',
-    render: (text, record) => [
-      <a
-        key="editable"
-        onClick={() => {
-          /*   handleUpdateModalVisible(true);
-          setModifyUser(record); */
-        }}
-      >
-        Edit
-      </a>,
-      <Popconfirm
-        key="delete"
-        title="Are you sure to delete this user?"
-        onConfirm={async () => {
-          /*  const success = await handleRemove(record.id);
-          if (success) {
-            actionRef.current?.reloadAndRest?.();
-          } */
-        }}
-        okText="Yes"
-        cancelText="No"
-      >
-        <a href="#">Delete</a>
-      </Popconfirm>,
-    ],
-  },
-];
+const handleAdd = async (fields?: any) => {
+  const hide = message.loading('Adding');
+  try {
+    hide();
+    const response = await commonAdd('/api/sys_role/add', {
+      roleName: fields?.roleName,
+      roleCode: fields?.roleCode,
+      description: fields?.description,
+    });
+    if (response.message == 'OK') {
+      message.success('Added successfully');
+    }
+    return true;
+  } catch (error) {
+    hide();
+    return false;
+  }
+};
 
-const userColumns: ProColumns[] = [
-  {
-    title: 'Username',
-    dataIndex: 'username',
-  },
-  {
-    title: 'Name',
-    dataIndex: 'name',
-  },
-  {
-    title: 'Option',
-    key: 'option',
-    width: 80,
-    valueType: 'option',
-    render: () => [<a key="a">Delete</a>],
-  },
-];
+const handleUserRoleAdd = async (fields?: any) => {
+  const hide = message.loading('Adding');
+  try {
+    hide();
+    const response = await commonAdd('/api/sys_role_user/add', {
+      roleId: fields?.roleId,
+      userId: fields.userId,
+    });
+    if (response.message == 'OK') {
+      message.success('Added successfully');
+    }
+    return true;
+  } catch (error) {
+    hide();
+    return false;
+  }
+};
+
+const handleUpdate = async (fields: any) => {
+  const hide = message.loading('Modifying');
+  try {
+    //修改
+    hide();
+    const response = await commonUpdate('/api/sys_role/update', {
+      id: fields?.id,
+      roleName: fields?.roleName,
+      roleCode: fields?.roleCode,
+      description: fields?.description,
+    });
+    if (response.message == 'OK') {
+      message.success('Modify successfully');
+    }
+    return true;
+  } catch (error) {
+    hide();
+    message.error('Modify failed, please try again!');
+    return false;
+  }
+};
+
+const handleRemove = async (id: number) => {
+  const hide = message.loading('Deleting');
+  try {
+    await commonRemove(`/api/sys_role/delete/${id}`);
+    hide();
+    message.success('Deleted successfully');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('Delete failed, please try again');
+    return false;
+  }
+};
+
+const handleRemoveRoleUser = async (id: number) => {
+  const hide = message.loading('Deleting');
+  try {
+    await commonRemove(`/api/sys_role_user/delete/${id}`);
+    hide();
+    message.success('Deleted successfully');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('Delete failed, please try again');
+    return false;
+  }
+};
 
 type RoleListProps = {
-  roleId: any;
-  onChange: (id: number) => void;
+  onChange: (role: RoleProps) => void;
+  roleChildRef: any;
   setNewRoleModalVisible: (visible: boolean) => void;
+  setEditRoleModalVisible: (visible: boolean) => void;
+  setRoleObj: (roleObj: RoleProps) => void;
 };
 
 function RoleList(props: RoleListProps) {
-  const { onChange, roleId, setNewRoleModalVisible } = props;
+  const actionRef = useRef<ActionType>();
+  const { onChange, setNewRoleModalVisible, setEditRoleModalVisible, setRoleObj, roleChildRef } =
+    props;
+
+  const roleColumns: ProColumns[] = [
+    {
+      title: 'RoleCode',
+      key: 'roleCode',
+      dataIndex: 'roleCode',
+    },
+    {
+      title: 'RoleName',
+      key: 'role',
+      dataIndex: 'roleName',
+    },
+    {
+      title: 'Option',
+      key: 'option',
+      width: 80,
+      valueType: 'option',
+      render: (text, record) => [
+        <a
+          key="editable"
+          onClick={() => {
+            setEditRoleModalVisible(true);
+            setRoleObj(record);
+          }}
+        >
+          Edit
+        </a>,
+        <Popconfirm
+          key="delete"
+          title="Are you sure to delete?"
+          onConfirm={async () => {
+            const success = await handleRemove(record.id);
+            if (success) {
+              actionRef.current?.reloadAndRest?.();
+            }
+          }}
+          okText="Yes"
+          cancelText="No"
+        >
+          <a href="#">Delete</a>
+        </Popconfirm>,
+      ],
+    },
+  ];
+
+  const reloadList = () => {
+    if (actionRef.current) {
+      actionRef.current.reload();
+    }
+  };
+  useImperativeHandle(roleChildRef, () => ({
+    reloadList,
+  }));
   return (
     <ProTable
       columns={roleColumns}
-      dataSource={[]}
+      request={() => commonQueryList('/api/sys_role/list')}
+      actionRef={actionRef}
       rowKey="id"
       toolbar={{
-        search: {
-          onSearch: (value) => {
-            alert(value);
-          },
-        },
         actions: [
           <Button
             type="primary"
@@ -109,25 +194,105 @@ function RoleList(props: RoleListProps) {
       options={false}
       pagination={false}
       search={false}
+      onRow={(record) => {
+        return {
+          onClick: () => {
+            if (record.id) {
+              onChange(record);
+            }
+          },
+        };
+      }}
     />
   );
 }
 
 function UserList(props: any) {
-  const { roleId } = props;
+  const userActionRef = useRef<ActionType>();
+  const [dataSource, setDataSource] = useState([]);
+  const [totalDataSource, setTotalDataSource] = useState([]);
+  const { roleId, setAddUserRoleModalVisible, userChildRef } = props;
+
+  const fetchData = async () => {
+    const result = await commonQueryList(`/api/sys_role_user/list/${roleId}`);
+    if (result.success) {
+      setTotalDataSource(result.data);
+      setDataSource(result.data);
+    }
+  };
+
+  useImperativeHandle(userChildRef, () => ({
+    fetchData,
+  }));
+
+  const userColumns: ProColumns[] = [
+    {
+      title: 'Username',
+      dataIndex: 'username',
+    },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+    },
+    {
+      title: 'Option',
+      key: 'option',
+      width: 80,
+      valueType: 'option',
+      render: (text, record) => [
+        <Popconfirm
+          key="delete"
+          title="Are you sure to delete?"
+          onConfirm={async () => {
+            const success = await handleRemoveRoleUser(record.id);
+            if (success) {
+              if (userActionRef.current) {
+                userActionRef.current.reloadAndRest();
+              }
+              fetchData();
+            }
+          }}
+          okText="Yes"
+          cancelText="No"
+        >
+          <a href="#">Delete</a>
+        </Popconfirm>,
+      ],
+    },
+  ];
+
+  useEffect(() => {
+    if (roleId) {
+      fetchData();
+    }
+  }, [roleId]);
+
   return (
     <ProTable
       columns={userColumns}
-      dataSource={[]}
+      dataSource={dataSource}
       pagination={{
         pageSize: 20,
         showSizeChanger: false,
       }}
+      actionRef={userActionRef}
       rowKey="id"
       toolbar={{
         search: {
           onSearch: (value) => {
-            alert(value);
+            const data = totalDataSource.filter((record) => {
+              const name = record.name;
+              const username = record.username;
+              const valueLower = value.toLocaleLowerCase();
+              if (
+                name.toLocaleLowerCase().includes(valueLower) ||
+                username.toLocaleLowerCase().includes(valueLower)
+              ) {
+                return true;
+              }
+              return false;
+            });
+            setDataSource(data);
           },
         },
         actions: [
@@ -136,7 +301,7 @@ function UserList(props: any) {
             type="primary"
             key="primary"
             onClick={() => {
-              //handleModalVisible(true);
+              setAddUserRoleModalVisible(true);
             }}
           >
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
@@ -158,8 +323,13 @@ type RoleProps = {
 
 function Role() {
   const [roleObj, setRoleObj] = useState<RoleProps>();
+  const [selectRole, setSelectRole] = useState<RoleProps>();
   const [newRoleModalVisible, setNewRoleModalVisible] = useState(false);
   const [editRoleModalVisible, setEditRoleModalVisible] = useState(false);
+  const [addUserRoleModalVisible, setAddUserRoleModalVisible] = useState(false);
+  const roleChildRef = useRef();
+  const userChildRef = useRef();
+
   return (
     <PageContainer
       header={{
@@ -167,15 +337,23 @@ function Role() {
       }}
     >
       <ProCard split="vertical">
-        <ProCard colSpan="384px" ghost>
+        <ProCard colSpan="500px" ghost>
           <RoleList
-            onChange={(roleId) => {}}
-            roleId={roleObj?.id}
+            onChange={(role) => {
+              setSelectRole(role);
+            }}
+            roleChildRef={roleChildRef}
             setNewRoleModalVisible={setNewRoleModalVisible}
+            setEditRoleModalVisible={setEditRoleModalVisible}
+            setRoleObj={setRoleObj}
           />
         </ProCard>
-        <ProCard title={roleObj?.name}>
-          <UserList roleId={roleObj?.id} />
+        <ProCard title={selectRole?.roleName}>
+          <UserList
+            roleId={selectRole?.id}
+            setAddUserRoleModalVisible={setAddUserRoleModalVisible}
+            userChildRef={userChildRef}
+          />
         </ProCard>
       </ProCard>
 
@@ -186,13 +364,11 @@ function Role() {
         visible={newRoleModalVisible}
         onVisibleChange={setNewRoleModalVisible}
         onFinish={async (value) => {
-          /* const success = await handleAdd(value);
+          const success = await handleAdd(value);
           if (success) {
             setNewRoleModalVisible(false);
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
-          } */
+            roleChildRef?.current?.reloadList();
+          }
         }}
       >
         <ProForm.Group>
@@ -230,13 +406,11 @@ function Role() {
         visible={editRoleModalVisible}
         onVisibleChange={setEditRoleModalVisible}
         onFinish={async (value) => {
-          /* const success = await handleAdd(value);
+          const success = await handleUpdate(value);
           if (success) {
-            setNewRoleModalVisible(false);
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
-          } */
+            setEditRoleModalVisible(false);
+            roleChildRef?.current?.reloadList();
+          }
         }}
       >
         <ProFormText initialValue={roleObj?.id} name="id" hidden />
@@ -267,7 +441,38 @@ function Role() {
           />
         </ProForm.Group>
 
-        <ProFormTextArea name="description" label="Description" />
+        <ProFormTextArea
+          name="description"
+          label="Description"
+          initialValue={roleObj?.description}
+        />
+      </ModalForm>
+
+      <ModalForm
+        title="Add User"
+        layout="vertical"
+        modalProps={{ destroyOnClose: true }}
+        visible={addUserRoleModalVisible}
+        onVisibleChange={setAddUserRoleModalVisible}
+        onFinish={async (value) => {
+          const success = await handleUserRoleAdd(value);
+          if (success) {
+            setAddUserRoleModalVisible(false);
+            userChildRef?.current?.fetchData();
+          }
+        }}
+      >
+        <ProFormText initialValue={selectRole?.id} name="roleId" hidden />
+        <ProFormSelect
+          name="userId"
+          label="User"
+          request={() => commonTreeSelectList('/api/user/list/select')}
+          placeholder="Please select a user"
+          rules={[{ required: true, message: 'Please select user!' }]}
+          fieldProps={{
+            showSearch: true,
+          }}
+        />
       </ModalForm>
     </PageContainer>
   );

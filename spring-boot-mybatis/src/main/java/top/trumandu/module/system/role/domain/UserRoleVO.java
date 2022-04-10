@@ -1,16 +1,16 @@
-package top.trumandu.module.system.user.domain;
+package top.trumandu.module.system.role.domain;
 
 /**
  * @author Truman.P.Du
- * @date 2022/03/30
+ * @date 2022/04/10
  * @description
  */
-public class UserVO {
+public class UserRoleVO {
     private Long id;
     private String username;
     private String name;
-    private String email;
-    private String description;
+    private Long roleId;
+    private Long userId;
 
     public Long getId() {
         return id;
@@ -36,30 +36,30 @@ public class UserVO {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
-    public String getDescription() {
-        return description;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Override
     public String toString() {
-        return "UserVO{" +
+        return "UserRoleVO{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", description='" + description + '\'' +
+                ", roleId=" + roleId +
+                ", userId=" + userId +
                 '}';
     }
 }

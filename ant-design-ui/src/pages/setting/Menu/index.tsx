@@ -81,7 +81,7 @@ const handleRemove = async (selectedRows: MenuItem[]) => {
       ids: selectedRows.map((row) => row.id),
     });
     hide();
-    message.success('Deleted successfully and will refresh soon');
+    message.success('Deleted successfully');
     return true;
   } catch (error) {
     hide();
