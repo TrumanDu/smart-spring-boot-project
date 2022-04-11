@@ -151,6 +151,12 @@ export async function commonBatchRemove(url: string, ids: any) {
   });
 }
 
+export async function commonRemove(url: string) {
+  return request<Record<string, any>>(url, {
+    method: 'DELETE',
+  });
+}
+
 export async function commonTreeSelectList(url: string) {
   const response = await request(url, {
     method: 'GET',
