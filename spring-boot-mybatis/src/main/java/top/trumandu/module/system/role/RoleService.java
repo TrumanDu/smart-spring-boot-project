@@ -2,11 +2,15 @@ package top.trumandu.module.system.role;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.trumandu.common.domain.ResponseDTO;
+import top.trumandu.module.system.menu.SysMenuService;
+import top.trumandu.module.system.menu.domain.SysMenuVO;
 import top.trumandu.module.system.role.domain.*;
 import top.trumandu.util.BeanUtil;
 import top.trumandu.util.SmartCurrentUserUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +23,10 @@ public class RoleService {
 
     @Autowired
     RoleDao roleDao;
+    @Autowired
+    RoleMenuDao roleMenuDao;
+    @Autowired
+    SysMenuService sysMenuService;
 
     public List<RoleVO> listRoles() {
         List<RoleEntity> roles = roleDao.selectList(null);
@@ -50,8 +58,37 @@ public class RoleService {
         return ResponseDTO.success(dbResult);
     }
 
-    public void addUserRole(Long roleId,Long userId){
-        roleDao.insertUserRole(roleId,userId);
+    public List<Long> listMenuIdsByRole(Long roleId) {
+        List<Long> dbList = roleMenuDao.selectMenuIdsByRole(roleId);
+        return dbList;
+    }
+
+    public ResponseDTO<RoleMenuVO> getRoleMenuVO(Long roleId) {
+        List<SysMenuVO> menuList = sysMenuService.listAll();
+        List<Long> selectKeys = listMenuIdsByRole(roleId);
+        RoleMenuVO roleMenuVO = new RoleMenuVO();
+        roleMenuVO.setMenuVOList(menuList);
+        roleMenuVO.setCheckedKeys(selectKeys);
+        return ResponseDTO.success(roleMenuVO);
+    }
+
+    @Transactional(rollbackFor = Throwable.class)
+    public void saveRoleMenu(RoleMenuDTO roleMenuDTO) {
+        //1. 先删除role所有菜单
+        roleMenuDao.deleteByRoleId(roleMenuDTO.getRoleId());
+        //2. 保存最新role所有菜单
+        List<RoleMenuEntity> roleMenuEntities = new ArrayList<>();
+        roleMenuDTO.getMenuIds().forEach(id -> {
+            RoleMenuEntity roleMenuEntity = new RoleMenuEntity();
+            roleMenuEntity.setMenuId(id);
+            roleMenuEntity.setRoleId(roleMenuDTO.getRoleId());
+            roleMenuEntities.add(roleMenuEntity);
+        });
+        roleMenuDao.batchInsert(roleMenuEntities);
+    }
+
+    public void addUserRole(Long roleId, Long userId) {
+        roleDao.insertUserRole(roleId, userId);
     }
 
     public ResponseDTO deleteRoleUser(Long id) {

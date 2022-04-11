@@ -28,31 +28,14 @@ public class SysMenuService {
 
     public List<SysMenuVO> listAll() {
         List<SysMenuEntity> dbList = sysMenuDao.selectList();
-        //获取所有的跟节点
-        List<SysMenuVO> roots = new ArrayList<>();
-        Map<Long, List<SysMenuVO>> tree = new HashMap<>();
-        for (int i = 0; i < dbList.size(); i++) {
-            SysMenuEntity entity = dbList.get(i);
-            SysMenuVO vo = BeanUtil.copy(entity, SysMenuVO.class);
-            if (entity.getParentId() == null) {
-                roots.add(vo);
-            } else {
-                List<SysMenuVO> list = null;
-                if (tree.containsKey(entity.getParentId())) {
-                    list = tree.get(entity.getParentId());
-                } else {
-                    list = new ArrayList<>();
-                }
-                list.add(vo);
-                tree.put(entity.getParentId(), list);
-            }
-        }
-        //递归设置所有的孩子节点
-        for (SysMenuVO sysMenuVO : roots) {
-            setChildByParentNode(tree, sysMenuVO);
-        }
-        return roots;
+        return generatorSysMenuVOList(dbList);
     }
+
+    public List<SysMenuVO> listMenuListByRole(Long roleId) {
+        List<SysMenuEntity> dbList = sysMenuDao.selectMenuListByRole(roleId);
+        return generatorSysMenuVOList(dbList);
+    }
+
 
     public List<TreeSelectDTO> getTreeSelectData() {
         List<SysMenuEntity> dbList = sysMenuDao.selectList();
@@ -100,6 +83,33 @@ public class SysMenuService {
     public ResponseDTO delete(List<Long> ids) {
         sysMenuDao.deleteBatchIds(ids);
         return ResponseDTO.success();
+    }
+
+    private List<SysMenuVO> generatorSysMenuVOList(List<SysMenuEntity> dbList){
+        //获取所有的跟节点
+        List<SysMenuVO> roots = new ArrayList<>();
+        Map<Long, List<SysMenuVO>> tree = new HashMap<>();
+        for (int i = 0; i < dbList.size(); i++) {
+            SysMenuEntity entity = dbList.get(i);
+            SysMenuVO vo = BeanUtil.copy(entity, SysMenuVO.class);
+            if (entity.getParentId() == null) {
+                roots.add(vo);
+            } else {
+                List<SysMenuVO> list = null;
+                if (tree.containsKey(entity.getParentId())) {
+                    list = tree.get(entity.getParentId());
+                } else {
+                    list = new ArrayList<>();
+                }
+                list.add(vo);
+                tree.put(entity.getParentId(), list);
+            }
+        }
+        //递归设置所有的孩子节点
+        for (SysMenuVO sysMenuVO : roots) {
+            setChildByParentNode(tree, sysMenuVO);
+        }
+        return roots;
     }
 
     private void setChildByParentNode(Map<Long, List<SysMenuVO>> tree, SysMenuVO vo) {

@@ -31,4 +31,14 @@
         order by t.sort asc
     </select>
 
+    <select id="selectMenuListByRole" resultMap="SysMenuEntity">
+        select
+        <include refid="baseSql"></include>
+        from
+        sys_menu t,sys_role_menu srm
+        where t.id=srm.menu_id
+        and srm.role_id=#{roleId}
+        order by t.sort asc
+    </select>
+
 </mapper>

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import top.trumandu.common.anno.SysLog;
 import top.trumandu.common.domain.ResponseDTO;
 import top.trumandu.module.system.role.domain.RoleBaseDTO;
+import top.trumandu.module.system.role.domain.RoleMenuDTO;
 import top.trumandu.module.system.role.domain.RoleUpdateDTO;
 import top.trumandu.module.system.role.domain.UserRoleDTO;
 
@@ -20,6 +21,7 @@ public class RoleController {
 
     @Autowired
     RoleService roleService;
+
 
     @GetMapping("/sys_role/list")
     public ResponseDTO list() {
@@ -58,7 +60,18 @@ public class RoleController {
     @SysLog(operation = "用户赋予角色", params = true)
     @PostMapping("/sys_role_user/add")
     public ResponseDTO addUserRole(@Valid @RequestBody UserRoleDTO userRoleDTO) {
-        roleService.addUserRole(userRoleDTO.getRoleId(),userRoleDTO.getUserId());
+        roleService.addUserRole(userRoleDTO.getRoleId(), userRoleDTO.getUserId());
+        return ResponseDTO.success();
+    }
+
+    @GetMapping("/sys_role_menu/list/{roleId}")
+    public ResponseDTO listRoleMenu(@PathVariable Long roleId) {
+        return roleService.getRoleMenuVO(roleId);
+    }
+
+    @PostMapping("/sys_role_menu/add")
+    public ResponseDTO listRoleMenu(@RequestBody RoleMenuDTO roleMenuDTO) {
+        roleService.saveRoleMenu(roleMenuDTO);
         return ResponseDTO.success();
     }
 

@@ -10,3 +10,5 @@ spring boot project
 6. [2020年排名前20的基于SpringBoot搭建的开源项目，帮你快速进行项目搭建！](https://mp.weixin.qq.com/s/lvMikTf55xUEf-C-dzmrcg)
 7. [elunez/eladmin](https://github.com/elunez/eladmin)
 8. [hs-web/hsweb-framework](https://github.com/hs-web/hsweb-framework)
+9. [* X-SpringBoot](https://github.com/yzcheng90/X-SpringBoot)
+10. [* smart-admin](https://github.com/1024-lab/smart-admin)

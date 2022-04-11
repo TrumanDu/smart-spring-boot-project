@@ -99,3 +99,9 @@ declare namespace API {
     type?: NoticeIconItemType;
   };
 }
+type RoleProps = {
+  id: number;
+  roleName: string;
+  roleCode: string;
+  description: string;
+};
