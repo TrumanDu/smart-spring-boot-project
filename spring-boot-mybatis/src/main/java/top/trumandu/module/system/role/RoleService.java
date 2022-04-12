@@ -63,13 +63,13 @@ public class RoleService {
         return dbList;
     }
 
-    public ResponseDTO<RoleMenuVO> getRoleMenuVO(Long roleId) {
+    public RoleMenuVO getRoleMenuVO(Long roleId) {
         List<SysMenuVO> menuList = sysMenuService.listAll();
         List<Long> selectKeys = listMenuIdsByRole(roleId);
         RoleMenuVO roleMenuVO = new RoleMenuVO();
         roleMenuVO.setMenuVOList(menuList);
         roleMenuVO.setCheckedKeys(selectKeys);
-        return ResponseDTO.success(roleMenuVO);
+        return roleMenuVO;
     }
 
     @Transactional(rollbackFor = Throwable.class)

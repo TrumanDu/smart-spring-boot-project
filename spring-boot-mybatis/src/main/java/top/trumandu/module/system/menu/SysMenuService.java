@@ -85,7 +85,7 @@ public class SysMenuService {
         return ResponseDTO.success();
     }
 
-    private List<SysMenuVO> generatorSysMenuVOList(List<SysMenuEntity> dbList){
+    private List<SysMenuVO> generatorSysMenuVOList(List<SysMenuEntity> dbList) {
         //获取所有的跟节点
         List<SysMenuVO> roots = new ArrayList<>();
         Map<Long, List<SysMenuVO>> tree = new HashMap<>();
@@ -114,25 +114,30 @@ public class SysMenuService {
 
     private void setChildByParentNode(Map<Long, List<SysMenuVO>> tree, SysMenuVO vo) {
         Long id = vo.getId();
-        List<SysMenuVO> child = new ArrayList<>();
+        List<SysMenuVO> child = null;
         if (tree.containsKey(id)) {
             child = tree.get(id);
         }
-        for (SysMenuVO sysMenuVO : child) {
-            setChildByParentNode(tree, sysMenuVO);
+        if (child != null) {
+            for (SysMenuVO sysMenuVO : child) {
+                setChildByParentNode(tree, sysMenuVO);
+            }
         }
         vo.setChildren(child);
     }
 
     private void setChildByParentNode(Map<Long, List<TreeSelectDTO>> tree, TreeSelectDTO treeSelectDTO) {
         Long id = treeSelectDTO.getValue();
-        List<TreeSelectDTO> child = new ArrayList<>();
+        List<TreeSelectDTO> child = null;
         if (tree.containsKey(id)) {
             child = tree.get(id);
         }
-        for (TreeSelectDTO sysOrgVO : child) {
-            setChildByParentNode(tree, sysOrgVO);
+        if (child != null) {
+            for (TreeSelectDTO sysOrgVO : child) {
+                setChildByParentNode(tree, sysOrgVO);
+            }
         }
+
         treeSelectDTO.setChildren(child);
     }
 }

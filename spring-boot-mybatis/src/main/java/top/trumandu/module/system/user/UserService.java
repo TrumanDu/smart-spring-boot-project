@@ -8,6 +8,10 @@ import top.trumandu.common.domain.PageResultDTO;
 import top.trumandu.common.domain.ResponseDTO;
 import top.trumandu.common.domain.SelectDTO;
 import top.trumandu.constant.CommonConst;
+import top.trumandu.module.system.menu.SysMenuService;
+import top.trumandu.module.system.menu.domain.SysMenuVO;
+import top.trumandu.module.system.role.RoleDao;
+import top.trumandu.module.system.role.domain.RoleVO;
 import top.trumandu.module.system.user.domain.*;
 import top.trumandu.util.BeanUtil;
 import top.trumandu.util.PageUtil;
@@ -24,12 +28,41 @@ import java.util.List;
  */
 @Service
 public class UserService {
-
+    @Autowired
+    SysMenuService sysMenuService;
     @Autowired
     private UserDao userDao;
+    @Autowired
+    public RoleDao roleDao;
 
-    public CurrentUserDTO getCurrentUser(Long currentUserId){
-        return new CurrentUserDTO();
+    public CurrentUserDTO getCurrentUser(Long currentUserId) {
+        UserEntity userEntity = userDao.selectById(currentUserId);
+        RoleVO role = roleDao.selectRoleByUserId(currentUserId);
+        CurrentUserDTO currentUser = new CurrentUserDTO(userEntity.getId(), userEntity.getName(), userEntity.getUsername(), userEntity.getEmail());
+        if (role != null) {
+            currentUser.setRole(role);
+            List<SysMenuVO> menuVOList = sysMenuService.listMenuListByRole(role.getId());
+            List<MenuData> menuDataList = new ArrayList<>();
+            convert(menuDataList, menuVOList);
+            currentUser.setMenuDataList(menuDataList);
+
+        }
+        return currentUser;
+    }
+
+    private void convert(List<MenuData> menuDataList, List<SysMenuVO> menuVOList) {
+        menuVOList.forEach(sysMenuVO -> {
+            MenuData menuData = new MenuData();
+            menuData.setIcon(sysMenuVO.getMenuIcon());
+            menuData.setName(sysMenuVO.getMenuName());
+            menuData.setPath(sysMenuVO.getMenuUrl());
+            if (sysMenuVO.getChildren() != null) {
+                List<MenuData> routes = new ArrayList<>();
+                convert(routes, sysMenuVO.getChildren());
+                menuData.setRoutes(routes);
+            }
+            menuDataList.add(menuData);
+        });
     }
 
     /**
@@ -117,6 +150,7 @@ public class UserService {
 
     /**
      * 查询待分配角色用户
+     *
      * @return
      */
     public List<SelectDTO> selectUserSelectList() {

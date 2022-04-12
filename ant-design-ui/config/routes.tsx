@@ -1,11 +1,10 @@
 ﻿import React from 'react';
 
-import { SmileOutlined, HeartOutlined } from '@ant-design/icons';
+import { SettingOutlined } from '@ant-design/icons';
 import { MenuDataItem } from '@ant-design/pro-layout';
 
 const IconMap = {
-  smile: <SmileOutlined />,
-  heart: <HeartOutlined />,
+  setting: <SettingOutlined />,
 };
 
 const loopMenuItem = (menus: MenuDataItem[]): MenuDataItem[] =>
@@ -31,30 +30,6 @@ export default [
             component: './user/Login',
           },
         ],
-      },
-      {
-        component: './404',
-      },
-    ],
-  },
-  {
-    path: '/welcome',
-    name: 'welcome',
-    icon: 'smile',
-    component: './Welcome',
-  },
-  {
-    path: '/admin',
-    name: 'admin',
-    icon: 'crown',
-    access: 'canAdmin',
-    component: './Admin',
-    routes: [
-      {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        icon: 'smile',
-        component: './Welcome',
       },
       {
         component: './404',
@@ -95,10 +70,6 @@ export default [
         component: './404',
       },
     ],
-  },
-  {
-    path: '/',
-    redirect: '/welcome',
   },
   {
     component: './404',

@@ -1,5 +1,7 @@
 package top.trumandu.module.system.menu.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.List;
 
 /**
@@ -7,6 +9,7 @@ import java.util.List;
  * @date 2022/04/08
  * @description
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SysMenuVO {
     private Long id;
     private String menuName;
@@ -15,6 +18,7 @@ public class SysMenuVO {
     private Long sort;
     private Long parentId;
     private String description;
+
     private List<SysMenuVO> children;
 
     public Long getId() {

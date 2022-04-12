@@ -66,7 +66,7 @@ public class RoleController {
 
     @GetMapping("/sys_role_menu/list/{roleId}")
     public ResponseDTO listRoleMenu(@PathVariable Long roleId) {
-        return roleService.getRoleMenuVO(roleId);
+        return ResponseDTO.success(roleService.getRoleMenuVO(roleId));
     }
 
     @PostMapping("/sys_role_menu/add")

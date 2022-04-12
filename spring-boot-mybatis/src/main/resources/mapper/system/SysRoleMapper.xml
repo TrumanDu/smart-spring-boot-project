@@ -11,9 +11,9 @@
 
     <sql id="baseSql">
         u.id,
-        u.username,
-        u.password,
-        u.name,
+        u.role_code,
+        u.role_name,
+        u.description
     </sql>
 
     <select id="selectUserListByRole" resultMap="UserRoleVO">
@@ -37,5 +37,16 @@
     <insert id="insertUserRole">
         insert into sys_user_role(role_id,user_id)values(#{roleId},#{userId});
     </insert>
+
+    <select id="selectRoleByUserId" resultMap="RoleVO">
+        select
+        <include refid="baseSql"></include>
+        from
+           sys_role u,
+            sys_user_role ur
+        where
+           ur.user_id=#{userId}
+           and u.id = ur.role_id
+    </select>
 
 </mapper>

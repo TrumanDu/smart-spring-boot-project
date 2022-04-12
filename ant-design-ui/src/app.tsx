@@ -72,10 +72,10 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     links: [],
     menu: {
+      locale: false,
       params: initialState,
-      request: async (params, defaultMenuData) => {
-        //TODO
-        return loopMenuItem(menuConfig);
+      request: async () => {
+        return loopMenuItem(initialState?.currentUser?.menuDataList);
       },
     },
     menuHeaderRender: undefined,

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import top.trumandu.module.system.role.domain.RoleEntity;
+import top.trumandu.module.system.role.domain.RoleVO;
 import top.trumandu.module.system.role.domain.UserRoleVO;
 
 import java.util.List;
@@ -39,4 +40,12 @@ public interface RoleDao extends BaseMapper<RoleEntity> {
      * @param userId
      */
     void insertUserRole(@Param("roleId") Long roleId,@Param("userId") Long userId);
+
+    /**
+     * 获取用户所属的角色
+     * 可能为null
+     * @param userId
+     * @return
+     */
+    RoleVO selectRoleByUserId(@Param("userId") Long userId);
 }
