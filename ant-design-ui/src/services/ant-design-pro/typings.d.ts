@@ -8,6 +8,7 @@ declare namespace API {
     userid?: string;
     email?: string;
     menuDataList?: any;
+    hasRoutes?: string[];
   };
 
   type LoginResult = {

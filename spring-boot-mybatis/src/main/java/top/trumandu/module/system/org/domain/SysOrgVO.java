@@ -1,5 +1,7 @@
 package top.trumandu.module.system.org.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.List;
 
 /**
@@ -7,6 +9,7 @@ import java.util.List;
  * @date 2022/04/06
  * @description
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SysOrgVO {
     private Long id;
     private String orgName;

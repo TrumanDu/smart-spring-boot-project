@@ -37,6 +37,10 @@ export default [
     ],
   },
   {
+    path: '/403',
+    component: './403',
+  },
+  {
     path: '/setting',
     name: '系统管理',
     icon: 'setting',

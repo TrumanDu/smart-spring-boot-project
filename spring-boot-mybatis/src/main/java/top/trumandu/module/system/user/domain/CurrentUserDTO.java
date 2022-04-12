@@ -14,6 +14,7 @@ public class CurrentUserDTO {
     private String username;
     private Long userId;
     private String email;
+    private List<String>hasRoutes;
     private RoleVO role;
     private List<MenuData> menuDataList;
 
@@ -75,6 +76,14 @@ public class CurrentUserDTO {
         this.username = username;
     }
 
+    public List<String> getHasRoutes() {
+        return hasRoutes;
+    }
+
+    public void setHasRoutes(List<String> hasRoutes) {
+        this.hasRoutes = hasRoutes;
+    }
+
     @Override
     public String toString() {
         return "CurrentUserDTO{" +
@@ -82,10 +91,9 @@ public class CurrentUserDTO {
                 ", username='" + username + '\'' +
                 ", userId=" + userId +
                 ", email='" + email + '\'' +
+                ", hasRoutes=" + hasRoutes +
                 ", role=" + role +
                 ", menuDataList=" + menuDataList +
                 '}';
     }
-
-
 }

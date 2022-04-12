@@ -41,24 +41,26 @@ public class UserService {
         CurrentUserDTO currentUser = new CurrentUserDTO(userEntity.getId(), userEntity.getName(), userEntity.getUsername(), userEntity.getEmail());
         if (role != null) {
             currentUser.setRole(role);
+            List<String> hasRoutes = new ArrayList<>();
             List<SysMenuVO> menuVOList = sysMenuService.listMenuListByRole(role.getId());
             List<MenuData> menuDataList = new ArrayList<>();
-            convert(menuDataList, menuVOList);
+            convert(menuDataList, hasRoutes, menuVOList);
             currentUser.setMenuDataList(menuDataList);
-
+            currentUser.setHasRoutes(hasRoutes);
         }
         return currentUser;
     }
 
-    private void convert(List<MenuData> menuDataList, List<SysMenuVO> menuVOList) {
+    private void convert(List<MenuData> menuDataList, List<String> hasRoutes, List<SysMenuVO> menuVOList) {
         menuVOList.forEach(sysMenuVO -> {
             MenuData menuData = new MenuData();
             menuData.setIcon(sysMenuVO.getMenuIcon());
             menuData.setName(sysMenuVO.getMenuName());
             menuData.setPath(sysMenuVO.getMenuUrl());
+            hasRoutes.add(sysMenuVO.getMenuUrl());
             if (sysMenuVO.getChildren() != null) {
                 List<MenuData> routes = new ArrayList<>();
-                convert(routes, sysMenuVO.getChildren());
+                convert(routes, hasRoutes, sysMenuVO.getChildren());
                 menuData.setRoutes(routes);
             }
             menuDataList.add(menuData);

@@ -31,6 +31,11 @@ public class SysMenuService {
         return generatorSysMenuVOList(dbList);
     }
 
+    public List<SysMenuEntity> listAllSysMenuEntity() {
+        List<SysMenuEntity> dbList = sysMenuDao.selectMenuList();
+        return dbList;
+    }
+
     public List<SysMenuVO> listMenuListByRole(Long roleId) {
         List<SysMenuEntity> dbList = sysMenuDao.selectMenuListByRole(roleId);
         return generatorSysMenuVOList(dbList);

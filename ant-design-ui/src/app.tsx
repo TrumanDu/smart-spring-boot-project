@@ -7,10 +7,11 @@ import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import defaultSettings from '../config/defaultSettings';
-import menuConfig, { loopMenuItem } from '../config/routes';
+import { loopMenuItem } from '../config/routes';
 import { message } from 'antd';
 
 const loginPath = '/user/login';
+const unAccessPath = '/403';
 
 message.config({
   top: 100,
@@ -68,6 +69,12 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       // 如果没有登录，重定向到 login
       if (!initialState?.currentUser && location.pathname !== loginPath) {
         history.push(loginPath);
+      }
+
+      const { hasRoutes } = initialState?.currentUser;
+
+      if (hasRoutes && !hasRoutes.includes(location.pathname)) {
+        history.push(unAccessPath);
       }
     },
     links: [],

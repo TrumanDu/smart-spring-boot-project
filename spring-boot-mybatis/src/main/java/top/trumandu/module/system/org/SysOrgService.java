@@ -101,25 +101,30 @@ public class SysOrgService {
 
     private void setChildByParentNode(Map<Long, List<SysOrgVO>> tree, SysOrgVO vo) {
         Long id = vo.getId();
-        List<SysOrgVO> child = new ArrayList<>();
+        List<SysOrgVO> child = null;
         if (tree.containsKey(id)) {
             child = tree.get(id);
         }
-        for (SysOrgVO sysOrgVO : child) {
-            setChildByParentNode(tree, sysOrgVO);
+        if (child != null) {
+            for (SysOrgVO sysOrgVO : child) {
+                setChildByParentNode(tree, sysOrgVO);
+            }
         }
         vo.setChildren(child);
     }
 
     private void setChildByParentNode(Map<Long, List<TreeSelectDTO>> tree, TreeSelectDTO vo) {
         Long id = vo.getValue();
-        List<TreeSelectDTO> child = new ArrayList<>();
+        List<TreeSelectDTO> child = null;
         if (tree.containsKey(id)) {
             child = tree.get(id);
         }
-        for (TreeSelectDTO sysOrgVO : child) {
-            setChildByParentNode(tree, sysOrgVO);
+        if (child != null) {
+            for (TreeSelectDTO sysOrgVO : child) {
+                setChildByParentNode(tree, sysOrgVO);
+            }
         }
+
         vo.setChildren(child);
     }
 }
