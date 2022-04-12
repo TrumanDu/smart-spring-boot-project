@@ -28,6 +28,10 @@ public class UserService {
     @Autowired
     private UserDao userDao;
 
+    public CurrentUserDTO getCurrentUser(Long currentUserId){
+        return new CurrentUserDTO();
+    }
+
     /**
      * 增加用戶
      *

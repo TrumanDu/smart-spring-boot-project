@@ -114,7 +114,7 @@ function Menu() {
       title: 'MenuIcon',
       dataIndex: 'menuIcon',
       key: 'menuIcon',
-      render: (text: ReactNode, record?: any) => parse(record.menuIcon),
+      render: (text: ReactNode, record?: any) => (record.menuIcon ? parse(record.menuIcon) : ''),
     },
     {
       title: 'Description',
@@ -136,8 +136,12 @@ function Menu() {
           key="editable"
           onClick={() => {
             handleUpdateModalVisible(true);
-            const preview = parse(record.menuIcon);
-            setMenuIconPreview(preview);
+            if (record.menuIcon) {
+              const preview = parse(record.menuIcon);
+              setMenuIconPreview(preview);
+            } else {
+              setMenuIconPreview('');
+            }
             setModifyObj(record);
           }}
         >
@@ -263,12 +267,6 @@ function Menu() {
           label="MenuName"
         />
         <ProFormText
-          rules={[
-            {
-              required: true,
-              message: 'Menu Icon is required',
-            },
-          ]}
           name="menuIcon"
           label="MenuIcon"
           fieldProps={{
@@ -361,12 +359,6 @@ function Menu() {
           initialValue={modifyObj?.menuName}
         />
         <ProFormText
-          rules={[
-            {
-              required: true,
-              message: 'Menu Icon is required',
-            },
-          ]}
           name="menuIcon"
           label="MenuIcon"
           initialValue={modifyObj?.menuIcon}

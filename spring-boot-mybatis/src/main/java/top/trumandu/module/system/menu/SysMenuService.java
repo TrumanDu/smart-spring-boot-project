@@ -27,7 +27,7 @@ public class SysMenuService {
     SysMenuDao sysMenuDao;
 
     public List<SysMenuVO> listAll() {
-        List<SysMenuEntity> dbList = sysMenuDao.selectList();
+        List<SysMenuEntity> dbList = sysMenuDao.selectMenuList();
         return generatorSysMenuVOList(dbList);
     }
 
@@ -38,7 +38,7 @@ public class SysMenuService {
 
 
     public List<TreeSelectDTO> getTreeSelectData() {
-        List<SysMenuEntity> dbList = sysMenuDao.selectList();
+        List<SysMenuEntity> dbList = sysMenuDao.selectMenuList();
         //获取所有的跟节点
         List<TreeSelectDTO> roots = new ArrayList<>();
         Map<Long, List<TreeSelectDTO>> tree = new HashMap<>();

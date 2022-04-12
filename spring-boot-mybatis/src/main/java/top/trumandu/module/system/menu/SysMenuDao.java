@@ -18,7 +18,7 @@ public interface SysMenuDao extends BaseMapper<SysMenuEntity> {
      * 查询所有的菜单列表
      * @return
      */
-    List<SysMenuEntity> selectList();
+    List<SysMenuEntity> selectMenuList();
 
     /**
      * 查询角色所拥有的所有菜单

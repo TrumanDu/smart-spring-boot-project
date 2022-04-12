@@ -1,4 +1,23 @@
-﻿export default [
+﻿import React from 'react';
+
+import { SmileOutlined, HeartOutlined } from '@ant-design/icons';
+import { MenuDataItem } from '@ant-design/pro-layout';
+
+const IconMap = {
+  smile: <SmileOutlined />,
+  heart: <HeartOutlined />,
+};
+
+const loopMenuItem = (menus: MenuDataItem[]): MenuDataItem[] =>
+  menus.map(({ icon, routes, ...item }) => ({
+    ...item,
+    icon: icon && IconMap[icon as string],
+    routes: routes && loopMenuItem(routes),
+  }));
+
+export { loopMenuItem };
+
+export default [
   {
     path: '/user',
     layout: false,

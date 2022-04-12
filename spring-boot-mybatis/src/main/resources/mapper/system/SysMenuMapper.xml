@@ -23,7 +23,7 @@
         t.last_edit_time
     </sql>
 
-    <select id="selectList" resultMap="SysMenuEntity">
+    <select id="selectMenuList" resultMap="SysMenuEntity">
         select
         <include refid="baseSql"></include>
         from

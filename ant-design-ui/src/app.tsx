@@ -7,6 +7,7 @@ import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import defaultSettings from '../config/defaultSettings';
+import menuConfig, { loopMenuItem } from '../config/routes';
 import { message } from 'antd';
 
 const loginPath = '/user/login';
@@ -70,6 +71,13 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       }
     },
     links: [],
+    menu: {
+      params: initialState,
+      request: async (params, defaultMenuData) => {
+        //TODO
+        return loopMenuItem(menuConfig);
+      },
+    },
     menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
