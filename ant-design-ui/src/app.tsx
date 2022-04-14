@@ -71,10 +71,18 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         history.push(loginPath);
       }
 
-      const { hasRoutes } = initialState?.currentUser;
+      if (initialState?.currentUser) {
+        const { hasRoutes } = initialState?.currentUser;
 
-      if (hasRoutes && !hasRoutes.includes(location.pathname)) {
-        history.push(unAccessPath);
+        if (
+          hasRoutes &&
+          !hasRoutes.includes(location.pathname) &&
+          location.pathname !== '' &&
+          location.pathname !== '/' &&
+          location.pathname !== loginPath
+        ) {
+          history.push(unAccessPath);
+        }
       }
     },
     links: [],
@@ -82,7 +90,14 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       locale: false,
       params: initialState,
       request: async () => {
-        return loopMenuItem(initialState?.currentUser?.menuDataList);
+        const home = {
+          path: '/',
+          name: 'Home',
+          icon: 'home',
+          component: './Home',
+        };
+        const menuDataList = [home, ...initialState?.currentUser?.menuDataList];
+        return loopMenuItem(menuDataList);
       },
     },
     menuHeaderRender: undefined,

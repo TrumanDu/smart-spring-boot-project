@@ -5,8 +5,24 @@ import ProTable from '@ant-design/pro-table';
 import { useIntl, FormattedMessage } from 'umi';
 import { Button, message, Popconfirm } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import ProForm, { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import { userList, addUser, updateUser, removeUser } from '@/services/ant-design-pro/api';
+import ProForm, {
+  ModalForm,
+  ProFormText,
+  ProFormTextArea,
+  ProFormTreeSelect,
+} from '@ant-design/pro-form';
+import {
+  userList,
+  addUser,
+  updateUser,
+  removeUser,
+  commonTreeSelectList,
+} from '@/services/ant-design-pro/api';
+
+type SysOrg = {
+  id: number;
+  orgName: string;
+};
 
 type UserItem = {
   id: number;
@@ -15,6 +31,7 @@ type UserItem = {
   name: string;
   email: string;
   description: string;
+  sysOrgVO: SysOrg;
 };
 
 /**
@@ -26,7 +43,26 @@ const handleAdd = async (fields?: any) => {
   const hide = message.loading('Adding');
   try {
     hide();
-    const response = await addUser({ ...fields });
+    let user = {};
+    if (fields.orgId) {
+      user = {
+        orgId: fields.orgId.value,
+        username: fields.username,
+        password: fields.password,
+        name: fields.name,
+        email: fields.email,
+        description: fields.description,
+      };
+    } else {
+      user = {
+        username: fields.username,
+        password: fields.password,
+        name: fields.name,
+        email: fields.email,
+        description: fields.description,
+      };
+    }
+    const response = await addUser(user);
     if (response.message == 'OK') {
       message.success('Added successfully');
     }
@@ -42,7 +78,28 @@ const handleUpdate = async (fields: any) => {
   try {
     //修改
     hide();
-    const response = await updateUser({ ...fields });
+    let user = {};
+    if (fields.orgId) {
+      user = {
+        orgId: fields.orgId.value,
+        id: fields.id,
+        username: fields.username,
+        password: fields.password,
+        name: fields.name,
+        email: fields.email,
+        description: fields.description,
+      };
+    } else {
+      user = {
+        id: fields.id,
+        username: fields.username,
+        password: fields.password,
+        name: fields.name,
+        email: fields.email,
+        description: fields.description,
+      };
+    }
+    const response = await updateUser(user);
     if (response.message == 'OK') {
       message.success('Modify successfully');
     }
@@ -103,6 +160,7 @@ function User() {
     {
       title: 'Org',
       dataIndex: 'orgName',
+      renderText: (text, record) => (record.sysOrgVO != undefined ? record.sysOrgVO.orgName : '-'),
       ellipsis: true,
       search: false,
     },
@@ -237,6 +295,29 @@ function User() {
           <ProFormText width="md" name="email" label="Email" />
         </ProForm.Group>
 
+        <ProFormTreeSelect
+          name="orgId"
+          label="Org"
+          placeholder="Please select"
+          allowClear
+          secondary
+          request={() => commonTreeSelectList('/api/sys_org/list/tree_select')}
+          // tree-select args
+          fieldProps={{
+            treeLine: true,
+            showArrow: false,
+            filterTreeNode: true,
+            showSearch: true,
+            dropdownMatchSelectWidth: false,
+            labelInValue: true,
+            autoClearSearchValue: true,
+            treeNodeFilterProp: 'title',
+            fieldNames: {
+              label: 'title',
+            },
+          }}
+        />
+
         <ProFormTextArea name="description" label="Description" />
       </ModalForm>
 
@@ -301,6 +382,30 @@ function User() {
           />
           <ProFormText width="md" name="email" label="Email" initialValue={modifyUser?.email} />
         </ProForm.Group>
+
+        <ProFormTreeSelect
+          name="orgId"
+          label="Org"
+          placeholder="Please select"
+          allowClear
+          secondary
+          request={() => commonTreeSelectList('/api/sys_org/list/tree_select')}
+          // tree-select args
+          fieldProps={{
+            defaultValue: modifyUser?.sysOrgVO?.id,
+            treeLine: true,
+            showArrow: false,
+            filterTreeNode: true,
+            showSearch: true,
+            dropdownMatchSelectWidth: false,
+            labelInValue: true,
+            autoClearSearchValue: true,
+            treeNodeFilterProp: 'title',
+            fieldNames: {
+              label: 'title',
+            },
+          }}
+        />
 
         <ProFormTextArea
           name="description"

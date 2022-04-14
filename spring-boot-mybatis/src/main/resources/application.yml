@@ -15,13 +15,20 @@ spring:
     time-between-eviction-runs-millis: 60000
     min-evictable-idle-time-millis: 300000
 
+
+
 # mybatis
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
 mybatis-plus:
   configuration.map-underscore-to-camel-case: true
   mapper-locations: classpath:/mapper/**/*.xml
-
 
 management:
   health:
     defaults:
       enabled: false
+logging:
+  level:
+    top.trumandu: debug

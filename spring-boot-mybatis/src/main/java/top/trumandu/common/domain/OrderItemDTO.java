@@ -7,7 +7,7 @@ package top.trumandu.common.domain;
  */
 public class OrderItemDTO {
     private String column;
-    private boolean asc = true;
+    private Boolean asc;
 
     public String getColumn() {
         return column;

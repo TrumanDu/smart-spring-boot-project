@@ -19,6 +19,7 @@ public class SmartCurrentUserUtil {
 
     /**
      * 获取当前用户，仅能在controller中获取
+     *
      * @return
      */
     public static LoginUserVO getCurrentUser() {
@@ -36,8 +37,12 @@ public class SmartCurrentUserUtil {
 
     public static void setCurrentUser(HttpServletRequest request, LoginUserVO currentUserVO) {
         HttpSession session = request.getSession();
-        session.setAttribute(SessionAttr.USER.getValue(),currentUserVO);
+        session.setAttribute(SessionAttr.USER.getValue(), currentUserVO);
         requestUserThreadLocal.set(currentUserVO);
+    }
+
+    public static void removeCurrentUser() {
+        requestUserThreadLocal.remove();
     }
 
     public static LoginUserVO getThreadLocalUserVO() {

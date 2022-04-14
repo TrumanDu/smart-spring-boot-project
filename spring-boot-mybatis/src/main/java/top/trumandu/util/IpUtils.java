@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 public class IpUtils {
     private static Logger logger = LoggerFactory.getLogger(IpUtils.class);
 
+    private static final String UNKNOWN = "unknown";
+
     /**
      * 获取IP地址
      * <p>
@@ -24,19 +26,19 @@ public class IpUtils {
         String ip = null;
         try {
             ip = request.getHeader("x-forwarded-for");
-            if (!StringUtils.hasLength(ip) || "unknown".equalsIgnoreCase(ip)) {
+            if (!StringUtils.hasLength(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
                 ip = request.getHeader("Proxy-Client-IP");
             }
-            if (!StringUtils.hasLength(ip) || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            if (!StringUtils.hasLength(ip) || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
                 ip = request.getHeader("WL-Proxy-Client-IP");
             }
-            if (!StringUtils.hasLength(ip) || "unknown".equalsIgnoreCase(ip)) {
+            if (!StringUtils.hasLength(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
                 ip = request.getHeader("HTTP_CLIENT_IP");
             }
-            if (!StringUtils.hasLength(ip) || "unknown".equalsIgnoreCase(ip)) {
+            if (!StringUtils.hasLength(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
                 ip = request.getHeader("HTTP_X_FORWARDED_FOR");
             }
-            if (!StringUtils.hasLength(ip) || "unknown".equalsIgnoreCase(ip)) {
+            if (!StringUtils.hasLength(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
                 ip = request.getRemoteAddr();
             }
         } catch (Exception e) {

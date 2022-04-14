@@ -10,12 +10,12 @@ import java.util.List;
  * @description
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TreeSelectDTO {
+public class TreeDTO {
     private Long value;
     private String title;
-    private List<TreeSelectDTO> children;
+    private List<TreeDTO> children;
 
-    public TreeSelectDTO(Long value, String title) {
+    public TreeDTO(Long value, String title) {
         this.value = value;
         this.title = title;
     }
@@ -36,11 +36,11 @@ public class TreeSelectDTO {
         this.title = title;
     }
 
-    public List<TreeSelectDTO> getChildren() {
+    public List<TreeDTO> getChildren() {
         return children;
     }
 
-    public void setChildren(List<TreeSelectDTO> children) {
+    public void setChildren(List<TreeDTO> children) {
         this.children = children;
     }
 

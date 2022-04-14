@@ -155,10 +155,10 @@ export default {
     });
     access = 'guest';
   },
-  'POST /api/login/outLogin': (req: Request, res: Response) => {
+  /*   'POST /api/login/outLogin': (req: Request, res: Response) => {
     access = '';
     res.send({ data: {}, success: true });
-  },
+  }, */
   'POST /api/register': (req: Request, res: Response) => {
     res.send({ status: 'ok', currentAuthority: 'user', success: true });
   },

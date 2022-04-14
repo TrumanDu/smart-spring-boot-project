@@ -6,6 +6,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * BeanUtil
+ *
+ * @author Truman.P.Du
+ */
 public class BeanUtil {
 
     /**
@@ -27,7 +32,7 @@ public class BeanUtil {
      * @return
      */
     public static <T> T copy(Object source, Class<T> target) {
-        if(source == null || target == null){
+        if (source == null || target == null) {
             return null;
         }
         try {

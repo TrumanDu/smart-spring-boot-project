@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseDTO<T> {
-    private int code;
+    private Integer code;
     private String message;
     private T data;
 
@@ -89,4 +89,12 @@ public class ResponseDTO<T> {
         this.data = data;
     }
 
+    @Override
+    public String toString() {
+        return "ResponseDTO{" +
+                "code=" + code +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

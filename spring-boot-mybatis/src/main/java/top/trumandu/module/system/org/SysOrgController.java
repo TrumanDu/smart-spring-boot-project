@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.trumandu.common.anno.SysLog;
 import top.trumandu.common.domain.ResponseDTO;
-import top.trumandu.common.domain.TreeSelectDTO;
+import top.trumandu.common.domain.TreeDTO;
 import top.trumandu.module.system.org.domain.SysOrgBaseDTO;
 import top.trumandu.module.system.org.domain.SysOrgUpdateDTO;
 import top.trumandu.module.system.org.domain.SysOrgVO;
@@ -28,7 +28,7 @@ public class SysOrgController {
     }
 
     @GetMapping("/sys_org/list/tree_select")
-    public ResponseDTO<List<TreeSelectDTO>> getTreeSelectData() {
+    public ResponseDTO<List<TreeDTO>> getTreeSelectData() {
         return ResponseDTO.success(sysOrgService.getTreeSelectData());
     }
 

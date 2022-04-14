@@ -1,10 +1,11 @@
 ﻿import React from 'react';
 
-import { SettingOutlined } from '@ant-design/icons';
+import { HomeOutlined, SettingOutlined } from '@ant-design/icons';
 import { MenuDataItem } from '@ant-design/pro-layout';
 
 const IconMap = {
   setting: <SettingOutlined />,
+  home: <HomeOutlined />,
 };
 
 const loopMenuItem = (menus: MenuDataItem[]): MenuDataItem[] =>
@@ -39,6 +40,11 @@ export default [
   {
     path: '/403',
     component: './403',
+  },
+  {
+    path: '/',
+    name: 'Home',
+    component: './Home',
   },
   {
     path: '/setting',

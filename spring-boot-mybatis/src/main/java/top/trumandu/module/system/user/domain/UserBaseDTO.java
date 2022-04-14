@@ -21,6 +21,8 @@ public class UserBaseDTO {
     private String email;
     private String description;
 
+    private Long orgId;
+
     public String getUsername() {
         return username;
     }
@@ -61,6 +63,14 @@ public class UserBaseDTO {
         this.description = description;
     }
 
+    public Long getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(Long orgId) {
+        this.orgId = orgId;
+    }
+
     @Override
     public String toString() {
         return "UserBaseDTO{" +
@@ -69,6 +79,7 @@ public class UserBaseDTO {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", description='" + description + '\'' +
+                ", orgId=" + orgId +
                 '}';
     }
 }

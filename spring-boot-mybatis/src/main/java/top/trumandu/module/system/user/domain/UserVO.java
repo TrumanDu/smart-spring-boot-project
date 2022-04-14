@@ -1,5 +1,7 @@
 package top.trumandu.module.system.user.domain;
 
+import top.trumandu.module.system.org.domain.SysOrgVO;
+
 /**
  * @author Truman.P.Du
  * @date 2022/03/30
@@ -11,6 +13,8 @@ public class UserVO {
     private String name;
     private String email;
     private String description;
+
+    private SysOrgVO sysOrgVO;
 
     public Long getId() {
         return id;
@@ -52,6 +56,14 @@ public class UserVO {
         this.description = description;
     }
 
+    public SysOrgVO getSysOrgVO() {
+        return sysOrgVO;
+    }
+
+    public void setSysOrgVO(SysOrgVO sysOrgVO) {
+        this.sysOrgVO = sysOrgVO;
+    }
+
     @Override
     public String toString() {
         return "UserVO{" +
@@ -60,6 +72,7 @@ public class UserVO {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", description='" + description + '\'' +
+                ", sysOrgVO=" + sysOrgVO +
                 '}';
     }
 }
