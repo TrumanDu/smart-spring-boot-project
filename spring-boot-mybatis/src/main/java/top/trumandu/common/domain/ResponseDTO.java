@@ -55,6 +55,10 @@ public class ResponseDTO<T> {
         return new ResponseDTO(ResultCode.INTERNAL_SERVER_ERROR, message);
     }
 
+    public static ResponseDTO error() {
+        return new ResponseDTO(ResultCode.INTERNAL_SERVER_ERROR, "Unknown exception");
+    }
+
     /**
      * 未认证（签名错误）
      *

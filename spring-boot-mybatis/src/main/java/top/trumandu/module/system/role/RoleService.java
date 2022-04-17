@@ -84,7 +84,9 @@ public class RoleService {
             roleMenuEntity.setRoleId(roleMenuDTO.getRoleId());
             roleMenuEntities.add(roleMenuEntity);
         });
-        roleMenuDao.batchInsert(roleMenuEntities);
+        if (!roleMenuEntities.isEmpty()) {
+            roleMenuDao.batchInsert(roleMenuEntities);
+        }
     }
 
     public void addUserRole(Long roleId, Long userId) {

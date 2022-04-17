@@ -1,5 +1,6 @@
-﻿import React from 'react';
-
+﻿// @ts-ignore
+import React from 'react';
+import parse from 'html-react-parser';
 import { HomeOutlined, SettingOutlined } from '@ant-design/icons';
 import { MenuDataItem } from '@ant-design/pro-layout';
 
@@ -8,11 +9,20 @@ const IconMap = {
   home: <HomeOutlined />,
 };
 
+const getIcon = (icon: string) => {
+  let iconComponent = IconMap[icon as string];
+  if (iconComponent == null) {
+    iconComponent = parse(icon + '&nbsp;&nbsp;&nbsp;');
+  }
+  return iconComponent;
+};
+
 const loopMenuItem = (menus: MenuDataItem[]): MenuDataItem[] =>
   menus.map(({ icon, routes, ...item }) => ({
     ...item,
-    icon: icon && IconMap[icon as string],
+    icon: icon && getIcon(icon as string),
     routes: routes && loopMenuItem(routes),
+    access: 'normalRouteFilter',
   }));
 
 export { loopMenuItem };

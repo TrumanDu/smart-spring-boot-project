@@ -6,11 +6,14 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import top.trumandu.common.anno.SysLog;
 import top.trumandu.module.system.log.SysLogService;
 import top.trumandu.module.system.log.domain.SysLogEntity;
+import top.trumandu.module.system.login.domain.LoginUserVO;
 import top.trumandu.util.HttpContextUtils;
 import top.trumandu.util.IpUtils;
 import top.trumandu.util.SmartCurrentUserUtil;
@@ -26,6 +29,8 @@ import java.lang.reflect.Method;
 @Aspect
 @Component
 public class SysLogAspect {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SysLogAspect.class);
     @Autowired
     private SysLogService sysLogService;
 
@@ -43,7 +48,11 @@ public class SysLogAspect {
         long time = System.currentTimeMillis() - beginTime;
 
         //保存日志
-        saveSysLog(point, time);
+        try {
+            saveSysLog(point, time);
+        } catch (Exception e) {
+            LOGGER.warn("record log has failed.", e);
+        }
 
         return result;
     }
@@ -79,8 +88,12 @@ public class SysLogAspect {
         //设置IP地址
         sysLogEntity.setIp(IpUtils.getIpAddress(request));
         //用户名
-        String username = SmartCurrentUserUtil.getCurrentUser().getUsername();
-        sysLogEntity.setUsername(username);
+        LoginUserVO loginUserVO = SmartCurrentUserUtil.getCurrentUser();
+        if (loginUserVO != null) {
+            String username = SmartCurrentUserUtil.getCurrentUser().getUsername();
+            sysLogEntity.setUsername(username);
+        }
+
 
         sysLogEntity.setCost(time);
         //保存系统日志
