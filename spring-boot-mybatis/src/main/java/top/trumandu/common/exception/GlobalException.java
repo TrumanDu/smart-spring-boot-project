@@ -1,5 +1,6 @@
 package top.trumandu.common.exception;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import top.trumandu.common.domain.ResponseDTO;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**

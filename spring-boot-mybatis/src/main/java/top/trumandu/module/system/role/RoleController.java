@@ -1,5 +1,6 @@
 package top.trumandu.module.system.role;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.trumandu.common.anno.SysLog;
@@ -9,7 +10,6 @@ import top.trumandu.module.system.role.domain.RoleMenuDTO;
 import top.trumandu.module.system.role.domain.RoleUpdateDTO;
 import top.trumandu.module.system.role.domain.UserRoleDTO;
 
-import javax.validation.Valid;
 
 /**
  * @author Truman.P.Du

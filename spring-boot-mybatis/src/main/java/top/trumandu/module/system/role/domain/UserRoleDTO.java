@@ -1,6 +1,7 @@
 package top.trumandu.module.system.role.domain;
 
-import javax.validation.constraints.NotNull;
+
+import jakarta.validation.constraints.NotNull;
 
 /**
  * @author Truman.P.Du

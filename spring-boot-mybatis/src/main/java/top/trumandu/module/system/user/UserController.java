@@ -1,5 +1,6 @@
 package top.trumandu.module.system.user;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.trumandu.common.anno.SysLog;
@@ -12,7 +13,6 @@ import top.trumandu.module.system.user.domain.UserUpdateDTO;
 import top.trumandu.module.system.user.domain.UserVO;
 import top.trumandu.util.SmartCurrentUserUtil;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**

@@ -1,5 +1,6 @@
 package top.trumandu.module.system.login;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +12,6 @@ import top.trumandu.common.domain.ResponseDTO;
 import top.trumandu.module.system.login.domain.LoginDTO;
 import top.trumandu.module.system.login.domain.LoginUserVO;
 
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Truman.P.Du

@@ -1,5 +1,6 @@
 package top.trumandu.common.domain;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
@@ -10,7 +11,6 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
 import top.trumandu.common.anno.IgnoreRestResult;
 
-import javax.servlet.http.HttpServletResponse;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;

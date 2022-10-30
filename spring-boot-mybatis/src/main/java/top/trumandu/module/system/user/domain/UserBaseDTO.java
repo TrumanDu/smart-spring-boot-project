@@ -1,7 +1,8 @@
 package top.trumandu.module.system.user.domain;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 /**
  * @author Truman.P.Du

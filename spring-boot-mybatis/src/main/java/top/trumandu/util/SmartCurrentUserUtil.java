@@ -1,13 +1,14 @@
 package top.trumandu.util;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import top.trumandu.common.domain.SessionAttr;
 import top.trumandu.module.system.login.domain.LoginUserVO;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+
 
 /**
  * @author Truman.P.Du

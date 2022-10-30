@@ -1,5 +1,6 @@
 package top.trumandu.module.system.org;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.trumandu.common.anno.SysLog;
@@ -9,7 +10,6 @@ import top.trumandu.module.system.org.domain.SysOrgBaseDTO;
 import top.trumandu.module.system.org.domain.SysOrgUpdateDTO;
 import top.trumandu.module.system.org.domain.SysOrgVO;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**

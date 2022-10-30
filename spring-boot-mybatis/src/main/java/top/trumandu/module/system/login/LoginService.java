@@ -1,5 +1,8 @@
 package top.trumandu.module.system.login;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +16,6 @@ import top.trumandu.module.system.user.UserDao;
 import top.trumandu.util.SmartCurrentUserUtil;
 import top.trumandu.util.SmartDigestUtils;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * @author Truman.P.Du
@@ -27,8 +27,12 @@ public class LoginService {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(LoginService.class);
 
+    private UserDao userDao;
+
     @Autowired
-    UserDao userDao;
+    public LoginService(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
 
     public ResponseDTO login(LoginDTO loginDTO, HttpServletRequest request) {
