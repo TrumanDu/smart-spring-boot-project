@@ -12,3 +12,6 @@ spring boot project
 8. [hs-web/hsweb-framework](https://github.com/hs-web/hsweb-framework)
 9. [* X-SpringBoot](https://github.com/yzcheng90/X-SpringBoot)
 10. [* smart-admin](https://github.com/1024-lab/smart-admin)
+
+## 待改造
+1. [Java项目构建基础：统一结果，统一异常，统一日志](https://mp.weixin.qq.com/s?__biz=MzAxNjk4ODE4OQ==&mid=2247534201&idx=2&sn=2f932353c0ad9cbd249a2c51f63d9f06)
