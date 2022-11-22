@@ -34,4 +34,10 @@ public class GlobalException {
         objectErrors.forEach(objectError -> sb.append(((FieldError) objectError).getField()).append(": ").append(objectError.getDefaultMessage()).append(" "));
         return Response.setResult(ResultCodeEnum.BAD_REQUEST).message(sb.toString());
     }
+
+    @ExceptionHandler(CustomException.class)
+    public Response customerExceptionHandler(CustomException e) {
+        e.printStackTrace();
+        return Response.error().code(e.getCode()).message(e.getMessage());
+    }
 }
