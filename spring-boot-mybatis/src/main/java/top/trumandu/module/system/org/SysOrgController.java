@@ -1,15 +1,12 @@
 package top.trumandu.module.system.org;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import top.trumandu.common.anno.SysLog;
-import top.trumandu.common.domain.ResponseDTO;
-import top.trumandu.common.domain.TreeDTO;
+import top.trumandu.common.domain.Response;
 import top.trumandu.module.system.org.domain.SysOrgBaseDTO;
 import top.trumandu.module.system.org.domain.SysOrgUpdateDTO;
-import top.trumandu.module.system.org.domain.SysOrgVO;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -19,34 +16,37 @@ import java.util.List;
  */
 @RestController
 public class SysOrgController {
-    @Autowired
-    SysOrgService sysOrgService;
+    private final SysOrgService sysOrgService;
+
+    public SysOrgController(SysOrgService sysOrgService) {
+        this.sysOrgService = sysOrgService;
+    }
 
     @GetMapping("/sys_org/list")
-    public ResponseDTO<List<SysOrgVO>> listAllSysOrg() {
-        return ResponseDTO.success(sysOrgService.listAllSysOrg());
+    public Response listAllSysOrg() {
+        return Response.ok().data(sysOrgService.listAllSysOrg());
     }
 
     @GetMapping("/sys_org/list/tree_select")
-    public ResponseDTO<List<TreeDTO>> getTreeSelectData() {
-        return ResponseDTO.success(sysOrgService.getTreeSelectData());
+    public Response getTreeSelectData() {
+        return Response.ok().data(sysOrgService.getTreeSelectData());
     }
 
     @SysLog(operation = "新增组织", params = true)
     @PostMapping("/sys_org/add")
-    public ResponseDTO addSysOrg(@Valid @RequestBody SysOrgBaseDTO sysOrgBaseDTO) {
+    public Response addSysOrg(@Valid @RequestBody SysOrgBaseDTO sysOrgBaseDTO) {
         return sysOrgService.addSysOrg(sysOrgBaseDTO);
     }
 
     @SysLog(operation = "修改组织", params = true)
     @PutMapping("/sys_org/update")
-    public ResponseDTO updateSysOrg(@Valid @RequestBody SysOrgUpdateDTO sysOrgUpdateDTO) {
+    public Response updateSysOrg(@Valid @RequestBody SysOrgUpdateDTO sysOrgUpdateDTO) {
         return sysOrgService.updateSysOrg(sysOrgUpdateDTO);
     }
 
     @SysLog(operation = "删除组织", params = true)
     @PostMapping(value = "/sys_org/delete")
-    public ResponseDTO deleteSysOrg(@RequestBody List<Long> ids) {
+    public Response deleteSysOrg(@RequestBody List<Long> ids) {
         return sysOrgService.deleteSysOrg(ids);
     }
 }

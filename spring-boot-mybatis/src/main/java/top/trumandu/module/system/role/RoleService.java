@@ -1,9 +1,8 @@
 package top.trumandu.module.system.role;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import top.trumandu.common.domain.ResponseDTO;
+import top.trumandu.common.domain.Response;
 import top.trumandu.module.system.menu.SysMenuService;
 import top.trumandu.module.system.menu.domain.SysMenuVO;
 import top.trumandu.module.system.role.domain.*;
@@ -21,46 +20,47 @@ import java.util.List;
 @Service
 public class RoleService {
 
-    @Autowired
-    RoleDao roleDao;
-    @Autowired
-    RoleMenuDao roleMenuDao;
-    @Autowired
-    SysMenuService sysMenuService;
+    private final RoleDao roleDao;
+    private final RoleMenuDao roleMenuDao;
+    private final SysMenuService sysMenuService;
+
+    public RoleService(RoleDao roleDao, RoleMenuDao roleMenuDao, SysMenuService sysMenuService) {
+        this.roleDao = roleDao;
+        this.roleMenuDao = roleMenuDao;
+        this.sysMenuService = sysMenuService;
+    }
 
     public List<RoleVO> listRoles() {
         List<RoleEntity> roles = roleDao.selectList(null);
-        List<RoleVO> result = BeanUtil.copyList(roles, RoleVO.class);
-        return result;
+        return BeanUtil.copyList(roles, RoleVO.class);
     }
 
-    public ResponseDTO addRole(RoleBaseDTO roleBaseDTO) {
+    public Response addRole(RoleBaseDTO roleBaseDTO) {
         RoleEntity role = BeanUtil.copy(roleBaseDTO, RoleEntity.class);
         role.setCreateUserId(SmartCurrentUserUtil.getCurrentUserId());
         roleDao.insert(role);
-        return ResponseDTO.success();
+        return Response.ok();
     }
 
-    public ResponseDTO updateRole(RoleUpdateDTO roleUpdateDTO) {
+    public Response updateRole(RoleUpdateDTO roleUpdateDTO) {
         RoleEntity role = BeanUtil.copy(roleUpdateDTO, RoleEntity.class);
         role.setLastEditUserId(SmartCurrentUserUtil.getCurrentUserId());
         roleDao.updateById(role);
-        return ResponseDTO.success();
+        return Response.ok();
     }
 
-    public ResponseDTO deleteRole(Long id) {
+    public Response deleteRole(Long id) {
         roleDao.deleteById(id);
-        return ResponseDTO.success();
+        return Response.ok();
     }
 
-    public ResponseDTO<List<UserRoleVO>> getUserListByRole(Long roleId) {
+    public Response getUserListByRole(Long roleId) {
         List<UserRoleVO> dbResult = roleDao.selectUserListByRole(roleId);
-        return ResponseDTO.success(dbResult);
+        return Response.ok().data(dbResult);
     }
 
     public List<Long> listMenuIdsByRole(Long roleId) {
-        List<Long> dbList = roleMenuDao.selectMenuIdsByRole(roleId);
-        return dbList;
+        return roleMenuDao.selectMenuIdsByRole(roleId);
     }
 
     public RoleMenuVO getRoleMenuVO(Long roleId) {
@@ -93,8 +93,8 @@ public class RoleService {
         roleDao.insertUserRole(roleId, userId);
     }
 
-    public ResponseDTO deleteRoleUser(Long id) {
+    public Response deleteRoleUser(Long id) {
         roleDao.deleteRoleUser(id);
-        return ResponseDTO.success();
+        return Response.ok();
     }
 }

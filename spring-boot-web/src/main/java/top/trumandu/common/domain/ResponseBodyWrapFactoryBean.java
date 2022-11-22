@@ -1,5 +1,7 @@
 package top.trumandu.common.domain;
 
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
@@ -10,8 +12,6 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
 import top.trumandu.common.anno.IgnoreRestResult;
 
-import javax.servlet.http.HttpServletResponse;
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,13 +25,14 @@ public class ResponseBodyWrapFactoryBean implements InitializingBean {
     @Autowired
     private RequestMappingHandlerAdapter adapter;
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public void afterPropertiesSet() {
+    public void afterPropertiesSet() throws Exception {
 
         List<HandlerMethodReturnValueHandler> returnValueHandlers = adapter.getReturnValueHandlers();
         assert returnValueHandlers != null;
         List<HandlerMethodReturnValueHandler> handlers = new ArrayList(returnValueHandlers);
-        decorateHandlers(returnValueHandlers);
+        decorateHandlers(handlers);
         adapter.setReturnValueHandlers(handlers);
 
     }
@@ -58,23 +59,22 @@ class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler {
     }
 
     @Override
-    public boolean supportsReturnType(MethodParameter returnType) {
+    public boolean supportsReturnType(@NotNull MethodParameter returnType) {
         return delegate.supportsReturnType(returnType);
     }
 
     @Override
     public void handleReturnValue(Object returnValue, MethodParameter returnType,
-                                  ModelAndViewContainer mavContainer, NativeWebRequest webRequest) throws Exception {
-        RestResult restResult = null;
-        Annotation[] annotations = returnType.getAnnotatedElement().getAnnotations();
+                                  @NotNull ModelAndViewContainer mavContainer, @NotNull NativeWebRequest webRequest) throws Exception {
+        Response restResult = null;
         if (returnType.getMethodAnnotation(IgnoreRestResult.class) != null) {
             delegate.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
             return;
         }
-        if (returnValue instanceof RestResult) {
-            restResult = (RestResult) returnValue;
+        if (returnValue instanceof Response) {
+            restResult = (Response) returnValue;
         } else {
-            restResult = new RestResult(returnValue);
+            restResult = Response.ok().data(returnValue);
         }
         HttpServletResponse response = (HttpServletResponse) webRequest.getNativeResponse();
         assert response != null;

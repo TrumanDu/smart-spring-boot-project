@@ -1,11 +1,11 @@
 package top.trumandu.module.hello;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import top.trumandu.common.base.BaseController;
-import top.trumandu.common.domain.RestResult;
+import top.trumandu.common.domain.Response;
+import top.trumandu.common.domain.ResultCodeEnum;
 import top.trumandu.module.hello.domain.Hello;
-
-import javax.validation.Valid;
 
 /**
  * @author Truman.P.Du
@@ -27,17 +27,17 @@ public class HelloController extends BaseController {
     }
 
     @GetMapping("/hello/test")
-    public RestResult test() {
-        return success();
+    public Response test() {
+        return Response.ok();
     }
 
     @GetMapping("/hello/fail")
-    public RestResult fail() {
-        return failure("参数错误");
+    public Response fail() {
+        return Response.setResult(ResultCodeEnum.BAD_REQUEST).message("参数错误");
     }
 
     @PostMapping("/hello/info")
-    public RestResult info(@RequestBody @Valid Hello hello){
-        return success("hello world!");
+    public Response info(@RequestBody @Valid Hello hello) {
+        return Response.ok().message("hello world!");
     }
 }

@@ -1,19 +1,13 @@
 package top.trumandu.module.system.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import top.trumandu.common.anno.SysLog;
-import top.trumandu.common.domain.PageResultDTO;
-import top.trumandu.common.domain.ResponseDTO;
-import top.trumandu.common.domain.SelectDTO;
+import top.trumandu.common.domain.Response;
 import top.trumandu.module.system.user.domain.UserBaseDTO;
 import top.trumandu.module.system.user.domain.UserQueryDTO;
 import top.trumandu.module.system.user.domain.UserUpdateDTO;
-import top.trumandu.module.system.user.domain.UserVO;
 import top.trumandu.util.SmartCurrentUserUtil;
-
-import javax.validation.Valid;
-import java.util.List;
 
 /**
  * @author Truman.P.Du
@@ -23,57 +17,60 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/currentUser")
-    public ResponseDTO getCurrentUserInfo(){
+    public Response getCurrentUserInfo() {
         Long currentUserId = SmartCurrentUserUtil.getCurrentUserId();
-        return ResponseDTO.success(userService.getCurrentUser(currentUserId));
+        return Response.ok().data(userService.getCurrentUser(currentUserId));
     }
 
     @SysLog(operation = "增加用户", params = true)
     @PostMapping("/user/add")
-    public ResponseDTO addUser(@Valid @RequestBody UserBaseDTO userDTO) {
+    public Response addUser(@Valid @RequestBody UserBaseDTO userDTO) {
         Long currentUserId = SmartCurrentUserUtil.getCurrentUserId();
         return userService.addUser(userDTO, currentUserId);
     }
 
     @SysLog(operation = "修改用户")
     @PutMapping("/user/update")
-    public ResponseDTO updateUser(@Valid @RequestBody UserUpdateDTO userUpdateDTO) {
+    public Response updateUser(@Valid @RequestBody UserUpdateDTO userUpdateDTO) {
         Long currentUserId = SmartCurrentUserUtil.getCurrentUserId();
         return userService.updateUser(userUpdateDTO, currentUserId);
     }
 
     @GetMapping("/user/get/{id}")
-    public ResponseDTO getUser(@PathVariable Long id) {
+    public Response getUser(@PathVariable Long id) {
         return userService.getUser(id);
     }
 
     @GetMapping("/user/list")
-    public ResponseDTO getAllUser() {
+    public Response getAllUser() {
         return userService.listAllUser();
     }
 
     @PostMapping("/user/query")
-    public ResponseDTO<PageResultDTO<UserVO>> query(@Valid @RequestBody UserQueryDTO userQueryDTO) {
+    public Response query(@Valid @RequestBody UserQueryDTO userQueryDTO) {
         return userService.query(userQueryDTO);
     }
 
     @SysLog(operation = "删除用户")
     @DeleteMapping("/user/delete/{id}")
-    public ResponseDTO deleteUser(@PathVariable Long id) {
+    public Response deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
-        return ResponseDTO.success();
+        return Response.ok();
     }
 
     /**
      * 查询待分配角色的用户
-     * @return
+     *
      */
     @GetMapping("/user/list/select")
-    public ResponseDTO<List<SelectDTO>> getSelectData() {
-        return ResponseDTO.success(userService.selectUserSelectList());
+    public Response getSelectData() {
+        return Response.ok().data(userService.selectUserSelectList());
     }
 }

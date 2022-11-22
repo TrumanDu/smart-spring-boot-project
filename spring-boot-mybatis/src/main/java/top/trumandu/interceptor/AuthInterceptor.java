@@ -1,5 +1,8 @@
 package top.trumandu.interceptor;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -10,9 +13,6 @@ import top.trumandu.module.system.login.LoginService;
 import top.trumandu.module.system.login.domain.LoginUserVO;
 import top.trumandu.util.SmartCurrentUserUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * @author Truman.P.Du
@@ -22,8 +22,13 @@ import javax.servlet.http.HttpSession;
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
 
+
+    private LoginService loginService;
+
     @Autowired
-    LoginService loginService;
+    public AuthInterceptor(LoginService loginService) {
+        this.loginService = loginService;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

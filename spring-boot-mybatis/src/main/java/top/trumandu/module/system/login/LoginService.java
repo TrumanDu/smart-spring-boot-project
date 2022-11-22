@@ -1,10 +1,14 @@
 package top.trumandu.module.system.login;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.trumandu.common.domain.ResponseDTO;
+import top.trumandu.common.domain.Response;
+import top.trumandu.common.domain.ResultCodeEnum;
 import top.trumandu.common.domain.SessionAttr;
 import top.trumandu.constant.CommonConst;
 import top.trumandu.module.system.login.domain.LoginDTO;
@@ -13,9 +17,6 @@ import top.trumandu.module.system.user.UserDao;
 import top.trumandu.util.SmartCurrentUserUtil;
 import top.trumandu.util.SmartDigestUtils;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * @author Truman.P.Du
@@ -27,18 +28,22 @@ public class LoginService {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(LoginService.class);
 
+    private UserDao userDao;
+
     @Autowired
-    UserDao userDao;
+    public LoginService(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
 
-    public ResponseDTO login(LoginDTO loginDTO, HttpServletRequest request) {
+    public Response login(LoginDTO loginDTO, HttpServletRequest request) {
         String encryptPassword = SmartDigestUtils.encryptPassword(CommonConst.Password.SALT_FORMAT, loginDTO.getPassword());
         LoginUserVO userVO = userDao.login(loginDTO.getUsername(), encryptPassword);
         if (userVO == null) {
-            return ResponseDTO.failure("Incorrect username/password");
+            return Response.setResult(ResultCodeEnum.BAD_REQUEST).message("Incorrect username/password");
         }
         SmartCurrentUserUtil.setCurrentUser(request, userVO);
-        return ResponseDTO.success();
+        return Response.ok();
     }
 
     public LoginUserVO reLogin(HttpServletRequest request) {
@@ -46,7 +51,7 @@ public class LoginService {
         return null;
     }
 
-    public ResponseDTO logout(HttpServletRequest request) {
+    public Response logout(HttpServletRequest request) {
         try {
             request.logout();
             HttpSession session = request.getSession(true);
@@ -54,9 +59,9 @@ public class LoginService {
             SmartCurrentUserUtil.removeCurrentUser();
         } catch (ServletException e) {
             LOGGER.error("logout fail.", e);
-            ResponseDTO.error("logout fail,please try again.");
+            Response.error().message("logout fail,please try again.");
         }
-        return ResponseDTO.success();
+        return Response.ok();
     }
 
 }

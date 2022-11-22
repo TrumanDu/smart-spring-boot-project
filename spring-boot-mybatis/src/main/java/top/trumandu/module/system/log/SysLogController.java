@@ -1,14 +1,10 @@
 package top.trumandu.module.system.log;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import top.trumandu.common.domain.ResponseDTO;
+import top.trumandu.common.domain.Response;
 import top.trumandu.module.system.log.domain.SysLogQueryDTO;
-import top.trumandu.module.system.log.domain.SysLogVO;
-
-import java.util.List;
 
 /**
  * @author Truman.P.Du
@@ -17,11 +13,14 @@ import java.util.List;
  */
 @RestController
 public class SysLogController {
-    @Autowired
-    SysLogService sysLogService;
+    private final SysLogService sysLogService;
+
+    public SysLogController(SysLogService sysLogService) {
+        this.sysLogService = sysLogService;
+    }
 
     @PostMapping("/sys_log/query")
-    public ResponseDTO<List<SysLogVO>> query(@RequestBody SysLogQueryDTO queryDTO) {
+    public Response query(@RequestBody SysLogQueryDTO queryDTO) {
         return sysLogService.query(queryDTO);
     }
 }

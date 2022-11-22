@@ -36,7 +36,7 @@ public class BeanUtil {
             return null;
         }
         try {
-            T newInstance = target.newInstance();
+            T newInstance = target.getDeclaredConstructor().newInstance();
             BeanUtils.copyProperties(source, newInstance);
             return newInstance;
         } catch (Exception e) {

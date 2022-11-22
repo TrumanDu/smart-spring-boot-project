@@ -1,6 +1,6 @@
 package top.trumandu.module.hello.domain;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 /**
  * @author Truman.P.Du

@@ -1,7 +1,8 @@
 package top.trumandu.module.system.role.domain;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 /**
  * @author Truman.P.Du
@@ -10,10 +11,10 @@ import javax.validation.constraints.Size;
  */
 public class RoleBaseDTO {
     @NotEmpty
-    @Size(min = 2,max = 10,message = "roleCode length must in 2-10")
+    @Size(min = 2, max = 10, message = "roleCode length must in 2-10")
     private String roleCode;
     @NotEmpty
-    @Size(min = 2,max = 10,message = "roleName length must in 2-10")
+    @Size(min = 2, max = 10, message = "roleName length must in 2-10")
     private String roleName;
     private String description;
 

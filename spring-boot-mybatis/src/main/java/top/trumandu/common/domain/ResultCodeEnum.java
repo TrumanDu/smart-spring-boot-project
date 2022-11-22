@@ -5,7 +5,8 @@ package top.trumandu.common.domain;
  * @date 2021/05/13
  * @description 响应码枚举，参考HTTP状态码的语义
  */
-public enum ResultCode {
+@SuppressWarnings("unused")
+public enum ResultCodeEnum {
     /**
      * 200
      */
@@ -17,11 +18,15 @@ public enum ResultCode {
     /**
      * 401
      */
-    UNAUTHORIZED(401,"Unauthorized"),
+    UNAUTHORIZED(401, "Unauthorized"),
     /**
      * 500
      */
-    INTERNAL_SERVER_ERROR(500, "Internal Server Error"),;
+    INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
+    /**
+     * 20001
+     */
+    UNKNOWN_ERROR(20001, "Unknown error");
 
     /**
      * 业务异常码
@@ -32,7 +37,7 @@ public enum ResultCode {
      */
     private String message;
 
-    ResultCode(Integer code, String message) {
+    ResultCodeEnum(Integer code, String message) {
         this.code = code;
         this.message = message;
     }

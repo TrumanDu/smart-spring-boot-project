@@ -1,23 +1,18 @@
 package top.trumandu.config;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import top.trumandu.common.domain.ResponseBodyWrapFactoryBean;
-import top.trumandu.common.domain.SessionAttr;
-import top.trumandu.common.domain.UserInfo;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import top.trumandu.interceptor.AuthInterceptor;
 
 /**
  * @author Truman.P.Du
@@ -27,36 +22,12 @@ import javax.servlet.http.HttpSession;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    /**
-     * 用户未登录 /session超时
-     * 拦截处理
-     *
-     * @param registry
-     */
+    @Autowired
+    AuthInterceptor authInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new HandlerInterceptor() {
-            @Override
-            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-                // session超时，返回401
-                HttpSession session = request.getSession(true);
-                UserInfo userInfo = (UserInfo) session.getAttribute(SessionAttr.USER.getValue());
-                if (userInfo == null) {
-                    // TODO 自动登录逻辑
-                    UserInfo user = null;
-                    //UserInfo user = loginService.checkJwtAuth(request);
-                    if (user == null) {
-                        response.setStatus(401);
-                        return false;
-                    } else {
-                        session.setAttribute(SessionAttr.USER.getValue(), user);
-                    }
-                }
-                return true;
-            }
-
-
-        }).addPathPatterns("/api/**").excludePathPatterns("/api/login/**","/api/hello/**");
+        registry.addInterceptor(authInterceptor).addPathPatterns("/**");
     }
 
     /**
@@ -66,7 +37,7 @@ public class WebConfig implements WebMvcConfigurer {
      */
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
-      configurer.addPathPrefix("/api", c -> c.isAnnotationPresent(RestController.class));
+        configurer.addPathPrefix("/api", c -> c.isAnnotationPresent(RestController.class));
     }
 
 
@@ -78,7 +49,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedOriginPattern("*");
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.setAllowCredentials(true);

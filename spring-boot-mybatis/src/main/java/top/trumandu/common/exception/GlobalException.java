@@ -7,9 +7,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import top.trumandu.common.domain.ResponseDTO;
+import top.trumandu.common.domain.Response;
+import top.trumandu.common.domain.ResultCodeEnum;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -21,17 +21,23 @@ import java.util.List;
 public class GlobalException {
     @ExceptionHandler(value = Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseDTO globalExceptionHandler(HttpServletResponse response, Exception e) {
+    public Response globalExceptionHandler(Exception e) {
         e.printStackTrace();
-        return ResponseDTO.error();
+        return Response.setResult(ResultCodeEnum.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseDTO methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+    public Response methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         List<ObjectError> objectErrors = e.getBindingResult().getAllErrors();
         StringBuilder sb = new StringBuilder();
-        objectErrors.forEach(objectError -> sb.append(((FieldError) objectError).getField() + ": " + objectError.getDefaultMessage() + " "));
-        return ResponseDTO.failure(sb.toString());
+        objectErrors.forEach(objectError -> sb.append(((FieldError) objectError).getField()).append(": ").append(objectError.getDefaultMessage()).append(" "));
+        return Response.setResult(ResultCodeEnum.BAD_REQUEST).message(sb.toString());
+    }
+
+    @ExceptionHandler(CustomException.class)
+    public Response customerExceptionHandler(CustomException e) {
+        e.printStackTrace();
+        return Response.error().code(e.getCode()).message(e.getMessage());
     }
 }

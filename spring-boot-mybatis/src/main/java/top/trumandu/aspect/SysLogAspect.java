@@ -1,6 +1,7 @@
 package top.trumandu.aspect;
 
 import com.alibaba.fastjson.JSONObject;
+import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -18,7 +19,6 @@ import top.trumandu.util.HttpContextUtils;
 import top.trumandu.util.IpUtils;
 import top.trumandu.util.SmartCurrentUserUtil;
 
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
 /**
@@ -33,6 +33,7 @@ public class SysLogAspect {
     private static final Logger LOGGER = LoggerFactory.getLogger(SysLogAspect.class);
     @Autowired
     private SysLogService sysLogService;
+
 
     @Pointcut("@annotation(top.trumandu.common.anno.SysLog)")
     public void logPointCut() {
@@ -73,6 +74,7 @@ public class SysLogAspect {
         String methodName = signature.getName();
         sysLogEntity.setMethod(className + "." + methodName + "()");
 
+        assert syslog != null;
         if (syslog.params()) {
             //请求的参数
             Object[] args = joinPoint.getArgs();

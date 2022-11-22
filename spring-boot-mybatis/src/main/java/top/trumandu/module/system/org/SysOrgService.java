@@ -1,8 +1,7 @@
 package top.trumandu.module.system.org;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.trumandu.common.domain.ResponseDTO;
+import top.trumandu.common.domain.Response;
 import top.trumandu.common.domain.TreeDTO;
 import top.trumandu.module.system.org.domain.SysOrgBaseDTO;
 import top.trumandu.module.system.org.domain.SysOrgEntity;
@@ -20,13 +19,16 @@ import java.util.List;
  */
 @Service
 public class SysOrgService {
-    @Autowired
-    SysOrgDao sysOrgDao;
+    private final SysOrgDao sysOrgDao;
+
+    public SysOrgService(SysOrgDao sysOrgDao) {
+        this.sysOrgDao = sysOrgDao;
+    }
 
     public List<SysOrgVO> listAllSysOrg() {
         List<SysOrgEntity> dbList = sysOrgDao.selectSysOrgList();
         //获取所有的跟节点
-        List<SysOrgVO> roots = null;
+        List<SysOrgVO> roots;
         try {
             roots = TreeGeneratorUtil.convertToTreeBeanDTO(dbList, SysOrgVO.class);
         } catch (Exception e) {
@@ -39,9 +41,9 @@ public class SysOrgService {
     public List<TreeDTO> getTreeSelectData() {
         List<SysOrgEntity> dbList = sysOrgDao.selectSysOrgList();
         //获取所有的跟节点
-        List<TreeDTO> roots = null;
+        List<TreeDTO> roots;
         try {
-            roots = TreeGeneratorUtil.convertToTreeDTO(dbList,"getOrgName","getId");
+            roots = TreeGeneratorUtil.convertToTreeDTO(dbList, "getOrgName", "getId");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -49,20 +51,20 @@ public class SysOrgService {
     }
 
 
-    public ResponseDTO addSysOrg(SysOrgBaseDTO sysOrgBaseDTO) {
+    public Response addSysOrg(SysOrgBaseDTO sysOrgBaseDTO) {
         SysOrgEntity entity = BeanUtil.copy(sysOrgBaseDTO, SysOrgEntity.class);
         sysOrgDao.insert(entity);
-        return ResponseDTO.success();
+        return Response.ok();
     }
 
-    public ResponseDTO updateSysOrg(SysOrgUpdateDTO sysOrgUpdateDTO) {
+    public Response updateSysOrg(SysOrgUpdateDTO sysOrgUpdateDTO) {
         SysOrgEntity entity = BeanUtil.copy(sysOrgUpdateDTO, SysOrgEntity.class);
         sysOrgDao.updateById(entity);
-        return ResponseDTO.success();
+        return Response.ok();
     }
 
-    public ResponseDTO deleteSysOrg(List<Long> ids) {
+    public Response deleteSysOrg(List<Long> ids) {
         sysOrgDao.deleteBatchIds(ids);
-        return ResponseDTO.success();
+        return Response.ok();
     }
 }
