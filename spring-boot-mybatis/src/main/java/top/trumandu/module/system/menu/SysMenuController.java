@@ -1,14 +1,11 @@
 package top.trumandu.module.system.menu;
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.trumandu.common.anno.SysLog;
-import top.trumandu.common.domain.ResponseDTO;
-import top.trumandu.common.domain.TreeDTO;
+import top.trumandu.common.domain.Response;
 import top.trumandu.module.system.menu.domain.SysMenuBaseDTO;
 import top.trumandu.module.system.menu.domain.SysMenuUpdateDTO;
-import top.trumandu.module.system.org.domain.SysOrgVO;
 
 import java.util.List;
 
@@ -19,34 +16,37 @@ import java.util.List;
  */
 @RestController
 public class SysMenuController {
-    @Autowired
-    SysMenuService sysMenuService;
+    private final SysMenuService sysMenuService;
+
+    public SysMenuController(SysMenuService sysMenuService) {
+        this.sysMenuService = sysMenuService;
+    }
 
     @GetMapping("/sys_menu/list")
-    public ResponseDTO<List<SysOrgVO>> listAllSysOrg() {
-        return ResponseDTO.success(sysMenuService.listAll());
+    public Response listAllSysOrg() {
+        return Response.ok().data(sysMenuService.listAll());
     }
 
     @GetMapping("/sys_menu/list/tree_select")
-    public ResponseDTO<List<TreeDTO>> getTreeSelectData() {
-        return ResponseDTO.success(sysMenuService.getTreeSelectData());
+    public Response getTreeSelectData() {
+        return Response.ok().data(sysMenuService.getTreeSelectData());
     }
 
     @SysLog(operation = "新增菜单", params = true)
     @PostMapping("/sys_menu/add")
-    public ResponseDTO addSysOrg(@Valid @RequestBody SysMenuBaseDTO baseDTO) {
+    public Response addSysOrg(@Valid @RequestBody SysMenuBaseDTO baseDTO) {
         return sysMenuService.add(baseDTO);
     }
 
     @SysLog(operation = "修改菜单", params = true)
     @PutMapping("/sys_menu/update")
-    public ResponseDTO update(@Valid @RequestBody SysMenuUpdateDTO updateDTO) {
+    public Response update(@Valid @RequestBody SysMenuUpdateDTO updateDTO) {
         return sysMenuService.update(updateDTO);
     }
 
     @SysLog(operation = "删除菜单", params = true)
     @PostMapping(value = "/sys_menu/delete")
-    public ResponseDTO deleteMenu(@RequestBody List<Long> ids) {
+    public Response deleteMenu(@RequestBody List<Long> ids) {
         return sysMenuService.delete(ids);
     }
 }

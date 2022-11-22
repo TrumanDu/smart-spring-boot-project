@@ -2,9 +2,8 @@ package top.trumandu.module.system.log;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.trumandu.common.domain.ResponseDTO;
+import top.trumandu.common.domain.Response;
 import top.trumandu.module.system.log.domain.SysLogEntity;
 import top.trumandu.module.system.log.domain.SysLogQueryDTO;
 import top.trumandu.module.system.log.domain.SysLogVO;
@@ -19,18 +18,21 @@ import java.util.List;
  */
 @Service
 public class SysLogService {
-    @Autowired
-    SysLogDao sysLogDao;
+    private final SysLogDao sysLogDao;
+
+    public SysLogService(SysLogDao sysLogDao) {
+        this.sysLogDao = sysLogDao;
+    }
 
 
-    public void add(SysLogEntity sysLogEntity){
+    public void add(SysLogEntity sysLogEntity) {
         sysLogDao.insert(sysLogEntity);
     }
 
-    public ResponseDTO<List<SysLogVO>> query(SysLogQueryDTO queryDTO){
+    public Response query(SysLogQueryDTO queryDTO) {
         PageHelper.startPage(queryDTO.getPageNum(), queryDTO.getPageSize());
         List<SysLogVO> dbResult = sysLogDao.selectSysLogList(queryDTO);
         Page<SysLogVO> pageInfo = (Page<SysLogVO>) dbResult;
-        return ResponseDTO.success(PageUtil.convert2PageResult(pageInfo));
+        return Response.ok().data(PageUtil.convert2PageResult(pageInfo));
     }
 }

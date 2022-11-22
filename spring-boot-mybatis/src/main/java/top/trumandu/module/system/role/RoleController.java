@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.trumandu.common.anno.SysLog;
-import top.trumandu.common.domain.ResponseDTO;
+import top.trumandu.common.domain.Response;
 import top.trumandu.module.system.role.domain.RoleBaseDTO;
 import top.trumandu.module.system.role.domain.RoleMenuDTO;
 import top.trumandu.module.system.role.domain.RoleUpdateDTO;
@@ -20,59 +20,63 @@ import top.trumandu.module.system.role.domain.UserRoleDTO;
 public class RoleController {
 
     @Autowired
-    RoleService roleService;
+    private final RoleService roleService;
+
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
 
     @GetMapping("/sys_role/list")
-    public ResponseDTO list() {
-        return ResponseDTO.success(roleService.listRoles());
+    public Response list() {
+        return Response.ok().data(roleService.listRoles());
     }
 
     @SysLog(operation = "新增角色", params = true)
     @PostMapping("/sys_role/add")
-    public ResponseDTO addRole(@Valid @RequestBody RoleBaseDTO role) {
+    public Response addRole(@Valid @RequestBody RoleBaseDTO role) {
         return roleService.addRole(role);
     }
 
     @SysLog(operation = "编辑角色", params = true)
     @PutMapping("/sys_role/update")
-    public ResponseDTO updateRole(@Valid @RequestBody RoleUpdateDTO roleUpdateDTO) {
+    public Response updateRole(@Valid @RequestBody RoleUpdateDTO roleUpdateDTO) {
         return roleService.updateRole(roleUpdateDTO);
     }
 
     @SysLog(operation = "删除角色")
     @DeleteMapping("/sys_role/delete/{id}")
-    public ResponseDTO deleteRole(@PathVariable Long id) {
+    public Response deleteRole(@PathVariable Long id) {
         return roleService.deleteRole(id);
     }
 
     @GetMapping("/sys_role_user/list/{roleId}")
-    public ResponseDTO listRoleUser(@PathVariable Long roleId) {
+    public Response listRoleUser(@PathVariable Long roleId) {
         return roleService.getUserListByRole(roleId);
     }
 
     @SysLog(operation = "删除角色用户")
     @DeleteMapping("/sys_role_user/delete/{id}")
-    public ResponseDTO deleteRoleUser(@PathVariable Long id) {
+    public Response deleteRoleUser(@PathVariable Long id) {
         return roleService.deleteRoleUser(id);
     }
 
     @SysLog(operation = "用户赋予角色", params = true)
     @PostMapping("/sys_role_user/add")
-    public ResponseDTO addUserRole(@Valid @RequestBody UserRoleDTO userRoleDTO) {
+    public Response addUserRole(@Valid @RequestBody UserRoleDTO userRoleDTO) {
         roleService.addUserRole(userRoleDTO.getRoleId(), userRoleDTO.getUserId());
-        return ResponseDTO.success();
+        return Response.ok();
     }
 
     @GetMapping("/sys_role_menu/list/{roleId}")
-    public ResponseDTO listRoleMenu(@PathVariable Long roleId) {
-        return ResponseDTO.success(roleService.getRoleMenuVO(roleId));
+    public Response listRoleMenu(@PathVariable Long roleId) {
+        return Response.ok().data(roleService.getRoleMenuVO(roleId));
     }
 
     @PostMapping("/sys_role_menu/add")
-    public ResponseDTO listRoleMenu(@RequestBody RoleMenuDTO roleMenuDTO) {
+    public Response listRoleMenu(@RequestBody RoleMenuDTO roleMenuDTO) {
         roleService.saveRoleMenu(roleMenuDTO);
-        return ResponseDTO.success();
+        return Response.ok();
     }
 
 }

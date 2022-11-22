@@ -1,8 +1,7 @@
 package top.trumandu.module.system.menu;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.trumandu.common.domain.ResponseDTO;
+import top.trumandu.common.domain.Response;
 import top.trumandu.common.domain.TreeDTO;
 import top.trumandu.module.system.menu.domain.SysMenuBaseDTO;
 import top.trumandu.module.system.menu.domain.SysMenuEntity;
@@ -21,17 +20,20 @@ import java.util.List;
  */
 @Service
 public class SysMenuService {
-    @Autowired
-    SysMenuDao sysMenuDao;
+    private final SysMenuDao sysMenuDao;
+
+    public SysMenuService(SysMenuDao sysMenuDao) {
+        this.sysMenuDao = sysMenuDao;
+    }
 
     public List<SysMenuVO> listAll() {
         List<SysMenuEntity> dbList = sysMenuDao.selectMenuList();
         return generatorSysMenuVOList(dbList);
     }
 
+    @SuppressWarnings("unused")
     public List<SysMenuEntity> listAllSysMenuEntity() {
-        List<SysMenuEntity> dbList = sysMenuDao.selectMenuList();
-        return dbList;
+        return sysMenuDao.selectMenuList();
     }
 
     public List<SysMenuVO> listMenuListByRole(Long roleId) {
@@ -53,28 +55,28 @@ public class SysMenuService {
     }
 
 
-    public ResponseDTO add(SysMenuBaseDTO baseDTO) {
+    public Response add(SysMenuBaseDTO baseDTO) {
         SysMenuEntity entity = BeanUtil.copy(baseDTO, SysMenuEntity.class);
         entity.setCreateUserId(SmartCurrentUserUtil.getCurrentUserId());
         sysMenuDao.insert(entity);
-        return ResponseDTO.success();
+        return Response.ok();
     }
 
-    public ResponseDTO update(SysMenuUpdateDTO updateDTO) {
+    public Response update(SysMenuUpdateDTO updateDTO) {
         SysMenuEntity entity = BeanUtil.copy(updateDTO, SysMenuEntity.class);
         entity.setLastEditUserId(SmartCurrentUserUtil.getCurrentUserId());
         sysMenuDao.updateById(entity);
-        return ResponseDTO.success();
+        return Response.ok();
     }
 
-    public ResponseDTO delete(List<Long> ids) {
+    public Response delete(List<Long> ids) {
         sysMenuDao.deleteBatchIds(ids);
-        return ResponseDTO.success();
+        return Response.ok();
     }
 
     private List<SysMenuVO> generatorSysMenuVOList(List<SysMenuEntity> dbList) {
         //获取所有的跟节点
-        List<SysMenuVO> roots = null;
+        List<SysMenuVO> roots;
         try {
             roots = TreeGeneratorUtil.convertToTreeBeanDTO(dbList, SysMenuVO.class);
         } catch (Exception e) {
