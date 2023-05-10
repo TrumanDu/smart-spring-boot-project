@@ -10,13 +10,11 @@ import java.util.List;
  * @date 2022/04/02
  * @description
  */
+@SuppressWarnings("unused")
 public class PageUtil {
 
     /**
      * 转换结果为分页结果集
-     * @param page
-     * @param <T>
-     * @return
      */
     public static <T> PageResultDTO<T> convert2PageResult(Page<T> page) {
         PageResultDTO pageResultDTO = setPage(page);
@@ -26,10 +24,6 @@ public class PageUtil {
 
     /**
      * 转换结果为分页结果集
-     * @param page
-     * @param targetClazz
-     * @param <T>
-     * @return
      */
     public static <T> PageResultDTO<T> convert2PageResult(Page<T> page, Class<T> targetClazz) {
         PageResultDTO pageResultDTO = setPage(page);

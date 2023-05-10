@@ -20,7 +20,6 @@ public class Response {
     /**
      * 通用返回成功
      *
-     * @return
      */
     public static Response ok() {
         Response response = new Response();
@@ -32,7 +31,6 @@ public class Response {
     /**
      * 通用返回错误，未知错误
      *
-     * @return
      */
     public static Response error() {
         Response response = new Response();

@@ -19,11 +19,12 @@ import top.trumandu.util.SmartCurrentUserUtil;
  * @date 2022/04/04
  * @description
  */
+@SuppressWarnings("unused")
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
 
 
-    private LoginService loginService;
+    private final LoginService loginService;
 
     @Autowired
     public AuthInterceptor(LoginService loginService) {
@@ -34,7 +35,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         if (handler instanceof HandlerMethod) {
-            Boolean isNoNeedAuth = ((HandlerMethod) handler).getMethodAnnotation(AuthIgnore.class) != null;
+            boolean isNoNeedAuth = ((HandlerMethod) handler).getMethodAnnotation(AuthIgnore.class) != null;
             if (isNoNeedAuth) {
                 return true;
             }

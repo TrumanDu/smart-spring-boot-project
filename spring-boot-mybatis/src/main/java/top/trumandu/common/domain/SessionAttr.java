@@ -5,13 +5,14 @@ package top.trumandu.common.domain;
  * @date 2020/04/25
  * @description
  */
+@SuppressWarnings("unused")
 public enum SessionAttr {
     /**
      * session_user
      */
     USER("session_user");
 
-    private String value;
+    private final String value;
 
     private SessionAttr(String value) {
         this.value = value;

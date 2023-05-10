@@ -11,6 +11,7 @@ import java.util.List;
  * @date 2022/04/01
  * @description
  */
+@SuppressWarnings("unused")
 public class PageParamDTO {
     @NotNull(message = "分页参数不能为空")
     protected Integer pageNum;

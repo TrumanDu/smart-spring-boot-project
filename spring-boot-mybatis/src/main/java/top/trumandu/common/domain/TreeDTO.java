@@ -9,6 +9,7 @@ import java.util.List;
  * @date 2022/04/08
  * @description
  */
+@SuppressWarnings("unused")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TreeDTO {
     private Long value;

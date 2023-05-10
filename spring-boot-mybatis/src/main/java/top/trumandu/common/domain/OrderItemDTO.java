@@ -5,6 +5,7 @@ package top.trumandu.common.domain;
  * @date 2022/04/01
  * @description
  */
+@SuppressWarnings("unused")
 public class OrderItemDTO {
     private String column;
     private Boolean asc;

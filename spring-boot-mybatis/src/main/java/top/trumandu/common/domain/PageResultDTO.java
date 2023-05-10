@@ -7,6 +7,7 @@ import java.util.List;
  * @date 2022/04/01
  * @description
  */
+@SuppressWarnings("unused")
 public class PageResultDTO<T> {
     /**
      * 当前页

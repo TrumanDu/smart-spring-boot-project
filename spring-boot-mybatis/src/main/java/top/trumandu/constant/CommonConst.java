@@ -5,6 +5,7 @@ package top.trumandu.constant;
  * @date 2022/04/04
  * @description 系统公共常量
  */
+@SuppressWarnings("unused")
 public class CommonConst {
     public static final class Password {
         public static final String DEFAULT = "123456";

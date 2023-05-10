@@ -14,6 +14,7 @@ import top.trumandu.util.SmartCurrentUserUtil;
  * @date 2022/03/30
  * @description
  */
+@SuppressWarnings("unused")
 @RestController
 public class UserController {
 

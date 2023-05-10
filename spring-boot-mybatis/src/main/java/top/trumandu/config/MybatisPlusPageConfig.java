@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2022/03/29
  * @description
  */
+@SuppressWarnings("unused")
 @Configuration
 public class MybatisPlusPageConfig {
 

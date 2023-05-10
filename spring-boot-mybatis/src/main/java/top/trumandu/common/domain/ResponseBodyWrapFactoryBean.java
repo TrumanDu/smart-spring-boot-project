@@ -20,6 +20,7 @@ import java.util.List;
  * @date 2020/04/25
  * @description
  */
+@SuppressWarnings("unused")
 public class ResponseBodyWrapFactoryBean implements InitializingBean {
 
     @Autowired
@@ -27,7 +28,7 @@ public class ResponseBodyWrapFactoryBean implements InitializingBean {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
 
         List<HandlerMethodReturnValueHandler> returnValueHandlers = adapter.getReturnValueHandlers();
         assert returnValueHandlers != null;
@@ -66,7 +67,7 @@ class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler {
     @Override
     public void handleReturnValue(Object returnValue, MethodParameter returnType,
                                   @NotNull ModelAndViewContainer mavContainer, @NotNull NativeWebRequest webRequest) throws Exception {
-        Response restResult = null;
+        Response restResult;
         if (returnType.getMethodAnnotation(IgnoreRestResult.class) != null) {
             delegate.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
             return;

@@ -5,6 +5,7 @@ package top.trumandu.common.domain;
  * @date 2022/04/10
  * @description
  */
+@SuppressWarnings("unused")
 public class SelectDTO {
     private String label;
     private String value;
