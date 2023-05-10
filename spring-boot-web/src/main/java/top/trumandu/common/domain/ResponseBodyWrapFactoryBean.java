@@ -20,6 +20,7 @@ import java.util.List;
  * @date 2020/04/25
  * @description
  */
+@SuppressWarnings("unused")
 public class ResponseBodyWrapFactoryBean implements InitializingBean {
 
     @Autowired

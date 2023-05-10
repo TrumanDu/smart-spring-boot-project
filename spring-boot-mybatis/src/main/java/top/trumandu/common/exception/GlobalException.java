@@ -17,6 +17,7 @@ import java.util.List;
  * @date 2022/04/04
  * @description 全局异常处理
  */
+@SuppressWarnings("unused")
 @RestControllerAdvice
 public class GlobalException {
     @ExceptionHandler(value = Exception.class)

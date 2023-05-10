@@ -10,6 +10,7 @@ import java.util.Date;
  * @date 2021/08/14
  * @description
  */
+@SuppressWarnings("unused")
 public class BaseEntity {
     @TableId(type = IdType.AUTO)
     public Long id;

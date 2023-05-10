@@ -19,6 +19,7 @@ import top.trumandu.interceptor.AuthInterceptor;
  * @date 2020/04/25
  * @description
  */
+@SuppressWarnings("unused")
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
@@ -33,11 +34,10 @@ public class WebConfig implements WebMvcConfigurer {
     /**
      * 所有RestController注解暴露出来的接口增加统一前缀/api
      *
-     * @param configurer
      */
     @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
-        configurer.addPathPrefix("/api", c -> c.isAnnotationPresent(RestController.class));
+    public void configurePathMatch(PathMatchConfigurer configure) {
+        configure.addPathPrefix("/api", c -> c.isAnnotationPresent(RestController.class));
     }
 
 

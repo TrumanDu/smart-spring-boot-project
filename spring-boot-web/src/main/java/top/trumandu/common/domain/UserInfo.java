@@ -5,7 +5,7 @@ package top.trumandu.common.domain;
  * @date 2021/03/20
  * @description
  */
-
+@SuppressWarnings("unused")
 public class UserInfo {
     private Long id;
     private String name;

@@ -5,3 +5,5 @@ management:
   health:
     defaults:
       enabled: false
+
+logging.level.top.trumandu: warn

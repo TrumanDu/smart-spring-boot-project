@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
  *
  * @author Truman.P.Du
  */
+@SuppressWarnings("unused")
 public class BeanUtil {
 
     /**
@@ -28,8 +29,6 @@ public class BeanUtil {
      *
      * @param source 源 要复制的对象
      * @param target 目标 复制到此对象
-     * @param <T>
-     * @return
      */
     public static <T> T copy(Object source, Class<T> target) {
         if (source == null || target == null) {
@@ -47,11 +46,6 @@ public class BeanUtil {
     /**
      * 复制list
      *
-     * @param source
-     * @param target
-     * @param <T>
-     * @param <K>
-     * @return
      */
     public static <T, K> List<K> copyList(List<T> source, Class<K> target) {
 

@@ -21,10 +21,10 @@ public class AuthInterceptor implements HandlerInterceptor {
 
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
         if (handler instanceof HandlerMethod) {
-            Boolean isNoNeedAuth = ((HandlerMethod) handler).getMethodAnnotation(AuthIgnore.class) != null;
+            boolean isNoNeedAuth = ((HandlerMethod) handler).getMethodAnnotation(AuthIgnore.class) != null;
             if (isNoNeedAuth) {
                 return true;
             }

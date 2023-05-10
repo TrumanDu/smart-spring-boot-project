@@ -11,7 +11,7 @@ public enum SessionAttr {
      */
     USER("session_user");
 
-    private String value;
+    private final String value;
 
     private SessionAttr(String value) {
         this.value = value;
