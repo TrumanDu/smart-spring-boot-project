@@ -20,10 +20,11 @@ import java.util.List;
 @SuppressWarnings("unused")
 @RestControllerAdvice
 public class GlobalException {
+    private final static Logger LOGGER = LoggerFactory.getLogger(GlobalException.class);
     @ExceptionHandler(value = Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Response globalExceptionHandler(Exception e) {
-        e.printStackTrace();
+        LOGGER.error("globalException", e);
         return Response.setResult(ResultCodeEnum.INTERNAL_SERVER_ERROR);
     }
 
@@ -38,7 +39,7 @@ public class GlobalException {
 
     @ExceptionHandler(CustomException.class)
     public Response customerExceptionHandler(CustomException e) {
-        e.printStackTrace();
+        LOGGER.warn("customerException", e);
         return Response.error().code(e.getCode()).message(e.getMessage());
     }
 }
