@@ -1,6 +1,7 @@
 # spring-boot-project
 spring boot project
 
+This is a  spring boot scaffolding works.  Front-end and Back-end Code Separation, Code Standards, and Collaboration Guidelines for Efficient Project Creation and Improved Team Collaboration.
 ## 参考
 1. [tab=stars&q=&q=spring](https://github.com/TrumanDu?tab=stars&q=&q=spring)
 2. [javahongxi/spring-boot-project](https://github.com/javahongxi/spring-boot-project)
