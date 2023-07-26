@@ -3,10 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>top.trumandu</groupId>
-    <artifactId>spring-boot-web</artifactId>
+    <artifactId>smart-rest-spring-boot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-boot-web</name>
-    <description>Web project for Spring Boot</description>
+    <name>smart-rest-spring-boot</name>
+    <description>Rest API project for Spring Boot</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

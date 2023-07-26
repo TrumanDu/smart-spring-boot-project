@@ -4,13 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>top.top.trumandu</groupId>
-    <artifactId>spring-boot-project</artifactId>
+    <groupId>top.trumandu</groupId>
+    <artifactId>smart-spring-boot-project</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>spring-boot-archetype</module>
-        <module>spring-boot-web</module>
+        <module>smart-rest-spring-boot</module>
         <module>spring-boot-mybatis</module>
     </modules>
 

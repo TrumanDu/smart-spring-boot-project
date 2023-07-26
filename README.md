@@ -1,4 +1,4 @@
-# spring-boot-project
+# smart-spring-boot-project
 spring boot project
 
 This is a  spring boot scaffolding works.  Front-end and Back-end Code Separation, Code Standards, and Collaboration Guidelines for Efficient Project Creation and Improved Team Collaboration.
