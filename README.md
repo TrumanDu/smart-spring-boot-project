@@ -1,8 +1,16 @@
 # smart-spring-boot-project
+
 spring boot project
 
-This is a  spring boot scaffolding works.  Front-end and Back-end Code Separation, Code Standards, and Collaboration Guidelines for Efficient Project Creation and Improved Team Collaboration.
+This is a spring boot scaffolding works. Front-end and Back-end Code Separation, Code Standards, and Collaboration
+Guidelines for Efficient Project Creation and Improved Team Collaboration.
+
+## Feature
+
+1. [smart rest spring boot](./smart-rest-spring-boot/README.md)
+
 ## 参考
+
 1. [javahongxi/spring-boot-project](https://github.com/javahongxi/spring-boot-project)
 2. [rest-api-spring-boot-starter](https://github.com/coder-amiao/rest-api-spring-boot-starter)
 3. [一份 Spring Boot 项目搭建模板](https://mp.weixin.qq.com/s/_twQqmclPEmUJmhPjiqRcQ)

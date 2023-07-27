@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>top.trumandu</groupId>
     <artifactId>smart-rest-spring-boot</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>smart-rest-spring-boot</name>
     <description>Rest API project for Spring Boot</description>
 
@@ -19,6 +19,7 @@
         <java.version>17</java.version>
         <fastjson2.version>2.0.37</fastjson2.version>
         <guava.version>30.1.1-jre</guava.version>
+        <github.global.server>github</github.global.server>
     </properties>
     <dependencies>
         <dependency>
@@ -85,14 +86,46 @@
                     </execution>
                 </executions>
             </plugin>
+            <!--1.作用：将jar deploy(发布)到本地储存库位置(altDeploymentRepository)-->
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo
+                    </altDeploymentRepository>
+                </configuration>
+            </plugin>
+            <!--2.作用：将本地存储库位置的jar文件发布到github上-->
+            <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>0.12</version>
+                <configuration>
+                    <message>Maven artifacts for ${project.version}</message>
+                    <noJekyll>true</noJekyll>
+                    <!--本地jar相关文件地址，与上方配置储存库位置(altDeploymentRepository)保持一致-->
+                    <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+                    <!--配置上传到github哪个分支，此处配置格式必须以refs/heads/+分支名称-->
+                    <branch>refs/heads/main</branch>
+                    <merge>true</merge>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
+                    <!--对应github上创建的仓库名称 name-->
+                    <repositoryName>maven-repository</repositoryName>
+                    <!--github 仓库所有者即登录用户名-->
+                    <repositoryOwner>TrumanDu</repositoryOwner>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <phase>deploy</phase>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub OWNER Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/trumandu/maven-repository</url>
-        </repository>
-    </distributionManagement>
+
 
 </project>
