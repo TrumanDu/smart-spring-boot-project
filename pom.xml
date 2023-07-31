@@ -11,6 +11,7 @@
     <modules>
         <module>smart-rest-spring-boot</module>
         <module>spring-boot-mybatis</module>
+        <module>example-smart-rest</module>
     </modules>
 
 
