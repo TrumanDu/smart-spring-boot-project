@@ -16,7 +16,6 @@ import top.trumandu.common.domain.UserInfo;
  * @date 2022/04/04
  * @description
  */
-@Component
 public class AuthInterceptor implements HandlerInterceptor {
 
 

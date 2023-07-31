@@ -1,4 +1,4 @@
-package top.trumandu.common.enumcache;
+package top.trumandu.util;
 
 
 import java.util.Map;

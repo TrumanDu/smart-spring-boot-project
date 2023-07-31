@@ -10,18 +10,23 @@ import java.io.Serial;
  * @description
  */
 @SuppressWarnings("unused")
-public class CustomException extends RuntimeException {
+public class BusinessException extends RuntimeException {
 
     @Serial
     private static final long serialVersionUID = 4109743717152168905L;
     private Integer code;
 
-    public CustomException(Integer code, String message) {
+    public BusinessException(String message) {
+        super(message);
+        this.code = 500;
+    }
+
+    public BusinessException(Integer code, String message) {
         super(message);
         this.code = code;
     }
 
-    public CustomException(ResultCodeEnum resultCodeEnum) {
+    public BusinessException(ResultCodeEnum resultCodeEnum) {
         super(resultCodeEnum.getMessage());
         this.code = resultCodeEnum.getCode();
     }

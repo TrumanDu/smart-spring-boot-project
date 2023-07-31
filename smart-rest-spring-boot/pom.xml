@@ -19,6 +19,7 @@
         <java.version>17</java.version>
         <fastjson2.version>2.0.37</fastjson2.version>
         <guava.version>30.1.1-jre</guava.version>
+        <hutool.version>5.8.21</hutool.version>
         <github.global.server>github</github.global.server>
     </properties>
     <dependencies>
@@ -35,6 +36,10 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -60,6 +65,11 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>${hutool.version}</version>
         </dependency>
     </dependencies>
 
