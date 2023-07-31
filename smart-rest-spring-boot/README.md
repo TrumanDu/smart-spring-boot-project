@@ -98,6 +98,7 @@ RestController 类下的api默认增加`/api`前缀
 ### 常用工具
 
 - Assert
+- RestClient
 - EnumCache
 - BeanUtil
 - IpUtils
