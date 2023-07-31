@@ -1,6 +1,7 @@
-package top.trumandu.config;
+package top.trumandu.common.anno;
 
 import org.springframework.context.annotation.Import;
+import top.trumandu.config.SmartConfig;
 
 import java.lang.annotation.*;
 

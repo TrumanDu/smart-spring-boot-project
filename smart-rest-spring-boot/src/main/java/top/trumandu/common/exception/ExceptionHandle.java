@@ -1,4 +1,4 @@
-package top.trumandu.config;
+package top.trumandu.common.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import top.trumandu.common.domain.Response;
 import top.trumandu.common.domain.ResultCodeEnum;
-import top.trumandu.common.exception.BusinessException;
 
 import java.util.List;
 

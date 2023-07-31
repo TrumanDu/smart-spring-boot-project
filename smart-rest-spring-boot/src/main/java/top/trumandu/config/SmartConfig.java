@@ -2,6 +2,9 @@ package top.trumandu.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import top.trumandu.common.exception.ExceptionHandle;
+import top.trumandu.util.RestClient;
 
 /**
  * @author Truman.P.Du
@@ -10,5 +13,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ComponentScan("top.trumandu.config")
+@Import({RestClient.class, ExceptionHandle.class})
 public class SmartConfig {
 }
