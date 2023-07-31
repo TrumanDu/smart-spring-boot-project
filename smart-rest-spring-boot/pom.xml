@@ -4,13 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>top.trumandu</groupId>
     <artifactId>smart-rest-spring-boot</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>smart-rest-spring-boot</name>
     <description>Rest API project for Spring Boot</description>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
+        <artifactId>spring-boot-dependencies</artifactId>
         <version>3.1.2</version>
         <relativePath/>
     </parent>
@@ -20,7 +19,7 @@
         <fastjson2.version>2.0.37</fastjson2.version>
         <guava.version>30.1.1-jre</guava.version>
         <hutool.version>5.8.21</hutool.version>
-        <github.global.server>github</github.global.server>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
         <dependency>
@@ -96,46 +95,78 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--1.作用：将jar deploy(发布)到本地储存库位置(altDeploymentRepository)-->
             <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
                 <configuration>
-                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo
-                    </altDeploymentRepository>
-                </configuration>
-            </plugin>
-            <!--2.作用：将本地存储库位置的jar文件发布到github上-->
-            <plugin>
-                <groupId>com.github.github</groupId>
-                <artifactId>site-maven-plugin</artifactId>
-                <version>0.12</version>
-                <configuration>
-                    <message>Maven artifacts for ${project.version}</message>
-                    <noJekyll>true</noJekyll>
-                    <!--本地jar相关文件地址，与上方配置储存库位置(altDeploymentRepository)保持一致-->
-                    <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
-                    <!--配置上传到github哪个分支，此处配置格式必须以refs/heads/+分支名称-->
-                    <branch>refs/heads/main</branch>
-                    <merge>true</merge>
-                    <includes>
-                        <include>**/*</include>
-                    </includes>
-                    <!--对应github上创建的仓库名称 name-->
-                    <repositoryName>maven-repository</repositoryName>
-                    <!--github 仓库所有者即登录用户名-->
-                    <repositoryOwner>TrumanDu</repositoryOwner>
+                    <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
                 </configuration>
                 <executions>
                     <execution>
+                        <id>attach-javadocs</id>
                         <goals>
-                            <goal>site</goal>
+                            <goal>jar</goal>
                         </goals>
-                        <phase>deploy</phase>
+                        <configuration>
+                            <additionalparam>
+                                -Xdoclint:none
+                            </additionalparam>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/TrumanDu/smart-spring-boot-project/tree/main/smart-rest-spring-boot</url>
+        <connection>git@github.com:TrumanDu/smart-spring-boot-project.git</connection>
+        <developerConnection>https://www.trumandu.top</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>trumandu</name>
+            <email>truman.p.du@gmail.com</email>
+            <url>https://www.trumandu.top</url>
+        </developer>
+    </developers>
+
+    <!-- 中央仓库地址配置，不需要修改 -->
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
 </project>

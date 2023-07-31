@@ -10,19 +10,9 @@
     <dependency>
         <groupId>top.trumandu</groupId>
         <artifactId>smart-rest-spring-boot</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.1</version>
     </dependency>
 </dependencies>
-<repositories>
-<repository>
-    <id>github</id>
-    <url>https://raw.githubusercontent.com/trumandu/maven-repository/main/repository</url>
-    <snapshots>
-        <enabled>true</enabled>
-        <updatePolicy>always</updatePolicy>
-    </snapshots>
-</repository>
-</repositories>
 ```
 
 ## Feature
