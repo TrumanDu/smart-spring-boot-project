@@ -21,7 +21,7 @@ import top.trumandu.interceptor.AuthInterceptor;
  */
 @SuppressWarnings("unused")
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
+public class WebMvcConfig implements WebMvcConfigurer {
 
     @Autowired
     AuthInterceptor authInterceptor;
@@ -31,30 +31,4 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(authInterceptor).addPathPatterns("/**");
     }
 
-    /**
-     * 所有RestController注解暴露出来的接口增加统一前缀/api
-     *
-     */
-    @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
-        configurer.addPathPrefix("/api", c -> c.isAnnotationPresent(RestController.class));
-    }
-
-
-    @Bean
-    public ResponseBodyWrapFactoryBean getResponseBodyWrap() {
-        return new ResponseBodyWrapFactoryBean();
-    }
-
-    @Bean
-    public CorsFilter corsFilter() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOriginPattern("*");
-        corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.addAllowedMethod("*");
-        corsConfiguration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return new CorsFilter(source);
-    }
 }
