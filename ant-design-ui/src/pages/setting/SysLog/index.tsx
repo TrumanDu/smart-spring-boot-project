@@ -114,7 +114,14 @@ function SysLog() {
       <Modal title="SysLog Detail" visible={modalVisible} onOk={handleOk} onCancel={handleOk}>
         <ProDescriptions column={1} layout="vertical">
           <ProDescriptions.Item label="Method">{sysLog?.method}</ProDescriptions.Item>
-          <ProDescriptions.Item label="Params" valueType="jsonCode">
+          <ProDescriptions.Item
+            label="Params"
+            valueType="jsonCode"
+            contentStyle={{
+              wordWrap: 'break-word',
+              maxWidth: '100%',
+            }}
+          >
             {sysLog?.params}
           </ProDescriptions.Item>
         </ProDescriptions>

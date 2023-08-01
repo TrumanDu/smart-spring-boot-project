@@ -10,7 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>smart-rest-spring-boot</module>
-        <module>spring-boot-mybatis</module>
+        <module>smart-admin</module>
         <module>example-smart-rest</module>
     </modules>
 
