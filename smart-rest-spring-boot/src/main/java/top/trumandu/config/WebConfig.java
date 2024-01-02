@@ -20,14 +20,6 @@ import top.trumandu.common.domain.ResponseBodyWrapFactoryBean;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    /*
-    @Autowired
-    AuthInterceptor authInterceptor;
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authInterceptor).addPathPatterns("/**");
-    }*/
 
     /**
      * 所有RestController注解暴露出来的接口增加统一前缀/api
