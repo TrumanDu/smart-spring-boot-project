@@ -9,7 +9,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -24,23 +23,20 @@ public class RestClient {
     private RestTemplate restTemplate;
 
     public ResponseEntity<String> doGet(String url) {
-        ResponseEntity<String> response = this.restTemplate.getForEntity(url, String.class);
-        return response;
+        return this.restTemplate.getForEntity(url, String.class);
     }
 
     public ResponseEntity<String> doPost(String url, Object jsonData) {
         return this.doPost(url, jsonData, null);
     }
-
     public ResponseEntity<String> doPost(String url, Object jsonData, Map<String, String> head) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         if (head != null) {
-            headers.addAll((MultiValueMap) head);
+            head.forEach(headers::add);
         }
         HttpEntity<Object> requestEntity = new HttpEntity<>(jsonData, headers);
-        ResponseEntity<String> response = this.restTemplate.postForEntity(url, requestEntity, String.class);
-        return response;
+        return this.restTemplate.postForEntity(url, requestEntity, String.class);
     }
 
     public String doPut(String url, Object jsonData) {
@@ -52,8 +48,7 @@ public class RestClient {
     }
 
     public ResponseEntity<String> doDelete(String url) {
-        ResponseEntity<String> responseEntity = this.restTemplate.exchange(url, HttpMethod.DELETE, null, String.class);
-        return responseEntity;
+        return this.restTemplate.exchange(url, HttpMethod.DELETE, null, String.class);
     }
 
 
@@ -68,7 +63,7 @@ public class RestClient {
         return restTemplate.postForEntity(url, entity, String.class);
     }
 
-    public String sendFilePost(String url, File file) throws IOException {
+    public String sendFilePost(String url, File file) {
         LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
         FileSystemResource resource = new FileSystemResource(file);
         map.add("file", resource);
