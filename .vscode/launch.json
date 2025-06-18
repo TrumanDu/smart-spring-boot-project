@@ -1,0 +1,29 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Application",
+            "request": "launch",
+            "mainClass": "org.example.Application",
+            "projectName": "example-smart-rest"
+        },
+        {
+            "type": "java",
+            "name": "SpringBootMybatisApplication",
+            "request": "launch",
+            "mainClass": "top.trumandu.SpringBootMybatisApplication",
+            "projectName": "smart-admin"
+        },
+        {
+            "type": "java",
+            "name": "SpringBootWebApplication",
+            "request": "launch",
+            "mainClass": "top.trumandu.SpringBootWebApplication",
+            "projectName": "smart-rest-spring-boot"
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    //设置内存大小
+    "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx16G -Xms2G -Xlog:disable",
+    //maven视图:分层
+    "maven.view": "hierarchical",
+    //构建失败继续:开启
+    "java.debug.settings.onBuildFailureProceed": true,
+    //启动窗口、打开文件夹、保存文件时的自动编译开关
+    //影响启动速度，如有需要可启动后再手动打开
+    "java.autobuild.enabled": false,
+    //debug启动时自动编译:关闭
+    //如果打开，则应用启动前需要编译整个项目，耗时1.5-5分钟
+    //建议手工编译，可提升启动速度
+    "java.debug.settings.forceBuildBeforeLaunch": false,
+    //debug自动加载修改后的类
+    "java.debug.settings.hotCodeReplace": "auto",
+    //保存时自动编译:开启
+    //但似乎此参数无效，实操经验是：
+    //倘若java.autobuild.enabled为true，则保存后自动编译
+    //倘若java.autobuild.enabled为false，则保存后不自动编译
+    "java.compile.onSave": true,
+    //问题装饰:关闭
+    "problems.decorations.enabled": false,
+    //null分析:关闭
+    "java.compile.nullAnalysis.mode": "disabled",
+    //未使用导入:忽略
+    "editor.unusedImports.severity": "ignore",
+    //未使用变量:隐藏
+    "editor.showUnused": false,
+    //自动保存:延迟
+    "files.autoSave": "afterDelay",
+    //自动保存延迟时间:1000毫秒
+    "files.autoSaveDelay": 1000,
+    //JAVA项目层级展示
+    "java.dependency.packagePresentation": "hierarchical",
+    //Peek References窥视试图颜色配置
+    "workbench.colorCustomizations": {
+        "peekView.border": "#FF0000", // 边框颜色
+        "peekViewEditor.background": "#330099", // 代码编辑区背景
+        "peekViewResult.background": "#3300CC", // 结果列表背景
+        "peekViewTitle.background": "#FF0000" // 标题背景
+    },
+    "java.configuration.updateBuildConfiguration": "automatic"
+}

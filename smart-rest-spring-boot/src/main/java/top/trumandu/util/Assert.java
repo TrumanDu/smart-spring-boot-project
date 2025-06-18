@@ -1,10 +1,5 @@
 package top.trumandu.util;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.ObjUtil;
-import cn.hutool.core.util.StrUtil;
 import top.trumandu.common.domain.ResultCodeEnum;
 import top.trumandu.common.exception.BusinessException;
 
@@ -14,13 +9,13 @@ import java.util.function.Supplier;
 /**
  * @author Truman.P.Du
  * @date 2023/07/30
- * @description 参考：<a href="https://github.com/coder-amiao/simplest-api/blob/main/src/main/java/cn/soboys/restapispringbootstarter/Assert.java">...</a>
+ * @description 参考：<a href=
+ *              "https://github.com/coder-amiao/simplest-api/blob/main/src/main/java/cn/soboys/restapispringbootstarter/Assert.java">...</a>
  */
 @SuppressWarnings("unused")
 public class Assert {
 
     private static final String TEMPLATE_VALUE_MUST_BE_BETWEEN_AND = "The value must be between {} and {}.";
-
 
     /**
      * 断言是否为真，如果为 {@code false} 抛出给定的异常<br>
@@ -53,7 +48,7 @@ public class Assert {
      * @throws BusinessException if expression is {@code false}
      */
     public static void isTrue(boolean expression, String errorMsgTemplate, Object... params) throws BusinessException {
-        isTrue(expression, () -> new BusinessException(StrUtil.format(errorMsgTemplate, params)));
+        isTrue(expression, () -> new BusinessException(SmartUtil.format(errorMsgTemplate, params)));
     }
 
     public static void isTrue(boolean expression, String message, String code) throws BusinessException {
@@ -63,7 +58,6 @@ public class Assert {
     public static void isTrue(boolean expression, ResultCodeEnum resultEnum) throws BusinessException {
         isTrue(expression, () -> new BusinessException(resultEnum));
     }
-
 
     /**
      * 断言是否为真，如果为 {@code false} 抛出 {@code BusinessException} 异常<br>
@@ -82,11 +76,12 @@ public class Assert {
     /**
      * 断言是否为假，如果为 {@code true} 抛出指定类型异常<br>
      * 并使用指定的函数获取错误信息返回
+     * 
      * <pre class="code">
-     *  Assert.isFalse(i &gt; 0, ()-&gt;{
-     *      // to query relation message
-     *      return new BusinessException("relation message to return");
-     *  });
+     * Assert.isFalse(i &gt; 0, () -&gt; {
+     *     // to query relation message
+     *     return new BusinessException("relation message to return");
+     * });
      * </pre>
      *
      * @param <X>           异常类型
@@ -114,7 +109,7 @@ public class Assert {
      * @throws BusinessException if expression is {@code false}
      */
     public static void isFalse(boolean expression, String errorMsgTemplate, Object... params) throws BusinessException {
-        isFalse(expression, () -> new BusinessException(StrUtil.format(errorMsgTemplate, params)));
+        isFalse(expression, () -> new BusinessException(SmartUtil.format(errorMsgTemplate, params)));
     }
 
     public static void isFalse(boolean expression, String message, String code) throws BusinessException {
@@ -142,11 +137,12 @@ public class Assert {
     /**
      * 断言对象是否为{@code null} ，如果不为{@code null} 抛出指定类型异常
      * 并使用指定的函数获取错误信息返回
+     * 
      * <pre class="code">
-     * Assert.isNull(value, ()-&gt;{
-     *      // to query relation message
-     *      return new BusinessException("relation message to return");
-     *  });
+     * Assert.isNull(value, () -&gt; {
+     *     // to query relation message
+     *     return new BusinessException("relation message to return");
+     * });
      * </pre>
      *
      * @param <X>           异常类型
@@ -164,6 +160,7 @@ public class Assert {
     /**
      * 断言对象是否为{@code null} ，如果不为{@code null} 抛出{@link BusinessException} 异常
      * <p>
+     * 
      * <pre class="code">
      * Assert.isNull(value, "The value must be null");
      * </pre>
@@ -174,7 +171,7 @@ public class Assert {
      * @throws BusinessException if the object is not {@code null}
      */
     public static void isNull(Object object, String errorMsgTemplate, Object... params) throws BusinessException {
-        isNull(object, () -> new BusinessException(StrUtil.format(errorMsgTemplate, params)));
+        isNull(object, () -> new BusinessException(SmartUtil.format(errorMsgTemplate, params)));
     }
 
     public static void isNull(Object object, String message, String code) throws BusinessException {
@@ -188,6 +185,7 @@ public class Assert {
     /**
      * 断言对象是否为{@code null} ，如果不为{@code null} 抛出{@link BusinessException} 异常
      * <p>
+     * 
      * <pre class="code">
      * Assert.isNull(value);
      * </pre>
@@ -199,16 +197,18 @@ public class Assert {
         isNull(object, "[Assertion failed] - the object argument must be null");
     }
 
-    // ----------------------------------------------------------------------------------------------------------- Check not null
+    // -----------------------------------------------------------------------------------------------------------
+    // Check not null
 
     /**
      * 断言对象是否不为{@code null} ，如果为{@code null} 抛出指定类型异常
      * 并使用指定的函数获取错误信息返回
+     * 
      * <pre class="code">
-     * Assert.notNull(clazz, ()-&gt;{
-     *      // to query relation message
-     *      return new BusinessException("relation message to return");
-     *  });
+     * Assert.notNull(clazz, () -&gt; {
+     *     // to query relation message
+     *     return new BusinessException("relation message to return");
+     * });
      * </pre>
      *
      * @param <T>           被检查对象泛型类型
@@ -227,8 +227,10 @@ public class Assert {
     }
 
     /**
-     * 断言对象是否不为{@code null} ，如果为{@code null} 抛出{@link BusinessException} 异常 Assert that an object is not {@code null} .
+     * 断言对象是否不为{@code null} ，如果为{@code null} 抛出{@link BusinessException} 异常 Assert
+     * that an object is not {@code null} .
      * <p>
+     * 
      * <pre class="code">
      * Assert.notNull(clazz, "The class must not be null");
      * </pre>
@@ -240,7 +242,7 @@ public class Assert {
      * @throws BusinessException if the object is {@code null}
      */
     public static <T> void notNull(T object, String errorMsgTemplate, Object... params) throws BusinessException {
-        notNull(object, () -> new BusinessException(StrUtil.format(errorMsgTemplate, params)));
+        notNull(object, () -> new BusinessException(SmartUtil.format(errorMsgTemplate, params)));
     }
 
     public static <T> T notNull(T object, String message, String code) throws BusinessException {
@@ -254,6 +256,7 @@ public class Assert {
     /**
      * 断言对象是否不为{@code null} ，如果为{@code null} 抛出{@link BusinessException} 异常
      * <p>
+     * 
      * <pre class="code">
      * Assert.notNull(clazz);
      * </pre>
@@ -266,15 +269,17 @@ public class Assert {
         notNull(object, "[Assertion failed] - this argument is required; it must not be null");
     }
 
-    // ----------------------------------------------------------------------------------------------------------- Check empty
+    // -----------------------------------------------------------------------------------------------------------
+    // Check empty
 
     /**
      * 检查给定字符串是否为空，为空抛出自定义异常，并使用指定的函数获取错误信息返回。
+     * 
      * <pre class="code">
-     * Assert.notEmpty(name, ()-&gt;{
-     *      // to query relation message
-     *      return new BusinessException("relation message to return");
-     *  });
+     * Assert.notEmpty(name, () -&gt; {
+     *     // to query relation message
+     *     return new BusinessException("relation message to return");
+     * });
      * </pre>
      *
      * @param <X>           异常类型
@@ -283,11 +288,10 @@ public class Assert {
      * @param errorSupplier 错误抛出异常附带的消息生产接口
      * @return 非空字符串
      * @throws X 被检查字符串为空抛出此异常
-     * @see StrUtil#isNotEmpty(CharSequence)
      * @since 5.4.5
      */
     public static <T extends CharSequence, X extends Throwable> T notEmpty(T text, Supplier<X> errorSupplier) throws X {
-        if (StrUtil.isEmpty(text)) {
+        if (SmartUtil.isEmpty(text)) {
             throw errorSupplier.get();
         }
         return text;
@@ -306,12 +310,11 @@ public class Assert {
      * @param params           参数
      * @return 非空字符串
      * @throws BusinessException 被检查字符串为空
-     * @see StrUtil#isNotEmpty(CharSequence)
      */
-    public static <T extends CharSequence> T notEmpty(T text, String errorMsgTemplate, Object... params) throws BusinessException {
-        return notEmpty(text, () -> new BusinessException(StrUtil.format(errorMsgTemplate, params)));
+    public static <T extends CharSequence> T notEmpty(T text, String errorMsgTemplate, Object... params)
+            throws BusinessException {
+        return notEmpty(text, () -> new BusinessException(SmartUtil.format(errorMsgTemplate, params)));
     }
-
 
     /**
      * 检查给定字符串是否为空，为空抛出 {@link BusinessException}
@@ -324,20 +327,21 @@ public class Assert {
      * @param text 被检查字符串
      * @return 被检查的字符串
      * @throws BusinessException 被检查字符串为空
-     * @see StrUtil#isNotEmpty(CharSequence)
      */
     public static <T extends CharSequence> T notEmpty(T text) throws BusinessException {
-        return notEmpty(text, "[Assertion failed] - this String argument must have length; it must not be null or empty");
+        return notEmpty(text,
+                "[Assertion failed] - this String argument must have length; it must not be null or empty");
     }
 
     /**
      * 检查给定字符串是否为空白（null、空串或只包含空白符），为空抛出自定义异常。
      * 并使用指定的函数获取错误信息返回
+     * 
      * <pre class="code">
-     * Assert.notBlank(name, ()-&gt;{
-     *      // to query relation message
-     *      return new BusinessException("relation message to return");
-     *  });
+     * Assert.notBlank(name, () -&gt; {
+     *     // to query relation message
+     *     return new BusinessException("relation message to return");
+     * });
      * </pre>
      *
      * @param <X>              异常类型
@@ -346,10 +350,10 @@ public class Assert {
      * @param errorMsgSupplier 错误抛出异常附带的消息生产接口
      * @return 非空字符串
      * @throws X 被检查字符串为空白
-     * @see StrUtil#isNotBlank(CharSequence)
      */
-    public static <T extends CharSequence, X extends Throwable> T notBlank(T text, Supplier<X> errorMsgSupplier) throws X {
-        if (StrUtil.isBlank(text)) {
+    public static <T extends CharSequence, X extends Throwable> T notBlank(T text, Supplier<X> errorMsgSupplier)
+            throws X {
+        if (SmartUtil.isBlank(text)) {
             throw errorMsgSupplier.get();
         }
         return text;
@@ -368,10 +372,10 @@ public class Assert {
      * @param params           参数
      * @return 非空字符串
      * @throws BusinessException 被检查字符串为空白
-     * @see StrUtil#isNotBlank(CharSequence)
      */
-    public static <T extends CharSequence> T notBlank(T text, String errorMsgTemplate, Object... params) throws BusinessException {
-        return notBlank(text, () -> new BusinessException(StrUtil.format(errorMsgTemplate, params)));
+    public static <T extends CharSequence> T notBlank(T text, String errorMsgTemplate, Object... params)
+            throws BusinessException {
+        return notBlank(text, () -> new BusinessException(SmartUtil.format(errorMsgTemplate, params)));
     }
 
     /**
@@ -385,20 +389,21 @@ public class Assert {
      * @param text 被检查字符串
      * @return 非空字符串
      * @throws BusinessException 被检查字符串为空白
-     * @see StrUtil#isNotBlank(CharSequence)
      */
     public static <T extends CharSequence> T notBlank(T text) throws BusinessException {
-        return notBlank(text, "[Assertion failed] - this String argument must have text; it must not be null, empty, or blank");
+        return notBlank(text,
+                "[Assertion failed] - this String argument must have text; it must not be null, empty, or blank");
     }
 
     /**
      * 断言给定字符串是否不被另一个字符串包含（即是否为子串）
      * 并使用指定的函数获取错误信息返回
+     * 
      * <pre class="code">
-     * Assert.notContain(name, "rod", ()-&gt;{
-     *      // to query relation message
-     *      return new BusinessException("relation message to return ");
-     *  });
+     * Assert.notContain(name, "rod", () -&gt; {
+     *     // to query relation message
+     *     return new BusinessException("relation message to return ");
+     * });
      * </pre>
      *
      * @param <T>           字符串类型
@@ -408,11 +413,12 @@ public class Assert {
      * @param errorSupplier 错误抛出异常附带的消息生产接口
      * @return 被检查的子串
      * @throws X 非子串抛出异常
-     * @see StrUtil#contains(CharSequence, CharSequence)
+     * @see SmartUtil#contains(CharSequence, CharSequence)
      * @since 5.4.5
      */
-    public static <T extends CharSequence, X extends Throwable> T notContain(CharSequence textToSearch, T substring, Supplier<X> errorSupplier) throws X {
-        if (StrUtil.contains(textToSearch, substring)) {
+    public static <T extends CharSequence, X extends Throwable> T notContain(CharSequence textToSearch, T substring,
+            Supplier<X> errorSupplier) throws X {
+        if (SmartUtil.contains(textToSearch, substring)) {
             throw errorSupplier.get();
         }
         return substring;
@@ -421,6 +427,7 @@ public class Assert {
     /**
      * 断言给定字符串是否不被另一个字符串包含（即是否为子串）
      * <p>
+     * 
      * <pre class="code">
      * Assert.notContain(name, "rod", "Name must not contain 'rod'");
      * </pre>
@@ -432,13 +439,16 @@ public class Assert {
      * @return 被检查的子串
      * @throws BusinessException 非子串抛出异常
      */
-    public static String notContain(String textToSearch, String substring, String errorMsgTemplate, Object... params) throws BusinessException {
-        return notContain(textToSearch, substring, () -> new BusinessException(StrUtil.format(errorMsgTemplate, params)));
+    public static String notContain(String textToSearch, String substring, String errorMsgTemplate, Object... params)
+            throws BusinessException {
+        return notContain(textToSearch, substring,
+                () -> new BusinessException(SmartUtil.format(errorMsgTemplate, params)));
     }
 
     /**
      * 断言给定字符串是否不被另一个字符串包含（即是否为子串）
      * <p>
+     * 
      * <pre class="code">
      * Assert.notContain(name, "rod");
      * </pre>
@@ -449,18 +459,20 @@ public class Assert {
      * @throws BusinessException 非子串抛出异常
      */
     public static String notContain(String textToSearch, String substring) throws BusinessException {
-        return notContain(textToSearch, substring, "[Assertion failed] - this String argument must not contain the substring [{}]", substring);
+        return notContain(textToSearch, substring,
+                "[Assertion failed] - this String argument must not contain the substring [{}]", substring);
     }
 
     /**
      * 断言给定数组是否包含元素，数组必须不为 {@code null} 且至少包含一个元素
      * 并使用指定的函数获取错误信息返回
      * <p>
+     * 
      * <pre class="code">
-     * Assert.notEmpty(array, ()-&gt;{
-     *      // to query relation message
-     *      return new BusinessException("relation message to return");
-     *  });
+     * Assert.notEmpty(array, () -&gt; {
+     *     // to query relation message
+     *     return new BusinessException("relation message to return");
+     * });
      * </pre>
      *
      * @param <T>           数组元素类型
@@ -469,11 +481,10 @@ public class Assert {
      * @param errorSupplier 错误抛出异常附带的消息生产接口
      * @return 被检查的数组
      * @throws X if the object array is {@code null} or has no elements
-     * @see ArrayUtil#isNotEmpty(Object[])
      * @since 5.4.5
      */
     public static <T, X extends Throwable> T[] notEmpty(T[] array, Supplier<X> errorSupplier) throws X {
-        if (ArrayUtil.isEmpty(array)) {
+        if (SmartUtil.isEmpty(array)) {
             throw errorSupplier.get();
         }
         return array;
@@ -482,6 +493,7 @@ public class Assert {
     /**
      * 断言给定数组是否包含元素，数组必须不为 {@code null} 且至少包含一个元素
      * <p>
+     * 
      * <pre class="code">
      * Assert.notEmpty(array, "The array must have elements");
      * </pre>
@@ -491,15 +503,17 @@ public class Assert {
      * @param errorMsgTemplate 异常时的消息模板
      * @param params           参数列表
      * @return 被检查的数组
-     * @throws BusinessException if the object array is {@code null} or has no elements
+     * @throws BusinessException if the object array is {@code null} or has no
+     *                           elements
      */
     public static <T> T[] notEmpty(T[] array, String errorMsgTemplate, Object... params) throws BusinessException {
-        return notEmpty(array, () -> new BusinessException(StrUtil.format(errorMsgTemplate, params)));
+        return notEmpty(array, () -> new BusinessException(SmartUtil.format(errorMsgTemplate, params)));
     }
 
     /**
      * 断言给定数组是否包含元素，数组必须不为 {@code null} 且至少包含一个元素
      * <p>
+     * 
      * <pre class="code">
      * Assert.notEmpty(array, "The array must have elements");
      * </pre>
@@ -507,7 +521,8 @@ public class Assert {
      * @param <T>   数组元素类型
      * @param array 被检查的数组
      * @return 被检查的数组
-     * @throws BusinessException if the object array is {@code null} or has no elements
+     * @throws BusinessException if the object array is {@code null} or has no
+     *                           elements
      */
     public static <T> T[] notEmpty(T[] array) throws BusinessException {
         return notEmpty(array, "[Assertion failed] - this array must not be empty: it must contain at least 1 element");
@@ -516,11 +531,12 @@ public class Assert {
     /**
      * 断言给定数组是否不包含{@code null}元素，如果数组为空或 {@code null}将被认为不包含
      * 并使用指定的函数获取错误信息返回
+     * 
      * <pre class="code">
-     * Assert.noNullElements(array, ()-&gt;{
-     *      // to query relation message
-     *      return new BusinessException("relation message to return ");
-     *  });
+     * Assert.noNullElements(array, () -&gt; {
+     *     // to query relation message
+     *     return new BusinessException("relation message to return ");
+     * });
      * </pre>
      *
      * @param <T>           数组元素类型
@@ -529,11 +545,10 @@ public class Assert {
      * @param errorSupplier 错误抛出异常附带的消息生产接口
      * @return 被检查的数组
      * @throws X if the object array contains a {@code null} element
-     * @see ArrayUtil#hasNull(Object[])
      * @since 5.4.5
      */
     public static <T, X extends Throwable> T[] noNullElements(T[] array, Supplier<X> errorSupplier) throws X {
-        if (ArrayUtil.hasNull(array)) {
+        if (SmartUtil.hasNull(array)) {
             throw errorSupplier.get();
         }
         return array;
@@ -541,6 +556,7 @@ public class Assert {
 
     /**
      * 断言给定数组是否不包含{@code null}元素，如果数组为空或 {@code null}将被认为不包含
+     * 
      * <pre class="code">
      * Assert.noNullElements(array, "The array must not have null elements");
      * </pre>
@@ -552,13 +568,15 @@ public class Assert {
      * @return 被检查的数组
      * @throws BusinessException if the object array contains a {@code null} element
      */
-    public static <T> T[] noNullElements(T[] array, String errorMsgTemplate, Object... params) throws BusinessException {
-        return noNullElements(array, () -> new BusinessException(StrUtil.format(errorMsgTemplate, params)));
+    public static <T> T[] noNullElements(T[] array, String errorMsgTemplate, Object... params)
+            throws BusinessException {
+        return noNullElements(array, () -> new BusinessException(SmartUtil.format(errorMsgTemplate, params)));
     }
 
     /**
      * 断言给定数组是否不包含{@code null}元素，如果数组为空或 {@code null}将被认为不包含
      * <p>
+     * 
      * <pre class="code">
      * Assert.noNullElements(array);
      * </pre>
@@ -576,11 +594,12 @@ public class Assert {
     /**
      * 断言给定集合非空
      * 并使用指定的函数获取错误信息返回
+     * 
      * <pre class="code">
-     * Assert.notEmpty(collection, ()-&gt;{
-     *      // to query relation message
-     *      return new BusinessException("relation message to return");
-     *  });
+     * Assert.notEmpty(collection, () -&gt; {
+     *     // to query relation message
+     *     return new BusinessException("relation message to return");
+     * });
      * </pre>
      *
      * @param <E>           集合元素类型
@@ -590,11 +609,11 @@ public class Assert {
      * @param errorSupplier 错误抛出异常附带的消息生产接口
      * @return 非空集合
      * @throws X if the collection is {@code null} or has no elements
-     * @see CollUtil#isNotEmpty(Iterable)
      * @since 5.4.5
      */
-    public static <E, T extends Iterable<E>, X extends Throwable> T notEmpty(T collection, Supplier<X> errorSupplier) throws X {
-        if (CollUtil.isEmpty(collection)) {
+    public static <E, T extends Iterable<E>, X extends Throwable> T notEmpty(T collection, Supplier<X> errorSupplier)
+            throws X {
+        if (SmartUtil.isEmpty(collection)) {
             throw errorSupplier.get();
         }
         return collection;
@@ -603,6 +622,7 @@ public class Assert {
     /**
      * 断言给定集合非空
      * <p>
+     * 
      * <pre class="code">
      * Assert.notEmpty(collection, "Collection must have elements");
      * </pre>
@@ -613,23 +633,28 @@ public class Assert {
      * @param errorMsgTemplate 异常时的消息模板
      * @param params           参数列表
      * @return 非空集合
-     * @throws BusinessException if the collection is {@code null} or has no elements
+     * @throws BusinessException if the collection is {@code null} or has no
+     *                           elements
      */
-    public static <E, T extends Iterable<E>> T notEmpty(T collection, String errorMsgTemplate, Object... params) throws BusinessException {
-        return notEmpty(collection, () -> new BusinessException(StrUtil.format(errorMsgTemplate, params)));
+    public static <E, T extends Iterable<E>> T notEmpty(T collection, String errorMsgTemplate, Object... params)
+            throws BusinessException {
+        return notEmpty(collection, () -> new BusinessException(SmartUtil.format(errorMsgTemplate, params)));
     }
 
-    public static <E, T extends Iterable<E>> T notEmpty(T collection, String message, String code) throws BusinessException {
+    public static <E, T extends Iterable<E>> T notEmpty(T collection, String message, String code)
+            throws BusinessException {
         return notEmpty(collection, () -> new BusinessException(Integer.parseInt(code), message));
     }
 
-    public static <E, T extends Iterable<E>> T notEmpty(T collection, ResultCodeEnum resultEnum) throws BusinessException {
+    public static <E, T extends Iterable<E>> T notEmpty(T collection, ResultCodeEnum resultEnum)
+            throws BusinessException {
         return notEmpty(collection, () -> new BusinessException(resultEnum));
     }
 
     /**
      * 断言给定集合非空
      * <p>
+     * 
      * <pre class="code">
      * Assert.notEmpty(collection);
      * </pre>
@@ -638,20 +663,23 @@ public class Assert {
      * @param <T>        集合类型
      * @param collection 被检查的集合
      * @return 被检查集合
-     * @throws BusinessException if the collection is {@code null} or has no elements
+     * @throws BusinessException if the collection is {@code null} or has no
+     *                           elements
      */
     public static <E, T extends Iterable<E>> T notEmpty(T collection) throws BusinessException {
-        return notEmpty(collection, "[Assertion failed] - this collection must not be empty: it must contain at least 1 element");
+        return notEmpty(collection,
+                "[Assertion failed] - this collection must not be empty: it must contain at least 1 element");
     }
 
     /**
      * 断言给定Map非空
      * 并使用指定的函数获取错误信息返回
+     * 
      * <pre class="code">
-     * Assert.notEmpty(map, ()-&gt;{
-     *      // to query relation message
-     *      return new BusinessException("relation message to return");
-     *  });
+     * Assert.notEmpty(map, () -&gt; {
+     *     // to query relation message
+     *     return new BusinessException("relation message to return");
+     * });
      * </pre>
      *
      * @param <K>           Key类型
@@ -662,11 +690,11 @@ public class Assert {
      * @param errorSupplier 错误抛出异常附带的消息生产接口
      * @return 被检查的Map
      * @throws X if the map is {@code null} or has no entries
-     * @see MapUtil#isNotEmpty(Map)
      * @since 5.4.5
      */
-    public static <K, V, T extends Map<K, V>, X extends Throwable> T notEmpty(T map, Supplier<X> errorSupplier) throws X {
-        if (MapUtil.isEmpty(map)) {
+    public static <K, V, T extends Map<K, V>, X extends Throwable> T notEmpty(T map, Supplier<X> errorSupplier)
+            throws X {
+        if (SmartUtil.isEmpty(map)) {
             throw errorSupplier.get();
         }
         return map;
@@ -675,6 +703,7 @@ public class Assert {
     /**
      * 断言给定Map非空
      * <p>
+     * 
      * <pre class="code">
      * Assert.notEmpty(map, "Map must have entries");
      * </pre>
@@ -688,13 +717,15 @@ public class Assert {
      * @return 被检查的Map
      * @throws BusinessException if the map is {@code null} or has no entries
      */
-    public static <K, V, T extends Map<K, V>> T notEmpty(T map, String errorMsgTemplate, Object... params) throws BusinessException {
-        return notEmpty(map, () -> new BusinessException(StrUtil.format(errorMsgTemplate, params)));
+    public static <K, V, T extends Map<K, V>> T notEmpty(T map, String errorMsgTemplate, Object... params)
+            throws BusinessException {
+        return notEmpty(map, () -> new BusinessException(SmartUtil.format(errorMsgTemplate, params)));
     }
 
     /**
      * 断言给定Map非空
      * <p>
+     * 
      * <pre class="code">
      * Assert.notEmpty(map, "Map must have entries");
      * </pre>
@@ -713,6 +744,7 @@ public class Assert {
     /**
      * 断言给定对象是否是给定类的实例
      * <p>
+     * 
      * <pre class="code">
      * Assert.instanceOf(Foo.class, foo);
      * </pre>
@@ -731,6 +763,7 @@ public class Assert {
     /**
      * 断言给定对象是否是给定类的实例
      * <p>
+     * 
      * <pre class="code">
      * Assert.instanceOf(Foo.class, foo, "foo must be an instance of class Foo");
      * </pre>
@@ -744,10 +777,11 @@ public class Assert {
      * @throws BusinessException if the object is not an instance of clazz
      * @see Class#isInstance(Object)
      */
-    public static <T> T isInstanceOf(Class<?> type, T obj, String errorMsgTemplate, Object... params) throws BusinessException {
+    public static <T> T isInstanceOf(Class<?> type, T obj, String errorMsgTemplate, Object... params)
+            throws BusinessException {
         notNull(type, "Type to check against must not be null");
         if (!type.isInstance(obj)) {
-            throw new BusinessException(StrUtil.format(errorMsgTemplate, params));
+            throw new BusinessException(SmartUtil.format(errorMsgTemplate, params));
         }
         return obj;
     }
@@ -755,6 +789,7 @@ public class Assert {
     /**
      * 断言 {@code superType.isAssignableFrom(subType)} 是否为 {@code true}.
      * <p>
+     * 
      * <pre class="code">
      * Assert.isAssignable(Number.class, myClass);
      * </pre>
@@ -770,6 +805,7 @@ public class Assert {
     /**
      * 断言 {@code superType.isAssignableFrom(subType)} 是否为 {@code true}.
      * <p>
+     * 
      * <pre class="code">
      * Assert.isAssignable(Number.class, myClass, "myClass must can be assignable to class Number");
      * </pre>
@@ -780,21 +816,23 @@ public class Assert {
      * @param params           参数列表
      * @throws BusinessException 如果子类非继承父类，抛出此异常
      */
-    public static void isAssignable(Class<?> superType, Class<?> subType, String errorMsgTemplate, Object... params) throws BusinessException {
+    public static void isAssignable(Class<?> superType, Class<?> subType, String errorMsgTemplate, Object... params)
+            throws BusinessException {
         notNull(superType, "Type to check against must not be null");
         if (subType == null || !superType.isAssignableFrom(subType)) {
-            throw new BusinessException(StrUtil.format(errorMsgTemplate, params));
+            throw new BusinessException(SmartUtil.format(errorMsgTemplate, params));
         }
     }
 
     /**
      * 检查boolean表达式，当检查结果为false时抛出 {@code IllegalStateException}。
      * 并使用指定的函数获取错误信息返回
+     * 
      * <pre class="code">
-     * Assert.state(id == null, ()-&gt;{
-     *      // to query relation message
-     *      return "relation message to return ";
-     *  });
+     * Assert.state(id == null, () -&gt; {
+     *     // to query relation message
+     *     return "relation message to return ";
+     * });
      * </pre>
      *
      * @param expression       boolean 表达式
@@ -810,6 +848,7 @@ public class Assert {
     /**
      * 检查boolean表达式，当检查结果为false时抛出 {@code IllegalStateException}。
      * <p>
+     * 
      * <pre class="code">
      * Assert.state(id == null, "The id property must not already be initialized");
      * </pre>
@@ -819,15 +858,17 @@ public class Assert {
      * @param params           参数列表
      * @throws IllegalStateException 表达式为 {@code false} 抛出此异常
      */
-    public static void state(boolean expression, String errorMsgTemplate, Object... params) throws IllegalStateException {
+    public static void state(boolean expression, String errorMsgTemplate, Object... params)
+            throws IllegalStateException {
         if (!expression) {
-            throw new IllegalStateException(StrUtil.format(errorMsgTemplate, params));
+            throw new IllegalStateException(SmartUtil.format(errorMsgTemplate, params));
         }
     }
 
     /**
      * 检查boolean表达式，当检查结果为false时抛出 {@code IllegalStateException}。
      * <p>
+     * 
      * <pre class="code">
      * Assert.state(id == null);
      * </pre>
@@ -873,7 +914,8 @@ public class Assert {
      * @throws IndexOutOfBoundsException 如果index &lt; 0或者 index &ge; size 抛出此异常
      * @since 4.1.9
      */
-    public static int checkIndex(int index, int size, String errorMsgTemplate, Object... params) throws BusinessException, IndexOutOfBoundsException {
+    public static int checkIndex(int index, int size, String errorMsgTemplate, Object... params)
+            throws BusinessException, IndexOutOfBoundsException {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException(badIndexMsg(index, size, errorMsgTemplate, params));
         }
@@ -892,7 +934,8 @@ public class Assert {
      * @throws X if value is out of bound
      * @since 5.7.15
      */
-    public static <X extends Throwable> int checkBetween(int value, int min, int max, Supplier<? extends X> errorSupplier) throws X {
+    public static <X extends Throwable> int checkBetween(int value, int min, int max,
+            Supplier<? extends X> errorSupplier) throws X {
         if (value < min || value > max) {
             throw errorSupplier.get();
         }
@@ -912,7 +955,7 @@ public class Assert {
      * @since 5.7.15
      */
     public static int checkBetween(int value, int min, int max, String errorMsgTemplate, Object... params) {
-        return checkBetween(value, min, max, () -> new BusinessException(StrUtil.format(errorMsgTemplate, params)));
+        return checkBetween(value, min, max, () -> new BusinessException(SmartUtil.format(errorMsgTemplate, params)));
     }
 
     /**
@@ -940,7 +983,8 @@ public class Assert {
      * @throws X if value is out of bound
      * @since 5.7.15
      */
-    public static <X extends Throwable> long checkBetween(long value, long min, long max, Supplier<? extends X> errorSupplier) throws X {
+    public static <X extends Throwable> long checkBetween(long value, long min, long max,
+            Supplier<? extends X> errorSupplier) throws X {
         if (value < min || value > max) {
             throw errorSupplier.get();
         }
@@ -960,7 +1004,7 @@ public class Assert {
      * @since 5.7.15
      */
     public static long checkBetween(long value, long min, long max, String errorMsgTemplate, Object... params) {
-        return checkBetween(value, min, max, () -> new BusinessException(StrUtil.format(errorMsgTemplate, params)));
+        return checkBetween(value, min, max, () -> new BusinessException(SmartUtil.format(errorMsgTemplate, params)));
     }
 
     /**
@@ -988,7 +1032,8 @@ public class Assert {
      * @throws X if value is out of bound
      * @since 5.7.15
      */
-    public static <X extends Throwable> double checkBetween(double value, double min, double max, Supplier<? extends X> errorSupplier) throws X {
+    public static <X extends Throwable> double checkBetween(double value, double min, double max,
+            Supplier<? extends X> errorSupplier) throws X {
         if (value < min || value > max) {
             throw errorSupplier.get();
         }
@@ -1008,7 +1053,7 @@ public class Assert {
      * @since 5.7.15
      */
     public static double checkBetween(double value, double min, double max, String errorMsgTemplate, Object... params) {
-        return checkBetween(value, min, max, () -> new BusinessException(StrUtil.format(errorMsgTemplate, params)));
+        return checkBetween(value, min, max, () -> new BusinessException(SmartUtil.format(errorMsgTemplate, params)));
     }
 
     /**
@@ -1041,15 +1086,16 @@ public class Assert {
         double minDouble = min.doubleValue();
         double maxDouble = max.doubleValue();
         if (valueDouble < minDouble || valueDouble > maxDouble) {
-            throw new BusinessException(StrUtil.format(TEMPLATE_VALUE_MUST_BE_BETWEEN_AND, min, max));
+            throw new BusinessException(SmartUtil.format(TEMPLATE_VALUE_MUST_BE_BETWEEN_AND, min, max));
         }
         return value;
     }
 
     /**
      * 断言两个对象是否不相等,如果两个对象相等 抛出BusinessException 异常
+     * 
      * <pre class="code">
-     *   Assert.notEquals(obj1,obj2);
+     * Assert.notEquals(obj1, obj2);
      * </pre>
      *
      * @param obj1 对象1
@@ -1062,8 +1108,9 @@ public class Assert {
 
     /**
      * 断言两个对象是否不相等,如果两个对象相等 抛出BusinessException 异常
+     * 
      * <pre class="code">
-     *   Assert.notEquals(obj1,obj2,"obj1 must be not equals obj2");
+     * Assert.notEquals(obj1, obj2, "obj1 must be not equals obj2");
      * </pre>
      *
      * @param obj1             对象1
@@ -1072,8 +1119,9 @@ public class Assert {
      * @param params           异常信息参数，用于替换"{}"占位符
      * @throws BusinessException obj1 must be not equals obj2
      */
-    public static void notEquals(Object obj1, Object obj2, String errorMsgTemplate, Object... params) throws BusinessException {
-        notEquals(obj1, obj2, () -> new BusinessException(StrUtil.format(errorMsgTemplate, params)));
+    public static void notEquals(Object obj1, Object obj2, String errorMsgTemplate, Object... params)
+            throws BusinessException {
+        notEquals(obj1, obj2, () -> new BusinessException(SmartUtil.format(errorMsgTemplate, params)));
     }
 
     /**
@@ -1086,16 +1134,18 @@ public class Assert {
      * @throws X obj1 must be not equals obj2
      */
     public static <X extends Throwable> void notEquals(Object obj1, Object obj2, Supplier<X> errorSupplier) throws X {
-        if (ObjUtil.equals(obj1, obj2)) {
+        if (SmartUtil.equals(obj1, obj2)) {
             throw errorSupplier.get();
         }
     }
-    // ----------------------------------------------------------------------------------------------------------- Check not equals
+    // -----------------------------------------------------------------------------------------------------------
+    // Check not equals
 
     /**
      * 断言两个对象是否相等,如果两个对象不相等 抛出BusinessException 异常
+     * 
      * <pre class="code">
-     *   Assert.isEquals(obj1,obj2);
+     * Assert.isEquals(obj1, obj2);
      * </pre>
      *
      * @param obj1 对象1
@@ -1108,8 +1158,9 @@ public class Assert {
 
     /**
      * 断言两个对象是否相等,如果两个对象不相等 抛出BusinessException 异常
+     * 
      * <pre class="code">
-     *   Assert.isEquals(obj1,obj2,"obj1 must be equals obj2");
+     * Assert.isEquals(obj1, obj2, "obj1 must be equals obj2");
      * </pre>
      *
      * @param obj1             对象1
@@ -1118,8 +1169,9 @@ public class Assert {
      * @param params           异常信息参数，用于替换"{}"占位符
      * @throws BusinessException obj1 must be equals obj2
      */
-    public static void equals(Object obj1, Object obj2, String errorMsgTemplate, Object... params) throws BusinessException {
-        equals(obj1, obj2, () -> new BusinessException(StrUtil.format(errorMsgTemplate, params)));
+    public static void equals(Object obj1, Object obj2, String errorMsgTemplate, Object... params)
+            throws BusinessException {
+        equals(obj1, obj2, () -> new BusinessException(SmartUtil.format(errorMsgTemplate, params)));
     }
 
     /**
@@ -1132,14 +1184,16 @@ public class Assert {
      * @throws X obj1 must be equals obj2
      */
     public static <X extends Throwable> void equals(Object obj1, Object obj2, Supplier<X> errorSupplier) throws X {
-        if (ObjUtil.notEqual(obj1, obj2)) {
+        if (SmartUtil.notEqual(obj1, obj2)) {
             throw errorSupplier.get();
         }
     }
 
-    // ----------------------------------------------------------------------------------------------------------- Check is equals
+    // -----------------------------------------------------------------------------------------------------------
+    // Check is equals
 
-    // -------------------------------------------------------------------------------------------------------------------------------------------- Private method start
+    // --------------------------------------------------------------------------------------------------------------------------------------------
+    // Private method start
 
     /**
      * 错误的下标时显示的消息
@@ -1151,12 +1205,13 @@ public class Assert {
      * @return 消息
      */
     private static String badIndexMsg(int index, int size, String desc, Object... params) {
+        String formattedDesc = SmartUtil.format(desc, params);
         if (index < 0) {
-            return StrUtil.format("{} ({}) must not be negative", StrUtil.format(desc, params), index);
+            return SmartUtil.format("{} ({}) must not be negative", formattedDesc, index);
         } else if (size < 0) {
             throw new BusinessException("negative size: " + size);
         } else { // index >= size
-            return StrUtil.format("{} ({}) must be less than size ({})", StrUtil.format(desc, params), index, size);
+            return SmartUtil.format("{} ({}) must be less than size ({})", formattedDesc, index, size);
         }
     }
 }
