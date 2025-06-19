@@ -17,6 +17,12 @@ spring:
       connection-timeout: 30000
       connection-test-query: SELECT 1
       leak-detection-threshold: 60000
+      #预编译缓存
+      data-source-properties:
+        prepStmtCacheSize: 50
+        prepStmtCacheSqlLimit: 2048
+        cachePrepStmts: true
+        useServerPreparedStmts: true
 
 
 
